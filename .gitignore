@@ -11,3 +11,4 @@ file/dataset_puliti/statistiche_simulazione.csv
 file/dataset_puliti/anagrafica_scuole_pulita.csv
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/vcs.xml
+node_modules/
