@@ -12,8 +12,8 @@ import shutil             # Uso shutil per copiare i file
 # CONFIGURAZIONE
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))                           # Ottengo il percorso assoluto dello script
-INPUT_FILE = os.path.join(BASE_DIR, 'file/dataset_puliti', 'statistiche_simulazione.csv')   # Percorso del file statistico di input
-OUTPUT_DIR = os.path.join(BASE_DIR, 'file', 'dataset_definitivi')                       # Cartella dove salvo i CSV generati
+INPUT_FILE = os.path.join(BASE_DIR, '../file/dataset_puliti', 'statistiche_simulazione.csv')   # Percorso del file statistico di input
+OUTPUT_DIR = os.path.join(BASE_DIR, '../file', 'dataset_definitivi')                       # Cartella dove salvo i CSV generati
 STUDENTI_PER_CLASSE = 22                                                        # Numero medio di studenti per classe
 random.seed(42)                                                                 # Fisso il seed per avere risultati ripetibili
 fake = Faker('it_IT')                                                           # Inizializzo Faker in lingua italiana
@@ -158,7 +158,7 @@ pd.DataFrame(percorsi_rows).to_csv(os.path.join(OUTPUT_DIR, 'percorsi.csv'), ind
 pd.DataFrame(docenti_rows).to_csv(os.path.join(OUTPUT_DIR, 'docenti.csv'), index=False)
 pd.DataFrame(assegnazioni_rows).to_csv(os.path.join(OUTPUT_DIR, 'assegnazioni_docenti.csv'), index=False)
 pd.DataFrame(voti_rows).to_csv(os.path.join(OUTPUT_DIR, 'voti.csv'), index=False)
-shutil.copy2(os.path.join(BASE_DIR, 'file/dataset_puliti', 'anagrafica_scuole_pulita.csv'), os.path.join(OUTPUT_DIR, 'anagrafica_scuole_pulita.csv'))
+shutil.copy2(os.path.join(BASE_DIR, '../file/dataset_puliti', 'anagrafica_scuole_pulita.csv'), os.path.join(OUTPUT_DIR, 'anagrafica_scuole_pulita.csv'))
 
 
 print("✅ File simulati con docenti generati in:", OUTPUT_DIR)  # Messaggio di conferma finale

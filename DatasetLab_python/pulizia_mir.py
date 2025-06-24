@@ -11,11 +11,11 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__)) # Ottengo il percorso asso
 
 
 # Definisco i percorsi dei file CSV originali usati come input
-PATH_ANAG_SCUOLE = os.path.join(BASE_DIR, 'file/dataset_originali/AnagScuole.csv')
-PATH_ANAG_SCUOLE_PA = os.path.join(BASE_DIR, 'file/dataset_originali/AnagScuoleProvAutonome.csv')
-PATH_STU_CITTAD = os.path.join(BASE_DIR, 'file/dataset_originali/Stu_Cittad.csv')
-PATH_STU_INDIRIZZO = os.path.join(BASE_DIR, 'file/dataset_originali/Stu_Indirizzo.csv')
-PATH_STU_CORSO_CLASSE = os.path.join(BASE_DIR, 'file/dataset_originali/Stu_Corso_Classe_Genere.csv')
+PATH_ANAG_SCUOLE = os.path.join(BASE_DIR, '../file/dataset_originali/AnagScuole.csv')
+PATH_ANAG_SCUOLE_PA = os.path.join(BASE_DIR, '../file/dataset_originali/AnagScuoleProvAutonome.csv')
+PATH_STU_CITTAD = os.path.join(BASE_DIR, '../file/dataset_originali/Stu_Cittad.csv')
+PATH_STU_INDIRIZZO = os.path.join(BASE_DIR, '../file/dataset_originali/Stu_Indirizzo.csv')
+PATH_STU_CORSO_CLASSE = os.path.join(BASE_DIR, '../file/dataset_originali/Stu_Corso_Classe_Genere.csv')
 
 
 # -----------------------------
@@ -125,12 +125,12 @@ report_stats("Studenti per Indirizzo", original_len, stu_ind)
 # -----------------------------
 # SALVATAGGIO FILE PULITI
 # -----------------------------
-os.makedirs(os.path.join(BASE_DIR, 'file/dataset_puliti'), exist_ok=True)
+os.makedirs(os.path.join(BASE_DIR, '../file/dataset_puliti'), exist_ok=True)
 
 # Salvo i file CSV puliti nella cartella dataset_pulito
-anag.to_csv(os.path.join(BASE_DIR, 'file/dataset_puliti/anagrafica_scuole_pulita.csv'), index=False)
-stu_cittad.to_csv(os.path.join(BASE_DIR, 'file/dataset_puliti/stu_cittadinanza_pulito.csv'), index=False)
-stu_ind.to_csv(os.path.join(BASE_DIR, 'file/dataset_puliti/stu_indirizzi_pulito.csv'), index=False)
+anag.to_csv(os.path.join(BASE_DIR, '../file/dataset_puliti/anagrafica_scuole_pulita.csv'), index=False)
+stu_cittad.to_csv(os.path.join(BASE_DIR, '../file/dataset_puliti/stu_cittadinanza_pulito.csv'), index=False)
+stu_ind.to_csv(os.path.join(BASE_DIR, '../file/dataset_puliti/stu_indirizzi_pulito.csv'), index=False)
 
 
 

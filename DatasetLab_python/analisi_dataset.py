@@ -9,7 +9,7 @@ from collections import Counter  # Importo Counter per eventuali conteggi (anche
 # CONFIGURAZIONE
 # -------------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))                             # Ottengo il percorso assoluto dello script
-INPUT_DIR = os.path.join(BASE_DIR, 'file/dataset_definitivi')                    # Cartella dove si trovano i CSV finali
+INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_definitivi')                    # Cartella dove si trovano i CSV finali
 
 # -------------------------------
 # CARICAMENTO DEI FILE

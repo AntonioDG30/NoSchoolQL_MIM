@@ -8,7 +8,7 @@ import os            # Importo os per gestire i percorsi dei file
 # CONFIGURAZIONE PERCORSI
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))               # Ottengo il percorso assoluto della cartella contenente lo script
-INPUT_DIR = os.path.join(BASE_DIR, 'file/dataset_puliti')                        # Definisco la cartella 'dataset_puliti' dove ho salvato i file puliti
+INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_puliti')                        # Definisco la cartella 'dataset_puliti' dove ho salvato i file puliti
 OUTPUT_FILE = os.path.join(INPUT_DIR, 'statistiche_simulazione.csv')  # Definisco il percorso del file CSV finale che conterrà le statistiche
 
 # -----------------------------
