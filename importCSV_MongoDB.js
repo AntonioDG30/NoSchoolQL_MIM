@@ -7,7 +7,7 @@ const { MongoClient } = require('mongodb');
 
 const MONGO_URI = 'mongodb://localhost:27017';
 const DB_NAME = 'NoSchoolQL';
-const DATASET_DIR = path.join(__dirname, 'file/dataset_simulati');
+const DATASET_DIR = path.join(__dirname, 'file/dataset_definitivi');
 
 const COLLECTIONS = {
   studenti: 'studenti.csv',

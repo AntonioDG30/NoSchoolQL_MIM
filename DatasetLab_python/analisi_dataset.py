@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_puliti')
-SIMULATED_DIR = os.path.join(BASE_DIR, '../file/dataset_simulati')
+SIMULATED_DIR = os.path.join(BASE_DIR, '../file/dataset_definitivi')
 
 # -----------------------------
 # CARICAMENTO DATASET

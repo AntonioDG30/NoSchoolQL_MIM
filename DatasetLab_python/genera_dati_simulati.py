@@ -11,7 +11,7 @@ import shutil
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_puliti')
-OUTPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_simulati')
+OUTPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_definitivi')
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # -----------------------------
