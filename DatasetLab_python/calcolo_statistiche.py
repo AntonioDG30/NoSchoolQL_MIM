@@ -1,90 +1,117 @@
 # -*- coding: utf-8 -*-
-# Specifico l'encoding UTF-8 per garantire la corretta lettura/scrittura di caratteri speciali
-
-import pandas as pd  # Importo la libreria pandas per gestire i DataFrame
-import os            # Importo os per gestire i percorsi dei file
+import pandas as pd
+import os
 
 # -----------------------------
 # CONFIGURAZIONE PERCORSI
 # -----------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))               # Ottengo il percorso assoluto della cartella contenente lo script
-INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_puliti')                        # Definisco la cartella 'dataset_puliti' dove ho salvato i file puliti
-OUTPUT_FILE = os.path.join(INPUT_DIR, 'statistiche_simulazione.csv')  # Definisco il percorso del file CSV finale che conterrà le statistiche
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_puliti')
+OUTPUT_FILE = os.path.join(INPUT_DIR, 'statistiche_base.csv')
 
 # -----------------------------
 # CARICAMENTO FILE PULITI
 # -----------------------------
-df_scuole = pd.read_csv(os.path.join(INPUT_DIR, 'anagrafica_scuole_pulita.csv'))           # Carico l'anagrafica delle scuole pulita
-df_cittadinanza = pd.read_csv(os.path.join(INPUT_DIR, 'stu_cittadinanza_pulito.csv'))      # Carico il file con i dati di cittadinanza
-df_indirizzi = pd.read_csv(os.path.join(INPUT_DIR, 'stu_indirizzi_pulito.csv'))            # Carico il file con i dati per indirizzo
+df_scuole = pd.read_csv(os.path.join(INPUT_DIR, 'anagrafica_scuole_pulita.csv'))
+df_cittadinanza = pd.read_csv(os.path.join(INPUT_DIR, 'stu_cittadinanza_pulito.csv'))
+df_indirizzi = pd.read_csv(os.path.join(INPUT_DIR, 'stu_indirizzi_pulito.csv'))
 
-# Conversione numerica sicura
+# -----------------------------
+# CONVERSIONE SICURA CAMPI NUMERICI
+# -----------------------------
 def to_int_safe(x):
-    # Funzione per convertire in intero, restituendo 0 in caso di errore o valore mancante
     try:
         return int(x)
     except:
         return 0
 
-# Applico la conversione sicura alle colonne numeriche del file cittadinanza
 for col in ['alunni', 'alunnicittadinanzaitaliana', 'alunnicittadinanzanonitaliana']:
-    if col in df_cittadinanza.columns:
-        df_cittadinanza[col] = df_cittadinanza[col].map(to_int_safe)
+    df_cittadinanza[col] = df_cittadinanza[col].map(to_int_safe)
 
-# Applico la conversione sicura alle colonne numeriche del file indirizzi
 for col in ['alunnimaschi', 'alunnifemmine']:
-    if col in df_indirizzi.columns:
-        df_indirizzi[col] = df_indirizzi[col].map(to_int_safe)
+    df_indirizzi[col] = df_indirizzi[col].map(to_int_safe)
+
+df_indirizzi['totale'] = df_indirizzi['alunnimaschi'] + df_indirizzi['alunnifemmine']
 
 # -----------------------------
-# AGGREGAZIONE CITTADINANZA PER SCUOLA
+# STATISTICHE PER SCUOLA
 # -----------------------------
 agg_cittad = df_cittadinanza.groupby('codicescuola').agg({
     'alunni': 'sum',
     'alunnicittadinanzaitaliana': 'sum',
     'alunnicittadinanzanonitaliana': 'sum'
-}).reset_index()  # Raggruppo per scuola e sommo il numero totale di studenti italiani/non italiani
+}).reset_index()
 
-# -----------------------------
-# AGGREGAZIONE PER SCUOLA E INDIRIZZO
-# -----------------------------
-df_indirizzi['totale'] = df_indirizzi['alunnimaschi'] + df_indirizzi['alunnifemmine']  # Calcolo il totale studenti per indirizzo
-
-agg_ind = df_indirizzi.groupby(['codicescuola', 'indirizzo']).agg({
-    'alunnimaschi': 'sum',
-    'alunnifemmine': 'sum',
+agg_indirizzi = df_indirizzi.groupby('codicescuola').agg({
+    'indirizzo': 'nunique',
     'totale': 'sum'
-}).reset_index()  # Raggruppo per scuola e indirizzo e sommo i dati per ottenere il totale per ciascun indirizzo
+}).rename(columns={'indirizzo': 'num_indirizzi', 'totale': 'alunni_da_indirizzi'}).reset_index()
 
-# Merge cittadinanza + indirizzi
-statistiche = agg_ind.merge(agg_cittad, on='codicescuola', how='left')  # Unisco le due aggregazioni per ottenere un unico dataset
+# Merge con dati anagrafici
+statistiche = df_scuole[['codicescuola', 'regione', 'provincia', 'descrizionecomune']].drop_duplicates()
+statistiche = statistiche.merge(agg_cittad, on='codicescuola', how='left')
+statistiche = statistiche.merge(agg_indirizzi, on='codicescuola', how='left')
 
-# -----------------------------
-# CALCOLO PERCENTUALI
-# -----------------------------
-# Calcolo la percentuale di maschi sul totale degli studenti per indirizzo
-statistiche['perc_maschi'] = statistiche.apply(
-    lambda row: round(row['alunnimaschi'] / row['totale'], 3) if row['totale'] > 0 else 0, axis=1
-)
-
-# Calcolo la percentuale di femmine sul totale degli studenti per indirizzo
-statistiche['perc_femmine'] = statistiche.apply(
-    lambda row: round(row['alunnifemmine'] / row['totale'], 3) if row['totale'] > 0 else 0, axis=1
-)
-
-# Calcolo la percentuale di italiani sul totale degli studenti della scuola
+# Percentuali italiani/stranieri
 statistiche['perc_italiani'] = statistiche.apply(
-    lambda row: round(row['alunnicittadinanzaitaliana'] / row['alunni'], 3) if row['alunni'] > 0 else 0, axis=1
-)
-
-# Calcolo la percentuale di stranieri sul totale degli studenti della scuola
+    lambda row: round(row['alunnicittadinanzaitaliana'] / row['alunni'], 3) if row['alunni'] > 0 else 0, axis=1)
 statistiche['perc_stranieri'] = statistiche.apply(
-    lambda row: round(row['alunnicittadinanzanonitaliana'] / row['alunni'], 3) if row['alunni'] > 0 else 0, axis=1
+    lambda row: round(row['alunnicittadinanzanonitaliana'] / row['alunni'], 3) if row['alunni'] > 0 else 0, axis=1)
+
+# -----------------------------
+# STATISTICHE MASCHI/FEMMINE PER SCUOLA
+# -----------------------------
+agg_gender = df_indirizzi.groupby('codicescuola').agg({
+    'alunnimaschi': 'sum',
+    'alunnifemmine': 'sum'
+}).reset_index()
+
+agg_gender['totale'] = agg_gender['alunnimaschi'] + agg_gender['alunnifemmine']
+
+agg_gender['perc_maschi'] = agg_gender.apply(
+    lambda row: round(row['alunnimaschi'] / row['totale'], 3) if row['totale'] > 0 else 0, axis=1)
+agg_gender['perc_femmine'] = agg_gender.apply(
+    lambda row: round(row['alunnifemmine'] / row['totale'], 3) if row['totale'] > 0 else 0, axis=1)
+
+statistiche = statistiche.merge(agg_gender, on='codicescuola', how='left')
+
+# -----------------------------
+# STATISTICHE REGIONALI + TIPO PERCORSO
+# -----------------------------
+df_temp = df_scuole[['codicescuola', 'regione']].merge(
+    df_indirizzi[['codicescuola', 'tipopercorso', 'indirizzo', 'totale']],
+    on='codicescuola', how='left'
 )
 
-# -----------------------------
-# SALVATAGGIO RISULTATI
-# -----------------------------
-statistiche.to_csv(OUTPUT_FILE, index=False)  # Salvo il file CSV finale con le statistiche aggregate e calcolate
+stat_regione_percorso = df_temp.groupby(['regione', 'tipopercorso']).agg({
+    'codicescuola': 'nunique',
+    'indirizzo': 'nunique',
+    'totale': 'sum'
+}).rename(columns={
+    'codicescuola': 'reg_num_scuole',
+    'indirizzo': 'reg_num_indirizzi',
+    'totale': 'reg_tot_studenti'
+}).reset_index()
 
-print(f"✅ Statistiche salvate in {OUTPUT_FILE}")  # Stampo conferma del salvataggio
+# Aggiunta media studenti per scuola per regione + tipo percorso
+stat_regione_percorso['reg_media_studenti_per_scuola'] = stat_regione_percorso.apply(
+    lambda row: round(row['reg_tot_studenti'] / row['reg_num_scuole'], 1) if row['reg_num_scuole'] > 0 else 0, axis=1
+)
+
+# Merge per regione e tipo percorso → aggiungo su ogni scuola la media regionale del suo percorso
+df_scuole_percorso = df_indirizzi[['codicescuola', 'tipopercorso']].drop_duplicates()
+df_scuole_percorso = df_scuole_percorso.merge(
+    df_scuole[['codicescuola', 'regione']], on='codicescuola', how='left'
+)
+df_scuole_percorso = df_scuole_percorso.merge(
+    stat_regione_percorso, on=['regione', 'tipopercorso'], how='left'
+)
+
+# Unione finale
+statistiche = statistiche.merge(df_scuole_percorso.drop(columns=['regione']), on='codicescuola', how='left')
+
+# -----------------------------
+# SALVATAGGIO UNICO FILE
+# -----------------------------
+statistiche.to_csv(OUTPUT_FILE, index=False)
+print(f"✅ File riepilogativo salvato in: {OUTPUT_FILE}")

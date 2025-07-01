@@ -1,105 +1,145 @@
 # -*- coding: utf-8 -*-
-# Imposto la codifica UTF-8 per gestire correttamente i caratteri italiani
+import pandas as pd
+import os
+import matplotlib.pyplot as plt
 
-import pandas as pd       # Importo pandas per la gestione dei DataFrame
-import os                 # Importo os per lavorare con i percorsi dei file
-from collections import Counter  # Importo Counter per eventuali conteggi (anche se non usato esplicitamente qui)
+# -----------------------------
+# CONFIGURAZIONE PERCORSI
+# -----------------------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_puliti')
+SIMULATED_DIR = os.path.join(BASE_DIR, '../file/dataset_simulati')
 
-# -------------------------------
-# CONFIGURAZIONE
-# -------------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))                             # Ottengo il percorso assoluto dello script
-INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_definitivi')                    # Cartella dove si trovano i CSV finali
+# -----------------------------
+# CARICAMENTO DATASET
+# -----------------------------
+df_ind = pd.read_csv(os.path.join(INPUT_DIR, 'stu_indirizzi_pulito.csv'))
+df_citt = pd.read_csv(os.path.join(INPUT_DIR, 'stu_cittadinanza_pulito.csv'))
+df_anag = pd.read_csv(os.path.join(INPUT_DIR, 'anagrafica_scuole_pulita.csv'))
 
-# -------------------------------
-# CARICAMENTO DEI FILE
-# -------------------------------
-studenti = pd.read_csv(os.path.join(INPUT_DIR, 'studenti.csv'))                  # Carico il file studenti
-classi = pd.read_csv(os.path.join(INPUT_DIR, 'classi.csv'))                      # Carico il file classi
-percorsi = pd.read_csv(os.path.join(INPUT_DIR, 'percorsi.csv'))                  # Carico il file percorsi (classi → indirizzi)
-docenti = pd.read_csv(os.path.join(INPUT_DIR, 'docenti.csv'))                    # Carico il file con i docenti
-assegnazioni = pd.read_csv(os.path.join(INPUT_DIR, 'assegnazioni_docenti.csv')) # Carico le assegnazioni materia-docente per classe
-voti = pd.read_csv(os.path.join(INPUT_DIR, 'voti.csv'))                          # Carico i voti assegnati
+df_classi = pd.read_csv(os.path.join(SIMULATED_DIR, 'classi.csv'))
+df_studenti = pd.read_csv(os.path.join(SIMULATED_DIR, 'studenti.csv'))
+df_docenti = pd.read_csv(os.path.join(SIMULATED_DIR, 'docenti.csv'))
+df_voti = pd.read_csv(os.path.join(SIMULATED_DIR, 'voti.csv'))
+df_assegnazioni = pd.read_csv(os.path.join(SIMULATED_DIR, 'assegnazioni_docenti.csv'))
 
-# -------------------------------
-# JOIN PRELIMINARI
-# -------------------------------
-# Unisco studenti con classi e indirizzi → per analisi complete
-studenti_classi = studenti.merge(percorsi, on='id_classe').merge(classi, on='id_classe')
+# -----------------------------
+# FUNZIONI DI SUPPORTO
+# -----------------------------
+def percentuale_diff(sim, ori):
+    if ori == 0:
+        return 0
+    return round((sim - ori) / ori * 100, 2)
 
-# Unisco voti con i dati dello studente (genere, cittadinanza, classe)
-voti_espansi = voti.merge(studenti[['id_studente', 'genere', 'cittadinanza', 'id_classe']], on='id_studente')
+# -----------------------------
+# ANALISI MASCHI/FEMMINE
+# -----------------------------
+print("\n📊 ANALISI MASCHI/FEMMINE PER INDIRIZZO E ANNO:")
+dati_genere = []
 
-# Unisco anche le assegnazioni (per sapere chi ha messo il voto) → uso suffisso per evitare conflitti
-voti_espansi = voti_espansi.merge(
-    assegnazioni[['id_classe', 'materia', 'id_docente', 'nome_docente']],
-    on=['id_classe', 'materia'],
-    how='left',
-    suffixes=('', '_from_assegnazioni')  # Evito conflitti se ci sono già colonne col nome 'id_docente'
-)
+for _, row in df_ind.iterrows():
+    scuola = row['codicescuola']
+    indirizzo = row['indirizzo']
+    anno = row['annocorso']
 
-# Aggiungo anche l'informazione sull'indirizzo scolastico
-voti_espansi = voti_espansi.merge(percorsi, on='id_classe')
+    mask = (
+        (df_classi['codicescuola'] == scuola) &
+        (df_classi['indirizzo'].str.upper() == indirizzo.upper()) &
+        (df_classi['annocorso'] == anno)
+    )
+    classi_rilevanti = df_classi[mask]['id_classe'].tolist()
+    studenti = df_studenti[df_studenti['id_classe'].isin(classi_rilevanti)]
 
-# -------------------------------
-# ANALISI GENERALE
-# -------------------------------
-print("📊 ANALISI GENERALE")
-print(f"Scuole reali: {classi['codicescuola'].nunique()}")                       # Numero di scuole simulate
-print(f"Classi totali simulate: {classi.shape[0]}")                              # Numero di classi totali
-print(f"Studenti totali simulati: {studenti.shape[0]}")                          # Numero di studenti generati
-print(f"Docenti unici simulati: {docenti['id_docente'].nunique()}")             # Numero di docenti distinti
-print(f"Materie simulati totali assegnate: {assegnazioni['materia'].nunique()}")# Numero di materie simulate
+    sim_m = (studenti['sesso'] == 'M').sum()
+    sim_f = (studenti['sesso'] == 'F').sum()
 
-# -------------------------------
-# DISTRIBUZIONE PER INDIRIZZO
-# -------------------------------
-print("\n🏫 Studenti per indirizzo:")
-print(studenti_classi['indirizzo'].value_counts())  # Numero di studenti per indirizzo scolastico
+    ori_m = row['alunnimaschi']
+    ori_f = row['alunnifemmine']
 
-# -------------------------------
-# STATISTICHE SUI VOTI
-# -------------------------------
-print("\n📈 Statistiche generali sui voti:")
-print(voti['voto'].describe())  # Statistiche generali (media, min, max, quartili...)
+    perc_m = percentuale_diff(sim_m, ori_m)
+    perc_f = percentuale_diff(sim_f, ori_f)
 
-# -------------------------------
-# VOTI PER GENERE
-# -------------------------------
-print("\n👥 Media voti per genere:")
-print(voti_espansi.groupby('genere')['voto'].mean())  # Calcolo media voti maschi/femmine
+    print(f"- {scuola} | {indirizzo} | anno {anno} → Maschi: {sim_m}/{ori_m} ({perc_m:+}%), Femmine: {sim_f}/{ori_f} ({perc_f:+}%)")
 
-# -------------------------------
-# VOTI PER CITTADINANZA
-# -------------------------------
-print("\n🌍 Media voti per cittadinanza:")
-print(voti_espansi.groupby('cittadinanza')['voto'].mean())  # Media voti italiani/non italiani
+    dati_genere.append({
+        'scuola': scuola,
+        'indirizzo': indirizzo,
+        'anno': anno,
+        'Maschi Originali': ori_m,
+        'Maschi Simulati': sim_m,
+        'Femmine Originali': ori_f,
+        'Femmine Simulati': sim_f
+    })
 
-# -------------------------------
-# CLASSIFICA DOCENTI
-# -------------------------------
-print("\n🏅 Top 5 docenti per media voti assegnati:")
-top_docenti = voti_espansi.groupby(
-    ['id_docente_from_assegnazioni', 'nome_docente']
-)['voto'].mean().sort_values(ascending=False)  # Media dei voti assegnati da ciascun docente
-print(top_docenti.head(5))  # I primi 5 più "generosi"
+# GRAFICO MASCHI/FEMMINE
+df_genere = pd.DataFrame(dati_genere)
+df_genere[['Maschi Originali', 'Maschi Simulati']].sum().plot(kind='bar', title="Totale Maschi - Originali vs Simulati")
+plt.ylabel("Numero Studenti")
+plt.tight_layout()
+plt.show()
 
-print("\n❌ Bottom 5 docenti per media voti assegnati:")
-print(top_docenti.tail(5))  # I 5 più "severi"
+df_genere[['Femmine Originali', 'Femmine Simulati']].sum().plot(kind='bar', title="Totale Femmine - Originali vs Simulati")
+plt.ylabel("Numero Studenti")
+plt.tight_layout()
+plt.show()
 
-# -------------------------------
-# CLASSIFICA MATERIE
-# -------------------------------
-print("\n📚 Materie più facili (media più alta):")
-top_materie = voti_espansi.groupby('materia')['voto'].mean().sort_values(ascending=False)
-print(top_materie.head(5))  # Materie con voti medi più alti
+# -----------------------------
+# ANALISI CITTADINANZA
+# -----------------------------
+print("\n📊 ANALISI CITTADINANZA PER SCUOLA E ANNO:")
+dati_citt = []
 
-print("\n📚 Materie più difficili (media più bassa):")
-print(top_materie.tail(5))  # Materie con voti medi più bassi
+for _, row in df_citt.iterrows():
+    scuola = row['codicescuola']
+    anno = row['annocorso']
 
-# -------------------------------
-# DISTRIBUZIONE VOTI
-# -------------------------------
-print("\n📊 Distribuzione dei voti (frequenze arrotondate):")
-voti_rounded = voti['voto'].round(1)  # Arrotondo i voti alla prima cifra decimale
-print(voti_rounded.value_counts().sort_index())  # Mostro la distribuzione frequenze ordinata per voto
+    mask = (
+        (df_classi['codicescuola'] == scuola) &
+        (df_classi['annocorso'] == anno)
+    )
+    classi_rilevanti = df_classi[mask]['id_classe'].tolist()
+    studenti = df_studenti[df_studenti['id_classe'].isin(classi_rilevanti)]
+
+    sim_ita = (studenti['cittadinanza'] == 'ITA').sum()
+    sim_nonita = (studenti['cittadinanza'] == 'NON_ITA').sum()
+
+    ori_ita = row['alunnicittadinanzaitaliana']
+    ori_nonita = row['alunnicittadinanzanonitaliana']
+
+    perc_ita = percentuale_diff(sim_ita, ori_ita)
+    perc_nonita = percentuale_diff(sim_nonita, ori_nonita)
+
+    print(f"- {scuola} | anno {anno} → ITA: {sim_ita}/{ori_ita} ({perc_ita:+}%), NON_ITA: {sim_nonita}/{ori_nonita} ({perc_nonita:+}%)")
+
+    dati_citt.append({
+        'scuola': scuola,
+        'anno': anno,
+        'ITA Originali': ori_ita,
+        'ITA Simulati': sim_ita,
+        'NON_ITA Originali': ori_nonita,
+        'NON_ITA Simulati': sim_nonita
+    })
+
+# GRAFICO CITTADINANZA
+df_cittadinanza = pd.DataFrame(dati_citt)
+df_cittadinanza[['ITA Originali', 'ITA Simulati']].sum().plot(kind='bar', title="Totale Italiani - Originali vs Simulati")
+plt.ylabel("Numero Studenti")
+plt.tight_layout()
+plt.show()
+
+df_cittadinanza[['NON_ITA Originali', 'NON_ITA Simulati']].sum().plot(kind='bar', title="Totale Non Italiani - Originali vs Simulati")
+plt.ylabel("Numero Studenti")
+plt.tight_layout()
+plt.show()
+
+# -----------------------------
+# STATISTICHE FINALI
+# -----------------------------
+print("\n📌 STATISTICHE GENERALI SUL DATASET SIMULATO:")
+print(f"🏫 Numero scuole simulate: {df_classi['codicescuola'].nunique()}")
+print(f"🏷️ Numero classi: {len(df_classi)}")
+print(f"👨‍🎓 Numero studenti: {len(df_studenti)}")
+print(f"🧑‍🏫 Numero docenti: {len(df_docenti)}")
+print(f"📚 Materie totali: {df_docenti['materia'].nunique()}")
+print(f"📓 Assegnazioni docenti-classe: {len(df_assegnazioni)}")
+print(f"📝 Numero voti registrati: {len(df_voti)}")

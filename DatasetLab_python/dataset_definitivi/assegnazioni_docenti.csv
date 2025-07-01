@@ -1,0 +1,3289 @@
+id_classe,materia,id_docente,nome_docente
+CL0001,Italiano,DOC0095,Ennio Leonetti
+CL0001,Matematica,DOC0036,Gaspare Vecellio
+CL0001,Inglese,DOC0032,Annamaria Trevisani
+CL0002,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0002,Matematica,DOC0095,Ennio Leonetti
+CL0002,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0003,Italiano,DOC0095,Ennio Leonetti
+CL0003,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0003,Inglese,DOC0012,Barbara Granatelli
+CL0004,Italiano,DOC0029,Tonia Nosiglia
+CL0004,Matematica,DOC0035,Melina Monicelli
+CL0004,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0005,Italiano,DOC0004,Etta Cassarà
+CL0005,Matematica,DOC0050,Gianna Cimarosa
+CL0005,Inglese,DOC0044,Bianca Pagliaro
+CL0006,Italiano,DOC0087,Romina Bersani-Rocca
+CL0006,Matematica,DOC0052,Sole Bragaglia
+CL0006,Inglese,DOC0093,Gianluigi Impastato
+CL0007,Italiano,DOC0060,Elena Toselli-Ponti
+CL0007,Matematica,DOC0017,Clelia Morandi
+CL0007,Inglese,DOC0080,Giacomo Zito
+CL0008,Italiano,DOC0076,Sergius Micca
+CL0008,Matematica,DOC0072,Monica Ortolani
+CL0008,Inglese,DOC0072,Monica Ortolani
+CL0009,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0009,Matematica,DOC0016,Fortunata Mengolo-Tresoldi
+CL0009,Inglese,DOC0053,Victoria Balbi
+CL0010,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0010,Matematica,DOC0097,Angelina Bataglia
+CL0010,Inglese,DOC0055,Imelda Scamarcio
+CL0011,Italiano,DOC0007,Elena Alighieri
+CL0011,Matematica,DOC0037,Ansaldo Calvo
+CL0011,Inglese,DOC0077,Hugo Barracco
+CL0012,Italiano,DOC0046,Natalia Sgarbi
+CL0012,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0012,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0013,Italiano,DOC0028,Melina Prati
+CL0013,Matematica,DOC0020,Sig.ra Paulina Argentero
+CL0013,Inglese,DOC0085,Federico Capuana
+CL0014,Italiano,DOC0029,Tonia Nosiglia
+CL0014,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0014,Inglese,DOC0045,Claudia Filangieri
+CL0015,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0015,Matematica,DOC0079,Lando Federici
+CL0015,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0016,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0016,Matematica,DOC0003,Isabella Mezzetta
+CL0016,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0017,Italiano,DOC0071,Ramona Piazzi
+CL0017,Matematica,DOC0053,Victoria Balbi
+CL0017,Inglese,DOC0002,Diana Canali
+CL0018,Italiano,DOC0068,Ramona Giacconi
+CL0018,Matematica,DOC0093,Gianluigi Impastato
+CL0018,Inglese,DOC0036,Gaspare Vecellio
+CL0019,Italiano,DOC0037,Ansaldo Calvo
+CL0019,Matematica,DOC0003,Isabella Mezzetta
+CL0019,Inglese,DOC0065,Santino Migliaccio
+CL0020,Italiano,DOC0087,Romina Bersani-Rocca
+CL0020,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0020,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0021,Italiano,DOC0013,Elisa Lanfranchi
+CL0021,Matematica,DOC0068,Ramona Giacconi
+CL0021,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0022,Italiano,DOC0029,Tonia Nosiglia
+CL0022,Matematica,DOC0035,Melina Monicelli
+CL0022,Inglese,DOC0073,Santino Campise
+CL0023,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0023,Matematica,DOC0097,Angelina Bataglia
+CL0023,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0024,Italiano,DOC0013,Elisa Lanfranchi
+CL0024,Matematica,DOC0011,Bruno Cabrini
+CL0024,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0025,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0025,Matematica,DOC0053,Victoria Balbi
+CL0025,Inglese,DOC0097,Angelina Bataglia
+CL0026,Italiano,DOC0030,Simonetta Troisi
+CL0026,Matematica,DOC0071,Ramona Piazzi
+CL0026,Inglese,DOC0008,Dott. Gemma Borromini
+CL0027,Italiano,DOC0067,Caterina Boccaccio
+CL0027,Matematica,DOC0054,Cipriano Segni
+CL0027,Inglese,DOC0069,Dino Caccianemico
+CL0028,Italiano,DOC0077,Hugo Barracco
+CL0028,Matematica,DOC0076,Sergius Micca
+CL0028,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0029,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0029,Matematica,DOC0050,Gianna Cimarosa
+CL0029,Inglese,DOC0017,Clelia Morandi
+CL0030,Italiano,DOC0003,Isabella Mezzetta
+CL0030,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0030,Inglese,DOC0067,Caterina Boccaccio
+CL0031,Italiano,DOC0088,Carla Gasperi
+CL0031,Matematica,DOC0054,Cipriano Segni
+CL0031,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0032,Italiano,DOC0013,Elisa Lanfranchi
+CL0032,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0032,Inglese,DOC0061,Germana Giusti
+CL0033,Italiano,DOC0007,Elena Alighieri
+CL0033,Matematica,DOC0071,Ramona Piazzi
+CL0033,Inglese,DOC0052,Sole Bragaglia
+CL0034,Italiano,DOC0011,Bruno Cabrini
+CL0034,Matematica,DOC0052,Sole Bragaglia
+CL0034,Inglese,DOC0065,Santino Migliaccio
+CL0035,Italiano,DOC0100,Loredana Bocelli
+CL0035,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0035,Inglese,DOC0017,Clelia Morandi
+CL0036,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0036,Matematica,DOC0072,Monica Ortolani
+CL0036,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0037,Italiano,DOC0051,Amadeo Acerbi
+CL0037,Matematica,DOC0084,Eraldo Leone
+CL0037,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0038,Italiano,DOC0072,Monica Ortolani
+CL0038,Matematica,DOC0079,Lando Federici
+CL0038,Inglese,DOC0095,Ennio Leonetti
+CL0039,Italiano,DOC0032,Annamaria Trevisani
+CL0039,Matematica,DOC0032,Annamaria Trevisani
+CL0039,Inglese,DOC0010,Fortunata Ortese
+CL0040,Italiano,DOC0089,Marcella Broschi
+CL0040,Matematica,DOC0073,Santino Campise
+CL0040,Inglese,DOC0008,Dott. Gemma Borromini
+CL0041,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0041,Matematica,DOC0015,Amanda Cicala
+CL0041,Inglese,DOC0060,Elena Toselli-Ponti
+CL0042,Italiano,DOC0054,Cipriano Segni
+CL0042,Matematica,DOC0022,Clelia Notarbartolo
+CL0042,Inglese,DOC0098,Bianca Satta
+CL0043,Italiano,DOC0029,Tonia Nosiglia
+CL0043,Matematica,DOC0038,Annamaria Brichese-Marinetti
+CL0043,Inglese,DOC0078,Griselda Mazzocchi
+CL0044,Italiano,DOC0003,Isabella Mezzetta
+CL0044,Matematica,DOC0098,Bianca Satta
+CL0044,Inglese,DOC0005,Valerio Gaito
+CL0045,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0045,Matematica,DOC0050,Gianna Cimarosa
+CL0045,Inglese,DOC0058,Bianca Pace
+CL0046,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0046,Matematica,DOC0057,Elladio Cattaneo
+CL0046,Inglese,DOC0059,Atenulf Pozzecco
+CL0047,Italiano,DOC0005,Valerio Gaito
+CL0047,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0047,Inglese,DOC0072,Monica Ortolani
+CL0048,Italiano,DOC0100,Loredana Bocelli
+CL0048,Matematica,DOC0039,Cecilia Correr
+CL0048,Inglese,DOC0091,Costantino Valier
+CL0049,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0049,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0049,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0050,Italiano,DOC0092,Marco Tornatore
+CL0050,Matematica,DOC0050,Gianna Cimarosa
+CL0050,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0051,Italiano,DOC0001,Ranieri Martucci-Pistoletto
+CL0051,Matematica,DOC0078,Griselda Mazzocchi
+CL0051,Inglese,DOC0061,Germana Giusti
+CL0052,Italiano,DOC0002,Diana Canali
+CL0052,Matematica,DOC0087,Romina Bersani-Rocca
+CL0052,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0053,Italiano,DOC0072,Monica Ortolani
+CL0053,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0053,Inglese,DOC0091,Costantino Valier
+CL0054,Italiano,DOC0098,Bianca Satta
+CL0054,Matematica,DOC0051,Amadeo Acerbi
+CL0054,Inglese,DOC0069,Dino Caccianemico
+CL0055,Italiano,DOC0043,Raimondo Navone
+CL0055,Matematica,DOC0003,Isabella Mezzetta
+CL0055,Inglese,DOC0078,Griselda Mazzocchi
+CL0056,Italiano,DOC0058,Bianca Pace
+CL0056,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0056,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0057,Italiano,DOC0095,Ennio Leonetti
+CL0057,Matematica,DOC0030,Simonetta Troisi
+CL0057,Inglese,DOC0065,Santino Migliaccio
+CL0058,Italiano,DOC0091,Costantino Valier
+CL0058,Matematica,DOC0002,Diana Canali
+CL0058,Inglese,DOC0030,Simonetta Troisi
+CL0059,Italiano,DOC0079,Lando Federici
+CL0059,Matematica,DOC0098,Bianca Satta
+CL0059,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0060,Italiano,DOC0031,Adamo Baglioni
+CL0060,Matematica,DOC0095,Ennio Leonetti
+CL0060,Inglese,DOC0055,Imelda Scamarcio
+CL0061,Italiano,DOC0007,Elena Alighieri
+CL0061,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0061,Inglese,DOC0032,Annamaria Trevisani
+CL0062,Italiano,DOC0069,Dino Caccianemico
+CL0062,Matematica,DOC0015,Amanda Cicala
+CL0062,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0063,Italiano,DOC0045,Claudia Filangieri
+CL0063,Matematica,DOC0081,Toni Trincavelli
+CL0063,Inglese,DOC0078,Griselda Mazzocchi
+CL0064,Italiano,DOC0042,Luciana Farinelli
+CL0064,Matematica,DOC0011,Bruno Cabrini
+CL0064,Inglese,DOC0091,Costantino Valier
+CL0065,Italiano,DOC0013,Elisa Lanfranchi
+CL0065,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0065,Inglese,DOC0003,Isabella Mezzetta
+CL0066,Italiano,DOC0010,Fortunata Ortese
+CL0066,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0066,Inglese,DOC0081,Toni Trincavelli
+CL0067,Italiano,DOC0027,Gelsomina Antonioni
+CL0067,Matematica,DOC0088,Carla Gasperi
+CL0067,Inglese,DOC0054,Cipriano Segni
+CL0068,Italiano,DOC0041,Mariano Redi
+CL0068,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0068,Inglese,DOC0058,Bianca Pace
+CL0069,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0069,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0069,Inglese,DOC0061,Germana Giusti
+CL0070,Italiano,DOC0085,Federico Capuana
+CL0070,Matematica,DOC0024,Ludovica Tremonti
+CL0070,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0071,Italiano,DOC0065,Santino Migliaccio
+CL0071,Matematica,DOC0100,Loredana Bocelli
+CL0071,Inglese,DOC0085,Federico Capuana
+CL0072,Italiano,DOC0099,Ilaria Leone
+CL0072,Matematica,DOC0013,Elisa Lanfranchi
+CL0072,Inglese,DOC0030,Simonetta Troisi
+CL0073,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0073,Matematica,DOC0044,Bianca Pagliaro
+CL0073,Inglese,DOC0007,Elena Alighieri
+CL0074,Italiano,DOC0067,Caterina Boccaccio
+CL0074,Matematica,DOC0068,Ramona Giacconi
+CL0074,Inglese,DOC0075,Licia Gatto
+CL0075,Italiano,DOC0055,Imelda Scamarcio
+CL0075,Matematica,DOC0037,Ansaldo Calvo
+CL0075,Inglese,DOC0042,Luciana Farinelli
+CL0076,Italiano,DOC0041,Mariano Redi
+CL0076,Matematica,DOC0097,Angelina Bataglia
+CL0076,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0077,Italiano,DOC0006,Martino Gaggini
+CL0077,Matematica,DOC0095,Ennio Leonetti
+CL0077,Inglese,DOC0094,Dott. Chiara Panzera
+CL0078,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0078,Matematica,DOC0067,Caterina Boccaccio
+CL0078,Inglese,DOC0036,Gaspare Vecellio
+CL0079,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0079,Matematica,DOC0036,Gaspare Vecellio
+CL0079,Inglese,DOC0078,Griselda Mazzocchi
+CL0080,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0080,Matematica,DOC0084,Eraldo Leone
+CL0080,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0081,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0081,Matematica,DOC0059,Atenulf Pozzecco
+CL0081,Inglese,DOC0073,Santino Campise
+CL0082,Italiano,DOC0002,Diana Canali
+CL0082,Matematica,DOC0096,Elladio Migliaccio
+CL0082,Inglese,DOC0068,Ramona Giacconi
+CL0083,Italiano,DOC0029,Tonia Nosiglia
+CL0083,Matematica,DOC0067,Caterina Boccaccio
+CL0083,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0084,Italiano,DOC0094,Dott. Chiara Panzera
+CL0084,Matematica,DOC0078,Griselda Mazzocchi
+CL0084,Inglese,DOC0077,Hugo Barracco
+CL0085,Italiano,DOC0031,Adamo Baglioni
+CL0085,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0085,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0086,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0086,Matematica,DOC0054,Cipriano Segni
+CL0086,Inglese,DOC0008,Dott. Gemma Borromini
+CL0087,Italiano,DOC0014,Elena Gargallo-Borroni
+CL0087,Matematica,DOC0099,Ilaria Leone
+CL0087,Inglese,DOC0036,Gaspare Vecellio
+CL0088,Italiano,DOC0094,Dott. Chiara Panzera
+CL0088,Matematica,DOC0036,Gaspare Vecellio
+CL0088,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0089,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0089,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0089,Inglese,DOC0025,Arnulfo Greggio
+CL0090,Italiano,DOC0078,Griselda Mazzocchi
+CL0090,Matematica,DOC0016,Fortunata Mengolo-Tresoldi
+CL0090,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0091,Italiano,DOC0008,Dott. Gemma Borromini
+CL0091,Matematica,DOC0095,Ennio Leonetti
+CL0091,Inglese,DOC0025,Arnulfo Greggio
+CL0092,Italiano,DOC0065,Santino Migliaccio
+CL0092,Matematica,DOC0037,Ansaldo Calvo
+CL0092,Inglese,DOC0032,Annamaria Trevisani
+CL0093,Italiano,DOC0055,Imelda Scamarcio
+CL0093,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0093,Inglese,DOC0002,Diana Canali
+CL0094,Italiano,DOC0034,Bianca Sauro
+CL0094,Matematica,DOC0027,Gelsomina Antonioni
+CL0094,Inglese,DOC0019,Marissa Modugno
+CL0095,Italiano,DOC0004,Etta Cassarà
+CL0095,Matematica,DOC0004,Etta Cassarà
+CL0095,Inglese,DOC0084,Eraldo Leone
+CL0096,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0096,Matematica,DOC0078,Griselda Mazzocchi
+CL0096,Inglese,DOC0029,Tonia Nosiglia
+CL0096,Greco,DOC0089,Marcella Broschi
+CL0096,Latino,DOC0037,Ansaldo Calvo
+CL0096,Filosofia,DOC0005,Valerio Gaito
+CL0097,Italiano,DOC0044,Bianca Pagliaro
+CL0097,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0097,Inglese,DOC0021,Annunziata Malenchini-Caruso
+CL0097,Greco,DOC0089,Marcella Broschi
+CL0097,Latino,DOC0061,Germana Giusti
+CL0097,Filosofia,DOC0058,Bianca Pace
+CL0098,Italiano,DOC0066,Dott. Fiorino Cannizzaro
+CL0098,Matematica,DOC0040,Donatella Pace
+CL0098,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0098,Greco,DOC0084,Eraldo Leone
+CL0098,Latino,DOC0091,Costantino Valier
+CL0098,Filosofia,DOC0052,Sole Bragaglia
+CL0099,Italiano,DOC0031,Adamo Baglioni
+CL0099,Matematica,DOC0040,Donatella Pace
+CL0099,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0099,Greco,DOC0042,Luciana Farinelli
+CL0099,Latino,DOC0027,Gelsomina Antonioni
+CL0099,Filosofia,DOC0031,Adamo Baglioni
+CL0100,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0100,Matematica,DOC0091,Costantino Valier
+CL0100,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0100,Greco,DOC0005,Valerio Gaito
+CL0100,Latino,DOC0011,Bruno Cabrini
+CL0100,Filosofia,DOC0008,Dott. Gemma Borromini
+CL0101,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0101,Matematica,DOC0019,Marissa Modugno
+CL0101,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0101,Greco,DOC0058,Bianca Pace
+CL0101,Latino,DOC0017,Clelia Morandi
+CL0101,Filosofia,DOC0020,Sig.ra Paulina Argentero
+CL0102,Italiano,DOC0010,Fortunata Ortese
+CL0102,Matematica,DOC0037,Ansaldo Calvo
+CL0102,Inglese,DOC0099,Ilaria Leone
+CL0102,Greco,DOC0043,Raimondo Navone
+CL0102,Latino,DOC0089,Marcella Broschi
+CL0102,Filosofia,DOC0041,Mariano Redi
+CL0103,Italiano,DOC0085,Federico Capuana
+CL0103,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0103,Inglese,DOC0059,Atenulf Pozzecco
+CL0103,Fisica,DOC0084,Eraldo Leone
+CL0103,Scienze,DOC0086,Gioele Lippomano-Brancaccio
+CL0103,Disegno Tecnico,DOC0039,Cecilia Correr
+CL0104,Italiano,DOC0014,Elena Gargallo-Borroni
+CL0104,Matematica,DOC0020,Sig.ra Paulina Argentero
+CL0104,Inglese,DOC0098,Bianca Satta
+CL0104,Fisica,DOC0037,Ansaldo Calvo
+CL0104,Scienze,DOC0023,Luciano Alboni-Rismondo
+CL0104,Disegno Tecnico,DOC0013,Elisa Lanfranchi
+CL0105,Italiano,DOC0037,Ansaldo Calvo
+CL0105,Matematica,DOC0003,Isabella Mezzetta
+CL0105,Inglese,DOC0072,Monica Ortolani
+CL0105,Fisica,DOC0088,Carla Gasperi
+CL0105,Scienze,DOC0051,Amadeo Acerbi
+CL0105,Disegno Tecnico,DOC0081,Toni Trincavelli
+CL0106,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0106,Matematica,DOC0044,Bianca Pagliaro
+CL0106,Inglese,DOC0002,Diana Canali
+CL0106,Fisica,DOC0074,Sig.ra Imelda Morricone
+CL0106,Scienze,DOC0086,Gioele Lippomano-Brancaccio
+CL0106,Disegno Tecnico,DOC0042,Luciana Farinelli
+CL0107,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0107,Matematica,DOC0077,Hugo Barracco
+CL0107,Inglese,DOC0037,Ansaldo Calvo
+CL0107,Fisica,DOC0049,Luisa Solimena-Olivetti
+CL0107,Scienze,DOC0017,Clelia Morandi
+CL0107,Disegno Tecnico,DOC0003,Isabella Mezzetta
+CL0108,Italiano,DOC0025,Arnulfo Greggio
+CL0108,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0108,Inglese,DOC0047,Valerio Modugno
+CL0108,Fisica,DOC0045,Claudia Filangieri
+CL0108,Scienze,DOC0093,Gianluigi Impastato
+CL0108,Disegno Tecnico,DOC0049,Luisa Solimena-Olivetti
+CL0109,Italiano,DOC0095,Ennio Leonetti
+CL0109,Matematica,DOC0095,Ennio Leonetti
+CL0109,Inglese,DOC0084,Eraldo Leone
+CL0109,Fisica,DOC0001,Ranieri Martucci-Pistoletto
+CL0109,Scienze,DOC0028,Melina Prati
+CL0109,Disegno Tecnico,DOC0092,Marco Tornatore
+CL0110,Italiano,DOC0019,Marissa Modugno
+CL0110,Matematica,DOC0022,Clelia Notarbartolo
+CL0110,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0110,Fisica,DOC0082,Dott. Leonardo Armellini
+CL0110,Scienze,DOC0089,Marcella Broschi
+CL0110,Disegno Tecnico,DOC0099,Ilaria Leone
+CL0111,Italiano,DOC0030,Simonetta Troisi
+CL0111,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0111,Inglese,DOC0079,Lando Federici
+CL0111,Fisica,DOC0025,Arnulfo Greggio
+CL0111,Scienze,DOC0067,Caterina Boccaccio
+CL0111,Disegno Tecnico,DOC0078,Griselda Mazzocchi
+CL0112,Italiano,DOC0023,Luciano Alboni-Rismondo
+CL0112,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0112,Inglese,DOC0037,Ansaldo Calvo
+CL0112,Fisica,DOC0047,Valerio Modugno
+CL0112,Scienze,DOC0061,Germana Giusti
+CL0112,Disegno Tecnico,DOC0089,Marcella Broschi
+CL0113,Italiano,DOC0029,Tonia Nosiglia
+CL0113,Matematica,DOC0046,Natalia Sgarbi
+CL0113,Inglese,DOC0029,Tonia Nosiglia
+CL0113,Fisica,DOC0017,Clelia Morandi
+CL0113,Scienze,DOC0030,Simonetta Troisi
+CL0113,Disegno Tecnico,DOC0055,Imelda Scamarcio
+CL0114,Italiano,DOC0011,Bruno Cabrini
+CL0114,Matematica,DOC0058,Bianca Pace
+CL0114,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0114,Fisica,DOC0008,Dott. Gemma Borromini
+CL0114,Scienze,DOC0044,Bianca Pagliaro
+CL0114,Disegno Tecnico,DOC0007,Elena Alighieri
+CL0115,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0115,Matematica,DOC0007,Elena Alighieri
+CL0115,Inglese,DOC0047,Valerio Modugno
+CL0115,Fisica,DOC0040,Donatella Pace
+CL0115,Scienze,DOC0077,Hugo Barracco
+CL0115,Disegno Tecnico,DOC0012,Barbara Granatelli
+CL0116,Italiano,DOC0058,Bianca Pace
+CL0116,Matematica,DOC0059,Atenulf Pozzecco
+CL0116,Inglese,DOC0040,Donatella Pace
+CL0116,Fisica,DOC0035,Melina Monicelli
+CL0116,Scienze,DOC0061,Germana Giusti
+CL0116,Disegno Tecnico,DOC0030,Simonetta Troisi
+CL0117,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0117,Matematica,DOC0028,Melina Prati
+CL0117,Inglese,DOC0046,Natalia Sgarbi
+CL0117,Fisica,DOC0099,Ilaria Leone
+CL0117,Scienze,DOC0019,Marissa Modugno
+CL0117,Disegno Tecnico,DOC0039,Cecilia Correr
+CL0118,Italiano,DOC0068,Ramona Giacconi
+CL0118,Matematica,DOC0094,Dott. Chiara Panzera
+CL0118,Inglese,DOC0096,Elladio Migliaccio
+CL0118,Fisica,DOC0094,Dott. Chiara Panzera
+CL0118,Scienze,DOC0038,Annamaria Brichese-Marinetti
+CL0118,Disegno Tecnico,DOC0015,Amanda Cicala
+CL0119,Italiano,DOC0075,Licia Gatto
+CL0119,Matematica,DOC0008,Dott. Gemma Borromini
+CL0119,Inglese,DOC0057,Elladio Cattaneo
+CL0120,Italiano,DOC0097,Angelina Bataglia
+CL0120,Matematica,DOC0077,Hugo Barracco
+CL0120,Inglese,DOC0051,Amadeo Acerbi
+CL0121,Italiano,DOC0079,Lando Federici
+CL0121,Matematica,DOC0077,Hugo Barracco
+CL0121,Inglese,DOC0079,Lando Federici
+CL0122,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0122,Matematica,DOC0054,Cipriano Segni
+CL0122,Inglese,DOC0027,Gelsomina Antonioni
+CL0123,Italiano,DOC0088,Carla Gasperi
+CL0123,Matematica,DOC0022,Clelia Notarbartolo
+CL0123,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0124,Italiano,DOC0089,Marcella Broschi
+CL0124,Matematica,DOC0080,Giacomo Zito
+CL0124,Inglese,DOC0065,Santino Migliaccio
+CL0125,Italiano,DOC0052,Sole Bragaglia
+CL0125,Matematica,DOC0004,Etta Cassarà
+CL0125,Inglese,DOC0095,Ennio Leonetti
+CL0126,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0126,Matematica,DOC0042,Luciana Farinelli
+CL0126,Inglese,DOC0003,Isabella Mezzetta
+CL0127,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0127,Matematica,DOC0039,Cecilia Correr
+CL0127,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0128,Italiano,DOC0032,Annamaria Trevisani
+CL0128,Matematica,DOC0028,Melina Prati
+CL0128,Inglese,DOC0087,Romina Bersani-Rocca
+CL0129,Italiano,DOC0024,Ludovica Tremonti
+CL0129,Matematica,DOC0100,Loredana Bocelli
+CL0129,Inglese,DOC0098,Bianca Satta
+CL0130,Italiano,DOC0081,Toni Trincavelli
+CL0130,Matematica,DOC0093,Gianluigi Impastato
+CL0130,Inglese,DOC0100,Loredana Bocelli
+CL0131,Italiano,DOC0017,Clelia Morandi
+CL0131,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0131,Inglese,DOC0058,Bianca Pace
+CL0132,Italiano,DOC0060,Elena Toselli-Ponti
+CL0132,Matematica,DOC0028,Melina Prati
+CL0132,Inglese,DOC0027,Gelsomina Antonioni
+CL0133,Italiano,DOC0054,Cipriano Segni
+CL0133,Matematica,DOC0093,Gianluigi Impastato
+CL0133,Inglese,DOC0065,Santino Migliaccio
+CL0134,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0134,Matematica,DOC0036,Gaspare Vecellio
+CL0134,Inglese,DOC0005,Valerio Gaito
+CL0135,Italiano,DOC0041,Mariano Redi
+CL0135,Matematica,DOC0030,Simonetta Troisi
+CL0135,Inglese,DOC0076,Sergius Micca
+CL0136,Italiano,DOC0024,Ludovica Tremonti
+CL0136,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0136,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0137,Italiano,DOC0048,Patrizio Platini
+CL0137,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0137,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0138,Italiano,DOC0042,Luciana Farinelli
+CL0138,Matematica,DOC0045,Claudia Filangieri
+CL0138,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0139,Italiano,DOC0076,Sergius Micca
+CL0139,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0139,Inglese,DOC0040,Donatella Pace
+CL0140,Italiano,DOC0099,Ilaria Leone
+CL0140,Matematica,DOC0003,Isabella Mezzetta
+CL0140,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0141,Italiano,DOC0024,Ludovica Tremonti
+CL0141,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0141,Inglese,DOC0095,Ennio Leonetti
+CL0142,Italiano,DOC0054,Cipriano Segni
+CL0142,Matematica,DOC0078,Griselda Mazzocchi
+CL0142,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0143,Italiano,DOC0061,Germana Giusti
+CL0143,Matematica,DOC0061,Germana Giusti
+CL0143,Inglese,DOC0059,Atenulf Pozzecco
+CL0144,Italiano,DOC0097,Angelina Bataglia
+CL0144,Matematica,DOC0015,Amanda Cicala
+CL0144,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0145,Italiano,DOC0038,Annamaria Brichese-Marinetti
+CL0145,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0145,Inglese,DOC0041,Mariano Redi
+CL0146,Italiano,DOC0089,Marcella Broschi
+CL0146,Matematica,DOC0094,Dott. Chiara Panzera
+CL0146,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0147,Italiano,DOC0005,Valerio Gaito
+CL0147,Matematica,DOC0098,Bianca Satta
+CL0147,Inglese,DOC0054,Cipriano Segni
+CL0148,Italiano,DOC0061,Germana Giusti
+CL0148,Matematica,DOC0024,Ludovica Tremonti
+CL0148,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0149,Italiano,DOC0054,Cipriano Segni
+CL0149,Matematica,DOC0059,Atenulf Pozzecco
+CL0149,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0150,Italiano,DOC0057,Elladio Cattaneo
+CL0150,Matematica,DOC0033,Sandro Versace-Battaglia
+CL0150,Inglese,DOC0050,Gianna Cimarosa
+CL0151,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0151,Matematica,DOC0012,Barbara Granatelli
+CL0151,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0152,Italiano,DOC0061,Germana Giusti
+CL0152,Matematica,DOC0048,Patrizio Platini
+CL0152,Inglese,DOC0055,Imelda Scamarcio
+CL0153,Italiano,DOC0069,Dino Caccianemico
+CL0153,Matematica,DOC0041,Mariano Redi
+CL0153,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0154,Italiano,DOC0066,Dott. Fiorino Cannizzaro
+CL0154,Matematica,DOC0079,Lando Federici
+CL0154,Inglese,DOC0071,Ramona Piazzi
+CL0155,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0155,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0155,Inglese,DOC0034,Bianca Sauro
+CL0156,Italiano,DOC0099,Ilaria Leone
+CL0156,Matematica,DOC0048,Patrizio Platini
+CL0156,Inglese,DOC0079,Lando Federici
+CL0157,Italiano,DOC0088,Carla Gasperi
+CL0157,Matematica,DOC0037,Ansaldo Calvo
+CL0157,Inglese,DOC0084,Eraldo Leone
+CL0158,Italiano,DOC0037,Ansaldo Calvo
+CL0158,Matematica,DOC0065,Santino Migliaccio
+CL0158,Inglese,DOC0092,Marco Tornatore
+CL0159,Italiano,DOC0024,Ludovica Tremonti
+CL0159,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0159,Inglese,DOC0054,Cipriano Segni
+CL0160,Italiano,DOC0094,Dott. Chiara Panzera
+CL0160,Matematica,DOC0061,Germana Giusti
+CL0160,Inglese,DOC0076,Sergius Micca
+CL0161,Italiano,DOC0091,Costantino Valier
+CL0161,Matematica,DOC0100,Loredana Bocelli
+CL0161,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0162,Italiano,DOC0065,Santino Migliaccio
+CL0162,Matematica,DOC0098,Bianca Satta
+CL0162,Inglese,DOC0067,Caterina Boccaccio
+CL0163,Italiano,DOC0022,Clelia Notarbartolo
+CL0163,Matematica,DOC0097,Angelina Bataglia
+CL0163,Inglese,DOC0034,Bianca Sauro
+CL0164,Italiano,DOC0025,Arnulfo Greggio
+CL0164,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0164,Inglese,DOC0040,Donatella Pace
+CL0165,Italiano,DOC0081,Toni Trincavelli
+CL0165,Matematica,DOC0044,Bianca Pagliaro
+CL0165,Inglese,DOC0039,Cecilia Correr
+CL0166,Italiano,DOC0060,Elena Toselli-Ponti
+CL0166,Matematica,DOC0067,Caterina Boccaccio
+CL0166,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0167,Italiano,DOC0078,Griselda Mazzocchi
+CL0167,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0167,Inglese,DOC0047,Valerio Modugno
+CL0168,Italiano,DOC0015,Amanda Cicala
+CL0168,Matematica,DOC0044,Bianca Pagliaro
+CL0168,Inglese,DOC0052,Sole Bragaglia
+CL0169,Italiano,DOC0009,Dott. Giada Mazzocchi
+CL0169,Matematica,DOC0053,Victoria Balbi
+CL0169,Inglese,DOC0060,Elena Toselli-Ponti
+CL0170,Italiano,DOC0036,Gaspare Vecellio
+CL0170,Matematica,DOC0002,Diana Canali
+CL0170,Inglese,DOC0032,Annamaria Trevisani
+CL0171,Italiano,DOC0029,Tonia Nosiglia
+CL0171,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0171,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0172,Italiano,DOC0092,Marco Tornatore
+CL0172,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0172,Inglese,DOC0094,Dott. Chiara Panzera
+CL0173,Italiano,DOC0085,Federico Capuana
+CL0173,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0173,Inglese,DOC0044,Bianca Pagliaro
+CL0174,Italiano,DOC0069,Dino Caccianemico
+CL0174,Matematica,DOC0020,Sig.ra Paulina Argentero
+CL0174,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0175,Italiano,DOC0059,Atenulf Pozzecco
+CL0175,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0175,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0176,Italiano,DOC0009,Dott. Giada Mazzocchi
+CL0176,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0176,Inglese,DOC0017,Clelia Morandi
+CL0177,Italiano,DOC0010,Fortunata Ortese
+CL0177,Matematica,DOC0027,Gelsomina Antonioni
+CL0177,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0178,Italiano,DOC0002,Diana Canali
+CL0178,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0178,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0179,Italiano,DOC0072,Monica Ortolani
+CL0179,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0179,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0180,Italiano,DOC0051,Amadeo Acerbi
+CL0180,Matematica,DOC0054,Cipriano Segni
+CL0180,Inglese,DOC0010,Fortunata Ortese
+CL0181,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0181,Matematica,DOC0039,Cecilia Correr
+CL0181,Inglese,DOC0045,Claudia Filangieri
+CL0182,Italiano,DOC0096,Elladio Migliaccio
+CL0182,Matematica,DOC0061,Germana Giusti
+CL0182,Inglese,DOC0002,Diana Canali
+CL0183,Italiano,DOC0076,Sergius Micca
+CL0183,Matematica,DOC0003,Isabella Mezzetta
+CL0183,Inglese,DOC0058,Bianca Pace
+CL0184,Italiano,DOC0032,Annamaria Trevisani
+CL0184,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0184,Inglese,DOC0067,Caterina Boccaccio
+CL0185,Italiano,DOC0068,Ramona Giacconi
+CL0185,Matematica,DOC0081,Toni Trincavelli
+CL0185,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0186,Italiano,DOC0035,Melina Monicelli
+CL0186,Matematica,DOC0055,Imelda Scamarcio
+CL0186,Inglese,DOC0073,Santino Campise
+CL0187,Italiano,DOC0034,Bianca Sauro
+CL0187,Matematica,DOC0036,Gaspare Vecellio
+CL0187,Inglese,DOC0073,Santino Campise
+CL0188,Italiano,DOC0004,Etta Cassarà
+CL0188,Matematica,DOC0052,Sole Bragaglia
+CL0188,Inglese,DOC0002,Diana Canali
+CL0189,Italiano,DOC0088,Carla Gasperi
+CL0189,Matematica,DOC0095,Ennio Leonetti
+CL0189,Inglese,DOC0043,Raimondo Navone
+CL0190,Italiano,DOC0005,Valerio Gaito
+CL0190,Matematica,DOC0053,Victoria Balbi
+CL0190,Inglese,DOC0017,Clelia Morandi
+CL0191,Italiano,DOC0059,Atenulf Pozzecco
+CL0191,Matematica,DOC0034,Bianca Sauro
+CL0191,Inglese,DOC0044,Bianca Pagliaro
+CL0192,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0192,Matematica,DOC0077,Hugo Barracco
+CL0192,Inglese,DOC0072,Monica Ortolani
+CL0193,Italiano,DOC0011,Bruno Cabrini
+CL0193,Matematica,DOC0012,Barbara Granatelli
+CL0193,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0194,Italiano,DOC0027,Gelsomina Antonioni
+CL0194,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0194,Inglese,DOC0006,Martino Gaggini
+CL0195,Italiano,DOC0052,Sole Bragaglia
+CL0195,Matematica,DOC0037,Ansaldo Calvo
+CL0195,Inglese,DOC0007,Elena Alighieri
+CL0196,Italiano,DOC0079,Lando Federici
+CL0196,Matematica,DOC0091,Costantino Valier
+CL0196,Inglese,DOC0025,Arnulfo Greggio
+CL0197,Italiano,DOC0022,Clelia Notarbartolo
+CL0197,Matematica,DOC0007,Elena Alighieri
+CL0197,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0198,Italiano,DOC0087,Romina Bersani-Rocca
+CL0198,Matematica,DOC0036,Gaspare Vecellio
+CL0198,Inglese,DOC0100,Loredana Bocelli
+CL0199,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0199,Matematica,DOC0033,Sandro Versace-Battaglia
+CL0199,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0200,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0200,Matematica,DOC0015,Amanda Cicala
+CL0200,Inglese,DOC0024,Ludovica Tremonti
+CL0201,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0201,Matematica,DOC0052,Sole Bragaglia
+CL0201,Inglese,DOC0076,Sergius Micca
+CL0202,Italiano,DOC0076,Sergius Micca
+CL0202,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0202,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0203,Italiano,DOC0068,Ramona Giacconi
+CL0203,Matematica,DOC0017,Clelia Morandi
+CL0203,Inglese,DOC0093,Gianluigi Impastato
+CL0204,Italiano,DOC0080,Giacomo Zito
+CL0204,Matematica,DOC0048,Patrizio Platini
+CL0204,Inglese,DOC0008,Dott. Gemma Borromini
+CL0205,Italiano,DOC0014,Elena Gargallo-Borroni
+CL0205,Matematica,DOC0035,Melina Monicelli
+CL0205,Inglese,DOC0079,Lando Federici
+CL0206,Italiano,DOC0085,Federico Capuana
+CL0206,Matematica,DOC0040,Donatella Pace
+CL0206,Inglese,DOC0005,Valerio Gaito
+CL0207,Italiano,DOC0017,Clelia Morandi
+CL0207,Matematica,DOC0002,Diana Canali
+CL0207,Inglese,DOC0065,Santino Migliaccio
+CL0208,Italiano,DOC0095,Ennio Leonetti
+CL0208,Matematica,DOC0044,Bianca Pagliaro
+CL0208,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0209,Italiano,DOC0076,Sergius Micca
+CL0209,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0209,Inglese,DOC0040,Donatella Pace
+CL0210,Italiano,DOC0042,Luciana Farinelli
+CL0210,Matematica,DOC0024,Ludovica Tremonti
+CL0210,Inglese,DOC0010,Fortunata Ortese
+CL0211,Italiano,DOC0047,Valerio Modugno
+CL0211,Matematica,DOC0008,Dott. Gemma Borromini
+CL0211,Inglese,DOC0037,Ansaldo Calvo
+CL0212,Italiano,DOC0080,Giacomo Zito
+CL0212,Matematica,DOC0069,Dino Caccianemico
+CL0212,Inglese,DOC0067,Caterina Boccaccio
+CL0213,Italiano,DOC0068,Ramona Giacconi
+CL0213,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0213,Inglese,DOC0076,Sergius Micca
+CL0214,Italiano,DOC0044,Bianca Pagliaro
+CL0214,Matematica,DOC0060,Elena Toselli-Ponti
+CL0214,Inglese,DOC0072,Monica Ortolani
+CL0215,Italiano,DOC0034,Bianca Sauro
+CL0215,Matematica,DOC0042,Luciana Farinelli
+CL0215,Inglese,DOC0095,Ennio Leonetti
+CL0216,Italiano,DOC0010,Fortunata Ortese
+CL0216,Matematica,DOC0004,Etta Cassarà
+CL0216,Inglese,DOC0093,Gianluigi Impastato
+CL0217,Italiano,DOC0012,Barbara Granatelli
+CL0217,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0217,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0218,Italiano,DOC0075,Licia Gatto
+CL0218,Matematica,DOC0066,Dott. Fiorino Cannizzaro
+CL0218,Inglese,DOC0036,Gaspare Vecellio
+CL0219,Italiano,DOC0002,Diana Canali
+CL0219,Matematica,DOC0025,Arnulfo Greggio
+CL0219,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0220,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0220,Matematica,DOC0079,Lando Federici
+CL0220,Inglese,DOC0007,Elena Alighieri
+CL0221,Italiano,DOC0023,Luciano Alboni-Rismondo
+CL0221,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0221,Inglese,DOC0085,Federico Capuana
+CL0222,Italiano,DOC0036,Gaspare Vecellio
+CL0222,Matematica,DOC0004,Etta Cassarà
+CL0222,Inglese,DOC0029,Tonia Nosiglia
+CL0223,Italiano,DOC0047,Valerio Modugno
+CL0223,Matematica,DOC0028,Melina Prati
+CL0223,Inglese,DOC0045,Claudia Filangieri
+CL0224,Italiano,DOC0065,Santino Migliaccio
+CL0224,Matematica,DOC0059,Atenulf Pozzecco
+CL0224,Inglese,DOC0085,Federico Capuana
+CL0225,Italiano,DOC0009,Dott. Giada Mazzocchi
+CL0225,Matematica,DOC0087,Romina Bersani-Rocca
+CL0225,Inglese,DOC0093,Gianluigi Impastato
+CL0226,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0226,Matematica,DOC0076,Sergius Micca
+CL0226,Inglese,DOC0013,Elisa Lanfranchi
+CL0227,Italiano,DOC0041,Mariano Redi
+CL0227,Matematica,DOC0065,Santino Migliaccio
+CL0227,Inglese,DOC0060,Elena Toselli-Ponti
+CL0228,Italiano,DOC0030,Simonetta Troisi
+CL0228,Matematica,DOC0053,Victoria Balbi
+CL0228,Inglese,DOC0032,Annamaria Trevisani
+CL0229,Italiano,DOC0098,Bianca Satta
+CL0229,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0229,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0230,Italiano,DOC0034,Bianca Sauro
+CL0230,Matematica,DOC0069,Dino Caccianemico
+CL0230,Inglese,DOC0043,Raimondo Navone
+CL0231,Italiano,DOC0039,Cecilia Correr
+CL0231,Matematica,DOC0057,Elladio Cattaneo
+CL0231,Inglese,DOC0057,Elladio Cattaneo
+CL0232,Italiano,DOC0096,Elladio Migliaccio
+CL0232,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0232,Inglese,DOC0053,Victoria Balbi
+CL0233,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0233,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0233,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0234,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0234,Matematica,DOC0089,Marcella Broschi
+CL0234,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0235,Italiano,DOC0003,Isabella Mezzetta
+CL0235,Matematica,DOC0078,Griselda Mazzocchi
+CL0235,Inglese,DOC0025,Arnulfo Greggio
+CL0236,Italiano,DOC0025,Arnulfo Greggio
+CL0236,Matematica,DOC0057,Elladio Cattaneo
+CL0236,Inglese,DOC0032,Annamaria Trevisani
+CL0237,Italiano,DOC0051,Amadeo Acerbi
+CL0237,Matematica,DOC0042,Luciana Farinelli
+CL0237,Inglese,DOC0095,Ennio Leonetti
+CL0238,Italiano,DOC0040,Donatella Pace
+CL0238,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0238,Inglese,DOC0061,Germana Giusti
+CL0239,Italiano,DOC0054,Cipriano Segni
+CL0239,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0239,Inglese,DOC0091,Costantino Valier
+CL0240,Italiano,DOC0037,Ansaldo Calvo
+CL0240,Matematica,DOC0085,Federico Capuana
+CL0240,Inglese,DOC0087,Romina Bersani-Rocca
+CL0241,Italiano,DOC0058,Bianca Pace
+CL0241,Matematica,DOC0008,Dott. Gemma Borromini
+CL0241,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0242,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0242,Matematica,DOC0035,Melina Monicelli
+CL0242,Inglese,DOC0051,Amadeo Acerbi
+CL0243,Italiano,DOC0040,Donatella Pace
+CL0243,Matematica,DOC0047,Valerio Modugno
+CL0243,Inglese,DOC0041,Mariano Redi
+CL0244,Italiano,DOC0004,Etta Cassarà
+CL0244,Matematica,DOC0057,Elladio Cattaneo
+CL0244,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0245,Italiano,DOC0039,Cecilia Correr
+CL0245,Matematica,DOC0050,Gianna Cimarosa
+CL0245,Inglese,DOC0032,Annamaria Trevisani
+CL0246,Italiano,DOC0093,Gianluigi Impastato
+CL0246,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0246,Inglese,DOC0031,Adamo Baglioni
+CL0247,Italiano,DOC0081,Toni Trincavelli
+CL0247,Matematica,DOC0071,Ramona Piazzi
+CL0247,Inglese,DOC0081,Toni Trincavelli
+CL0248,Italiano,DOC0007,Elena Alighieri
+CL0248,Matematica,DOC0095,Ennio Leonetti
+CL0248,Inglese,DOC0032,Annamaria Trevisani
+CL0249,Italiano,DOC0094,Dott. Chiara Panzera
+CL0249,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0249,Inglese,DOC0058,Bianca Pace
+CL0250,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0250,Matematica,DOC0088,Carla Gasperi
+CL0250,Inglese,DOC0011,Bruno Cabrini
+CL0251,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0251,Matematica,DOC0027,Gelsomina Antonioni
+CL0251,Inglese,DOC0010,Fortunata Ortese
+CL0252,Italiano,DOC0019,Marissa Modugno
+CL0252,Matematica,DOC0076,Sergius Micca
+CL0252,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0253,Italiano,DOC0045,Claudia Filangieri
+CL0253,Matematica,DOC0087,Romina Bersani-Rocca
+CL0253,Inglese,DOC0059,Atenulf Pozzecco
+CL0254,Italiano,DOC0055,Imelda Scamarcio
+CL0254,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0254,Inglese,DOC0089,Marcella Broschi
+CL0255,Italiano,DOC0094,Dott. Chiara Panzera
+CL0255,Matematica,DOC0037,Ansaldo Calvo
+CL0255,Inglese,DOC0091,Costantino Valier
+CL0256,Italiano,DOC0028,Melina Prati
+CL0256,Matematica,DOC0024,Ludovica Tremonti
+CL0256,Inglese,DOC0047,Valerio Modugno
+CL0257,Italiano,DOC0077,Hugo Barracco
+CL0257,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0257,Inglese,DOC0005,Valerio Gaito
+CL0258,Italiano,DOC0002,Diana Canali
+CL0258,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0258,Inglese,DOC0052,Sole Bragaglia
+CL0259,Italiano,DOC0028,Melina Prati
+CL0259,Matematica,DOC0034,Bianca Sauro
+CL0259,Inglese,DOC0080,Giacomo Zito
+CL0260,Italiano,DOC0019,Marissa Modugno
+CL0260,Matematica,DOC0057,Elladio Cattaneo
+CL0260,Inglese,DOC0097,Angelina Bataglia
+CL0261,Italiano,DOC0048,Patrizio Platini
+CL0261,Matematica,DOC0053,Victoria Balbi
+CL0261,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0262,Italiano,DOC0078,Griselda Mazzocchi
+CL0262,Matematica,DOC0041,Mariano Redi
+CL0262,Inglese,DOC0077,Hugo Barracco
+CL0263,Italiano,DOC0080,Giacomo Zito
+CL0263,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0263,Inglese,DOC0073,Santino Campise
+CL0264,Italiano,DOC0024,Ludovica Tremonti
+CL0264,Matematica,DOC0095,Ennio Leonetti
+CL0264,Inglese,DOC0053,Victoria Balbi
+CL0265,Italiano,DOC0022,Clelia Notarbartolo
+CL0265,Matematica,DOC0092,Marco Tornatore
+CL0265,Inglese,DOC0061,Germana Giusti
+CL0266,Italiano,DOC0003,Isabella Mezzetta
+CL0266,Matematica,DOC0046,Natalia Sgarbi
+CL0266,Inglese,DOC0032,Annamaria Trevisani
+CL0267,Italiano,DOC0042,Luciana Farinelli
+CL0267,Matematica,DOC0004,Etta Cassarà
+CL0267,Inglese,DOC0037,Ansaldo Calvo
+CL0268,Italiano,DOC0046,Natalia Sgarbi
+CL0268,Matematica,DOC0052,Sole Bragaglia
+CL0268,Inglese,DOC0068,Ramona Giacconi
+CL0269,Italiano,DOC0080,Giacomo Zito
+CL0269,Matematica,DOC0054,Cipriano Segni
+CL0269,Inglese,DOC0077,Hugo Barracco
+CL0270,Italiano,DOC0005,Valerio Gaito
+CL0270,Matematica,DOC0011,Bruno Cabrini
+CL0270,Inglese,DOC0077,Hugo Barracco
+CL0271,Italiano,DOC0028,Melina Prati
+CL0271,Matematica,DOC0025,Arnulfo Greggio
+CL0271,Inglese,DOC0012,Barbara Granatelli
+CL0272,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0272,Matematica,DOC0039,Cecilia Correr
+CL0272,Inglese,DOC0002,Diana Canali
+CL0273,Italiano,DOC0008,Dott. Gemma Borromini
+CL0273,Matematica,DOC0005,Valerio Gaito
+CL0273,Inglese,DOC0092,Marco Tornatore
+CL0274,Italiano,DOC0054,Cipriano Segni
+CL0274,Matematica,DOC0032,Annamaria Trevisani
+CL0274,Inglese,DOC0035,Melina Monicelli
+CL0275,Italiano,DOC0059,Atenulf Pozzecco
+CL0275,Matematica,DOC0040,Donatella Pace
+CL0275,Inglese,DOC0081,Toni Trincavelli
+CL0276,Italiano,DOC0085,Federico Capuana
+CL0276,Matematica,DOC0087,Romina Bersani-Rocca
+CL0276,Inglese,DOC0021,Annunziata Malenchini-Caruso
+CL0277,Italiano,DOC0085,Federico Capuana
+CL0277,Matematica,DOC0031,Adamo Baglioni
+CL0277,Inglese,DOC0043,Raimondo Navone
+CL0278,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0278,Matematica,DOC0076,Sergius Micca
+CL0278,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0279,Italiano,DOC0013,Elisa Lanfranchi
+CL0279,Matematica,DOC0092,Marco Tornatore
+CL0279,Inglese,DOC0030,Simonetta Troisi
+CL0280,Italiano,DOC0098,Bianca Satta
+CL0280,Matematica,DOC0081,Toni Trincavelli
+CL0280,Inglese,DOC0065,Santino Migliaccio
+CL0281,Italiano,DOC0095,Ennio Leonetti
+CL0281,Matematica,DOC0040,Donatella Pace
+CL0281,Inglese,DOC0079,Lando Federici
+CL0282,Italiano,DOC0027,Gelsomina Antonioni
+CL0282,Matematica,DOC0053,Victoria Balbi
+CL0282,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0283,Italiano,DOC0034,Bianca Sauro
+CL0283,Matematica,DOC0079,Lando Federici
+CL0283,Inglese,DOC0002,Diana Canali
+CL0284,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0284,Matematica,DOC0012,Barbara Granatelli
+CL0284,Inglese,DOC0058,Bianca Pace
+CL0285,Italiano,DOC0036,Gaspare Vecellio
+CL0285,Matematica,DOC0073,Santino Campise
+CL0285,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0286,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0286,Matematica,DOC0099,Ilaria Leone
+CL0286,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0287,Italiano,DOC0015,Amanda Cicala
+CL0287,Matematica,DOC0015,Amanda Cicala
+CL0287,Inglese,DOC0027,Gelsomina Antonioni
+CL0288,Italiano,DOC0037,Ansaldo Calvo
+CL0288,Matematica,DOC0055,Imelda Scamarcio
+CL0288,Inglese,DOC0039,Cecilia Correr
+CL0289,Italiano,DOC0024,Ludovica Tremonti
+CL0289,Matematica,DOC0011,Bruno Cabrini
+CL0289,Inglese,DOC0037,Ansaldo Calvo
+CL0290,Italiano,DOC0024,Ludovica Tremonti
+CL0290,Matematica,DOC0045,Claudia Filangieri
+CL0290,Inglese,DOC0078,Griselda Mazzocchi
+CL0291,Italiano,DOC0022,Clelia Notarbartolo
+CL0291,Matematica,DOC0088,Carla Gasperi
+CL0291,Inglese,DOC0059,Atenulf Pozzecco
+CL0292,Italiano,DOC0075,Licia Gatto
+CL0292,Matematica,DOC0010,Fortunata Ortese
+CL0292,Inglese,DOC0052,Sole Bragaglia
+CL0293,Italiano,DOC0038,Annamaria Brichese-Marinetti
+CL0293,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0293,Inglese,DOC0098,Bianca Satta
+CL0294,Italiano,DOC0017,Clelia Morandi
+CL0294,Matematica,DOC0078,Griselda Mazzocchi
+CL0294,Inglese,DOC0019,Marissa Modugno
+CL0295,Italiano,DOC0075,Licia Gatto
+CL0295,Matematica,DOC0022,Clelia Notarbartolo
+CL0295,Inglese,DOC0077,Hugo Barracco
+CL0296,Italiano,DOC0042,Luciana Farinelli
+CL0296,Matematica,DOC0077,Hugo Barracco
+CL0296,Inglese,DOC0005,Valerio Gaito
+CL0297,Italiano,DOC0094,Dott. Chiara Panzera
+CL0297,Matematica,DOC0073,Santino Campise
+CL0297,Inglese,DOC0039,Cecilia Correr
+CL0298,Italiano,DOC0010,Fortunata Ortese
+CL0298,Matematica,DOC0097,Angelina Bataglia
+CL0298,Inglese,DOC0039,Cecilia Correr
+CL0299,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0299,Matematica,DOC0065,Santino Migliaccio
+CL0299,Inglese,DOC0031,Adamo Baglioni
+CL0300,Italiano,DOC0095,Ennio Leonetti
+CL0300,Matematica,DOC0004,Etta Cassarà
+CL0300,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0301,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0301,Matematica,DOC0011,Bruno Cabrini
+CL0301,Inglese,DOC0022,Clelia Notarbartolo
+CL0302,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0302,Matematica,DOC0080,Giacomo Zito
+CL0302,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0303,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0303,Matematica,DOC0077,Hugo Barracco
+CL0303,Inglese,DOC0010,Fortunata Ortese
+CL0304,Italiano,DOC0094,Dott. Chiara Panzera
+CL0304,Matematica,DOC0084,Eraldo Leone
+CL0304,Inglese,DOC0036,Gaspare Vecellio
+CL0305,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0305,Matematica,DOC0003,Isabella Mezzetta
+CL0305,Inglese,DOC0002,Diana Canali
+CL0306,Italiano,DOC0039,Cecilia Correr
+CL0306,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0306,Inglese,DOC0076,Sergius Micca
+CL0307,Italiano,DOC0052,Sole Bragaglia
+CL0307,Matematica,DOC0016,Fortunata Mengolo-Tresoldi
+CL0307,Inglese,DOC0015,Amanda Cicala
+CL0308,Italiano,DOC0058,Bianca Pace
+CL0308,Matematica,DOC0068,Ramona Giacconi
+CL0308,Inglese,DOC0042,Luciana Farinelli
+CL0309,Italiano,DOC0041,Mariano Redi
+CL0309,Matematica,DOC0068,Ramona Giacconi
+CL0309,Inglese,DOC0099,Ilaria Leone
+CL0310,Italiano,DOC0068,Ramona Giacconi
+CL0310,Matematica,DOC0087,Romina Bersani-Rocca
+CL0310,Inglese,DOC0098,Bianca Satta
+CL0311,Italiano,DOC0035,Melina Monicelli
+CL0311,Matematica,DOC0015,Amanda Cicala
+CL0311,Inglese,DOC0081,Toni Trincavelli
+CL0312,Italiano,DOC0084,Eraldo Leone
+CL0312,Matematica,DOC0076,Sergius Micca
+CL0312,Inglese,DOC0031,Adamo Baglioni
+CL0313,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0313,Matematica,DOC0087,Romina Bersani-Rocca
+CL0313,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0314,Italiano,DOC0088,Carla Gasperi
+CL0314,Matematica,DOC0039,Cecilia Correr
+CL0314,Inglese,DOC0010,Fortunata Ortese
+CL0315,Italiano,DOC0061,Germana Giusti
+CL0315,Matematica,DOC0030,Simonetta Troisi
+CL0315,Inglese,DOC0025,Arnulfo Greggio
+CL0316,Italiano,DOC0027,Gelsomina Antonioni
+CL0316,Matematica,DOC0033,Sandro Versace-Battaglia
+CL0316,Inglese,DOC0021,Annunziata Malenchini-Caruso
+CL0316,Fisica,DOC0025,Arnulfo Greggio
+CL0316,Scienze,DOC0013,Elisa Lanfranchi
+CL0316,Disegno Tecnico,DOC0034,Bianca Sauro
+CL0317,Italiano,DOC0036,Gaspare Vecellio
+CL0317,Matematica,DOC0099,Ilaria Leone
+CL0317,Inglese,DOC0043,Raimondo Navone
+CL0317,Fisica,DOC0022,Clelia Notarbartolo
+CL0317,Scienze,DOC0095,Ennio Leonetti
+CL0317,Disegno Tecnico,DOC0013,Elisa Lanfranchi
+CL0318,Italiano,DOC0045,Claudia Filangieri
+CL0318,Matematica,DOC0091,Costantino Valier
+CL0318,Inglese,DOC0071,Ramona Piazzi
+CL0318,Fisica,DOC0056,Ermenegildo Boccaccio
+CL0318,Scienze,DOC0006,Martino Gaggini
+CL0318,Disegno Tecnico,DOC0055,Imelda Scamarcio
+CL0319,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0319,Matematica,DOC0098,Bianca Satta
+CL0319,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0319,Fisica,DOC0097,Angelina Bataglia
+CL0319,Scienze,DOC0080,Giacomo Zito
+CL0319,Disegno Tecnico,DOC0066,Dott. Fiorino Cannizzaro
+CL0320,Italiano,DOC0071,Ramona Piazzi
+CL0320,Matematica,DOC0006,Martino Gaggini
+CL0320,Inglese,DOC0088,Carla Gasperi
+CL0320,Fisica,DOC0035,Melina Monicelli
+CL0320,Scienze,DOC0007,Elena Alighieri
+CL0320,Disegno Tecnico,DOC0084,Eraldo Leone
+CL0321,Italiano,DOC0093,Gianluigi Impastato
+CL0321,Matematica,DOC0094,Dott. Chiara Panzera
+CL0321,Inglese,DOC0094,Dott. Chiara Panzera
+CL0321,Fisica,DOC0080,Giacomo Zito
+CL0321,Scienze,DOC0075,Licia Gatto
+CL0321,Disegno Tecnico,DOC0015,Amanda Cicala
+CL0322,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0322,Matematica,DOC0039,Cecilia Correr
+CL0322,Inglese,DOC0096,Elladio Migliaccio
+CL0322,Fisica,DOC0014,Elena Gargallo-Borroni
+CL0322,Scienze,DOC0038,Annamaria Brichese-Marinetti
+CL0322,Disegno Tecnico,DOC0001,Ranieri Martucci-Pistoletto
+CL0323,Italiano,DOC0080,Giacomo Zito
+CL0323,Matematica,DOC0011,Bruno Cabrini
+CL0323,Inglese,DOC0073,Santino Campise
+CL0324,Italiano,DOC0040,Donatella Pace
+CL0324,Matematica,DOC0059,Atenulf Pozzecco
+CL0324,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0325,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0325,Matematica,DOC0037,Ansaldo Calvo
+CL0325,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0326,Italiano,DOC0051,Amadeo Acerbi
+CL0326,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0326,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0327,Italiano,DOC0091,Costantino Valier
+CL0327,Matematica,DOC0057,Elladio Cattaneo
+CL0327,Inglese,DOC0097,Angelina Bataglia
+CL0328,Italiano,DOC0045,Claudia Filangieri
+CL0328,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0328,Inglese,DOC0039,Cecilia Correr
+CL0329,Italiano,DOC0073,Santino Campise
+CL0329,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0329,Inglese,DOC0046,Natalia Sgarbi
+CL0330,Italiano,DOC0077,Hugo Barracco
+CL0330,Matematica,DOC0051,Amadeo Acerbi
+CL0330,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0331,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0331,Matematica,DOC0079,Lando Federici
+CL0331,Inglese,DOC0003,Isabella Mezzetta
+CL0332,Italiano,DOC0085,Federico Capuana
+CL0332,Matematica,DOC0091,Costantino Valier
+CL0332,Inglese,DOC0034,Bianca Sauro
+CL0333,Italiano,DOC0035,Melina Monicelli
+CL0333,Matematica,DOC0094,Dott. Chiara Panzera
+CL0333,Inglese,DOC0025,Arnulfo Greggio
+CL0334,Italiano,DOC0089,Marcella Broschi
+CL0334,Matematica,DOC0037,Ansaldo Calvo
+CL0334,Inglese,DOC0021,Annunziata Malenchini-Caruso
+CL0335,Italiano,DOC0036,Gaspare Vecellio
+CL0335,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0335,Inglese,DOC0087,Romina Bersani-Rocca
+CL0336,Italiano,DOC0087,Romina Bersani-Rocca
+CL0336,Matematica,DOC0060,Elena Toselli-Ponti
+CL0336,Inglese,DOC0008,Dott. Gemma Borromini
+CL0337,Italiano,DOC0050,Gianna Cimarosa
+CL0337,Matematica,DOC0080,Giacomo Zito
+CL0337,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0338,Italiano,DOC0085,Federico Capuana
+CL0338,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0338,Inglese,DOC0099,Ilaria Leone
+CL0338,Fisica,DOC0039,Cecilia Correr
+CL0338,Scienze,DOC0066,Dott. Fiorino Cannizzaro
+CL0338,Disegno Tecnico,DOC0082,Dott. Leonardo Armellini
+CL0339,Italiano,DOC0025,Arnulfo Greggio
+CL0339,Matematica,DOC0054,Cipriano Segni
+CL0339,Inglese,DOC0080,Giacomo Zito
+CL0339,Fisica,DOC0032,Annamaria Trevisani
+CL0339,Scienze,DOC0070,Piergiorgio Scaramucci
+CL0339,Disegno Tecnico,DOC0095,Ennio Leonetti
+CL0340,Italiano,DOC0045,Claudia Filangieri
+CL0340,Matematica,DOC0069,Dino Caccianemico
+CL0340,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0340,Fisica,DOC0051,Amadeo Acerbi
+CL0340,Scienze,DOC0005,Valerio Gaito
+CL0340,Disegno Tecnico,DOC0061,Germana Giusti
+CL0341,Italiano,DOC0075,Licia Gatto
+CL0341,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0341,Inglese,DOC0025,Arnulfo Greggio
+CL0341,Fisica,DOC0030,Simonetta Troisi
+CL0341,Scienze,DOC0067,Caterina Boccaccio
+CL0341,Disegno Tecnico,DOC0033,Sandro Versace-Battaglia
+CL0342,Italiano,DOC0015,Amanda Cicala
+CL0342,Matematica,DOC0029,Tonia Nosiglia
+CL0342,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0342,Fisica,DOC0002,Diana Canali
+CL0342,Scienze,DOC0044,Bianca Pagliaro
+CL0342,Disegno Tecnico,DOC0068,Ramona Giacconi
+CL0343,Italiano,DOC0088,Carla Gasperi
+CL0343,Matematica,DOC0092,Marco Tornatore
+CL0343,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0343,Fisica,DOC0094,Dott. Chiara Panzera
+CL0343,Scienze,DOC0043,Raimondo Navone
+CL0343,Disegno Tecnico,DOC0018,Sig. Domenico Iannotti
+CL0344,Italiano,DOC0024,Ludovica Tremonti
+CL0344,Matematica,DOC0011,Bruno Cabrini
+CL0344,Inglese,DOC0088,Carla Gasperi
+CL0344,Fisica,DOC0081,Toni Trincavelli
+CL0344,Scienze,DOC0086,Gioele Lippomano-Brancaccio
+CL0344,Disegno Tecnico,DOC0021,Annunziata Malenchini-Caruso
+CL0345,Italiano,DOC0006,Martino Gaggini
+CL0345,Matematica,DOC0005,Valerio Gaito
+CL0345,Inglese,DOC0094,Dott. Chiara Panzera
+CL0345,Fisica,DOC0040,Donatella Pace
+CL0345,Scienze,DOC0002,Diana Canali
+CL0345,Disegno Tecnico,DOC0082,Dott. Leonardo Armellini
+CL0346,Italiano,DOC0028,Melina Prati
+CL0346,Matematica,DOC0085,Federico Capuana
+CL0346,Inglese,DOC0036,Gaspare Vecellio
+CL0346,Fisica,DOC0018,Sig. Domenico Iannotti
+CL0346,Scienze,DOC0007,Elena Alighieri
+CL0346,Disegno Tecnico,DOC0025,Arnulfo Greggio
+CL0347,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0347,Matematica,DOC0007,Elena Alighieri
+CL0347,Inglese,DOC0040,Donatella Pace
+CL0348,Italiano,DOC0075,Licia Gatto
+CL0348,Matematica,DOC0071,Ramona Piazzi
+CL0348,Inglese,DOC0061,Germana Giusti
+CL0349,Italiano,DOC0068,Ramona Giacconi
+CL0349,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0349,Inglese,DOC0078,Griselda Mazzocchi
+CL0350,Italiano,DOC0050,Gianna Cimarosa
+CL0350,Matematica,DOC0052,Sole Bragaglia
+CL0350,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0351,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0351,Matematica,DOC0069,Dino Caccianemico
+CL0351,Inglese,DOC0078,Griselda Mazzocchi
+CL0352,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0352,Matematica,DOC0024,Ludovica Tremonti
+CL0352,Inglese,DOC0068,Ramona Giacconi
+CL0353,Italiano,DOC0033,Sandro Versace-Battaglia
+CL0353,Matematica,DOC0079,Lando Federici
+CL0353,Inglese,DOC0065,Santino Migliaccio
+CL0354,Italiano,DOC0051,Amadeo Acerbi
+CL0354,Matematica,DOC0045,Claudia Filangieri
+CL0354,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0355,Italiano,DOC0076,Sergius Micca
+CL0355,Matematica,DOC0085,Federico Capuana
+CL0355,Inglese,DOC0013,Elisa Lanfranchi
+CL0356,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0356,Matematica,DOC0071,Ramona Piazzi
+CL0356,Inglese,DOC0015,Amanda Cicala
+CL0357,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0357,Matematica,DOC0059,Atenulf Pozzecco
+CL0357,Inglese,DOC0029,Tonia Nosiglia
+CL0358,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0358,Matematica,DOC0013,Elisa Lanfranchi
+CL0358,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0359,Italiano,DOC0050,Gianna Cimarosa
+CL0359,Matematica,DOC0095,Ennio Leonetti
+CL0359,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0360,Italiano,DOC0010,Fortunata Ortese
+CL0360,Matematica,DOC0099,Ilaria Leone
+CL0360,Inglese,DOC0028,Melina Prati
+CL0361,Italiano,DOC0007,Elena Alighieri
+CL0361,Matematica,DOC0015,Amanda Cicala
+CL0361,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0362,Italiano,DOC0039,Cecilia Correr
+CL0362,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0362,Inglese,DOC0021,Annunziata Malenchini-Caruso
+CL0363,Italiano,DOC0087,Romina Bersani-Rocca
+CL0363,Matematica,DOC0017,Clelia Morandi
+CL0363,Inglese,DOC0078,Griselda Mazzocchi
+CL0364,Italiano,DOC0037,Ansaldo Calvo
+CL0364,Matematica,DOC0043,Raimondo Navone
+CL0364,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0365,Italiano,DOC0088,Carla Gasperi
+CL0365,Matematica,DOC0025,Arnulfo Greggio
+CL0365,Inglese,DOC0048,Patrizio Platini
+CL0366,Italiano,DOC0028,Melina Prati
+CL0366,Matematica,DOC0089,Marcella Broschi
+CL0366,Inglese,DOC0032,Annamaria Trevisani
+CL0367,Italiano,DOC0080,Giacomo Zito
+CL0367,Matematica,DOC0036,Gaspare Vecellio
+CL0367,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0368,Italiano,DOC0081,Toni Trincavelli
+CL0368,Matematica,DOC0036,Gaspare Vecellio
+CL0368,Inglese,DOC0057,Elladio Cattaneo
+CL0369,Italiano,DOC0078,Griselda Mazzocchi
+CL0369,Matematica,DOC0028,Melina Prati
+CL0369,Inglese,DOC0011,Bruno Cabrini
+CL0370,Italiano,DOC0048,Patrizio Platini
+CL0370,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0370,Inglese,DOC0073,Santino Campise
+CL0371,Italiano,DOC0076,Sergius Micca
+CL0371,Matematica,DOC0055,Imelda Scamarcio
+CL0371,Inglese,DOC0043,Raimondo Navone
+CL0372,Italiano,DOC0014,Elena Gargallo-Borroni
+CL0372,Matematica,DOC0024,Ludovica Tremonti
+CL0372,Inglese,DOC0081,Toni Trincavelli
+CL0373,Italiano,DOC0077,Hugo Barracco
+CL0373,Matematica,DOC0096,Elladio Migliaccio
+CL0373,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0374,Italiano,DOC0029,Tonia Nosiglia
+CL0374,Matematica,DOC0035,Melina Monicelli
+CL0374,Inglese,DOC0027,Gelsomina Antonioni
+CL0375,Italiano,DOC0034,Bianca Sauro
+CL0375,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0375,Inglese,DOC0030,Simonetta Troisi
+CL0376,Italiano,DOC0058,Bianca Pace
+CL0376,Matematica,DOC0094,Dott. Chiara Panzera
+CL0376,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0377,Italiano,DOC0089,Marcella Broschi
+CL0377,Matematica,DOC0068,Ramona Giacconi
+CL0377,Inglese,DOC0052,Sole Bragaglia
+CL0378,Italiano,DOC0069,Dino Caccianemico
+CL0378,Matematica,DOC0098,Bianca Satta
+CL0378,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0379,Italiano,DOC0036,Gaspare Vecellio
+CL0379,Matematica,DOC0061,Germana Giusti
+CL0379,Inglese,DOC0030,Simonetta Troisi
+CL0380,Italiano,DOC0087,Romina Bersani-Rocca
+CL0380,Matematica,DOC0015,Amanda Cicala
+CL0380,Inglese,DOC0047,Valerio Modugno
+CL0381,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0381,Matematica,DOC0055,Imelda Scamarcio
+CL0381,Inglese,DOC0027,Gelsomina Antonioni
+CL0382,Italiano,DOC0050,Gianna Cimarosa
+CL0382,Matematica,DOC0003,Isabella Mezzetta
+CL0382,Inglese,DOC0053,Victoria Balbi
+CL0383,Italiano,DOC0011,Bruno Cabrini
+CL0383,Matematica,DOC0003,Isabella Mezzetta
+CL0383,Inglese,DOC0097,Angelina Bataglia
+CL0384,Italiano,DOC0087,Romina Bersani-Rocca
+CL0384,Matematica,DOC0011,Bruno Cabrini
+CL0384,Inglese,DOC0032,Annamaria Trevisani
+CL0385,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0385,Matematica,DOC0028,Melina Prati
+CL0385,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0386,Italiano,DOC0040,Donatella Pace
+CL0386,Matematica,DOC0092,Marco Tornatore
+CL0386,Inglese,DOC0011,Bruno Cabrini
+CL0387,Italiano,DOC0004,Etta Cassarà
+CL0387,Matematica,DOC0024,Ludovica Tremonti
+CL0387,Inglese,DOC0065,Santino Migliaccio
+CL0388,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0388,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0388,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0389,Italiano,DOC0052,Sole Bragaglia
+CL0389,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0389,Inglese,DOC0093,Gianluigi Impastato
+CL0390,Italiano,DOC0088,Carla Gasperi
+CL0390,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0390,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0391,Italiano,DOC0040,Donatella Pace
+CL0391,Matematica,DOC0097,Angelina Bataglia
+CL0391,Inglese,DOC0077,Hugo Barracco
+CL0392,Italiano,DOC0095,Ennio Leonetti
+CL0392,Matematica,DOC0020,Sig.ra Paulina Argentero
+CL0392,Inglese,DOC0099,Ilaria Leone
+CL0393,Italiano,DOC0030,Simonetta Troisi
+CL0393,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0393,Inglese,DOC0097,Angelina Bataglia
+CL0394,Italiano,DOC0003,Isabella Mezzetta
+CL0394,Matematica,DOC0080,Giacomo Zito
+CL0394,Inglese,DOC0080,Giacomo Zito
+CL0395,Italiano,DOC0037,Ansaldo Calvo
+CL0395,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0395,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0396,Italiano,DOC0030,Simonetta Troisi
+CL0396,Matematica,DOC0077,Hugo Barracco
+CL0396,Inglese,DOC0096,Elladio Migliaccio
+CL0397,Italiano,DOC0066,Dott. Fiorino Cannizzaro
+CL0397,Matematica,DOC0058,Bianca Pace
+CL0397,Inglese,DOC0041,Mariano Redi
+CL0398,Italiano,DOC0072,Monica Ortolani
+CL0398,Matematica,DOC0013,Elisa Lanfranchi
+CL0398,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0399,Italiano,DOC0068,Ramona Giacconi
+CL0399,Matematica,DOC0024,Ludovica Tremonti
+CL0399,Inglese,DOC0094,Dott. Chiara Panzera
+CL0400,Italiano,DOC0067,Caterina Boccaccio
+CL0400,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0400,Inglese,DOC0013,Elisa Lanfranchi
+CL0401,Italiano,DOC0088,Carla Gasperi
+CL0401,Matematica,DOC0011,Bruno Cabrini
+CL0401,Inglese,DOC0013,Elisa Lanfranchi
+CL0402,Italiano,DOC0025,Arnulfo Greggio
+CL0402,Matematica,DOC0042,Luciana Farinelli
+CL0402,Inglese,DOC0067,Caterina Boccaccio
+CL0403,Italiano,DOC0059,Atenulf Pozzecco
+CL0403,Matematica,DOC0060,Elena Toselli-Ponti
+CL0403,Inglese,DOC0089,Marcella Broschi
+CL0404,Italiano,DOC0008,Dott. Gemma Borromini
+CL0404,Matematica,DOC0076,Sergius Micca
+CL0404,Inglese,DOC0012,Barbara Granatelli
+CL0405,Italiano,DOC0008,Dott. Gemma Borromini
+CL0405,Matematica,DOC0088,Carla Gasperi
+CL0405,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0406,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0406,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0406,Inglese,DOC0008,Dott. Gemma Borromini
+CL0407,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0407,Matematica,DOC0002,Diana Canali
+CL0407,Inglese,DOC0089,Marcella Broschi
+CL0408,Italiano,DOC0095,Ennio Leonetti
+CL0408,Matematica,DOC0075,Licia Gatto
+CL0408,Inglese,DOC0072,Monica Ortolani
+CL0409,Italiano,DOC0022,Clelia Notarbartolo
+CL0409,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0409,Inglese,DOC0003,Isabella Mezzetta
+CL0410,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0410,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0410,Inglese,DOC0005,Valerio Gaito
+CL0411,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0411,Matematica,DOC0075,Licia Gatto
+CL0411,Inglese,DOC0088,Carla Gasperi
+CL0412,Italiano,DOC0085,Federico Capuana
+CL0412,Matematica,DOC0020,Sig.ra Paulina Argentero
+CL0412,Inglese,DOC0054,Cipriano Segni
+CL0413,Italiano,DOC0093,Gianluigi Impastato
+CL0413,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0413,Inglese,DOC0027,Gelsomina Antonioni
+CL0414,Italiano,DOC0010,Fortunata Ortese
+CL0414,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0414,Inglese,DOC0052,Sole Bragaglia
+CL0415,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0415,Matematica,DOC0038,Annamaria Brichese-Marinetti
+CL0415,Inglese,DOC0044,Bianca Pagliaro
+CL0416,Italiano,DOC0072,Monica Ortolani
+CL0416,Matematica,DOC0079,Lando Federici
+CL0416,Inglese,DOC0031,Adamo Baglioni
+CL0417,Italiano,DOC0093,Gianluigi Impastato
+CL0417,Matematica,DOC0007,Elena Alighieri
+CL0417,Inglese,DOC0003,Isabella Mezzetta
+CL0418,Italiano,DOC0041,Mariano Redi
+CL0418,Matematica,DOC0095,Ennio Leonetti
+CL0418,Inglese,DOC0089,Marcella Broschi
+CL0419,Italiano,DOC0047,Valerio Modugno
+CL0419,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0419,Inglese,DOC0080,Giacomo Zito
+CL0420,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0420,Matematica,DOC0061,Germana Giusti
+CL0420,Inglese,DOC0094,Dott. Chiara Panzera
+CL0421,Italiano,DOC0079,Lando Federici
+CL0421,Matematica,DOC0022,Clelia Notarbartolo
+CL0421,Inglese,DOC0052,Sole Bragaglia
+CL0422,Italiano,DOC0013,Elisa Lanfranchi
+CL0422,Matematica,DOC0080,Giacomo Zito
+CL0422,Inglese,DOC0091,Costantino Valier
+CL0423,Italiano,DOC0091,Costantino Valier
+CL0423,Matematica,DOC0008,Dott. Gemma Borromini
+CL0423,Inglese,DOC0078,Griselda Mazzocchi
+CL0424,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0424,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0424,Inglese,DOC0008,Dott. Gemma Borromini
+CL0425,Italiano,DOC0057,Elladio Cattaneo
+CL0425,Matematica,DOC0025,Arnulfo Greggio
+CL0425,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0426,Italiano,DOC0039,Cecilia Correr
+CL0426,Matematica,DOC0032,Annamaria Trevisani
+CL0426,Inglese,DOC0004,Etta Cassarà
+CL0427,Italiano,DOC0057,Elladio Cattaneo
+CL0427,Matematica,DOC0051,Amadeo Acerbi
+CL0427,Inglese,DOC0093,Gianluigi Impastato
+CL0428,Italiano,DOC0095,Ennio Leonetti
+CL0428,Matematica,DOC0057,Elladio Cattaneo
+CL0428,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0429,Italiano,DOC0072,Monica Ortolani
+CL0429,Matematica,DOC0002,Diana Canali
+CL0429,Inglese,DOC0094,Dott. Chiara Panzera
+CL0430,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0430,Matematica,DOC0054,Cipriano Segni
+CL0430,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0431,Italiano,DOC0100,Loredana Bocelli
+CL0431,Matematica,DOC0017,Clelia Morandi
+CL0431,Inglese,DOC0040,Donatella Pace
+CL0432,Italiano,DOC0024,Ludovica Tremonti
+CL0432,Matematica,DOC0030,Simonetta Troisi
+CL0432,Inglese,DOC0037,Ansaldo Calvo
+CL0433,Italiano,DOC0059,Atenulf Pozzecco
+CL0433,Matematica,DOC0084,Eraldo Leone
+CL0433,Inglese,DOC0059,Atenulf Pozzecco
+CL0434,Italiano,DOC0079,Lando Federici
+CL0434,Matematica,DOC0042,Luciana Farinelli
+CL0434,Inglese,DOC0065,Santino Migliaccio
+CL0435,Italiano,DOC0072,Monica Ortolani
+CL0435,Matematica,DOC0047,Valerio Modugno
+CL0435,Inglese,DOC0042,Luciana Farinelli
+CL0436,Italiano,DOC0027,Gelsomina Antonioni
+CL0436,Matematica,DOC0077,Hugo Barracco
+CL0436,Inglese,DOC0029,Tonia Nosiglia
+CL0437,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0437,Matematica,DOC0035,Melina Monicelli
+CL0437,Inglese,DOC0022,Clelia Notarbartolo
+CL0438,Italiano,DOC0084,Eraldo Leone
+CL0438,Matematica,DOC0085,Federico Capuana
+CL0438,Inglese,DOC0061,Germana Giusti
+CL0439,Italiano,DOC0061,Germana Giusti
+CL0439,Matematica,DOC0039,Cecilia Correr
+CL0439,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0440,Italiano,DOC0048,Patrizio Platini
+CL0440,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0440,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0441,Italiano,DOC0088,Carla Gasperi
+CL0441,Matematica,DOC0060,Elena Toselli-Ponti
+CL0441,Inglese,DOC0094,Dott. Chiara Panzera
+CL0442,Italiano,DOC0017,Clelia Morandi
+CL0442,Matematica,DOC0006,Martino Gaggini
+CL0442,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0443,Italiano,DOC0073,Santino Campise
+CL0443,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0443,Inglese,DOC0099,Ilaria Leone
+CL0444,Italiano,DOC0088,Carla Gasperi
+CL0444,Matematica,DOC0036,Gaspare Vecellio
+CL0444,Inglese,DOC0035,Melina Monicelli
+CL0445,Italiano,DOC0007,Elena Alighieri
+CL0445,Matematica,DOC0002,Diana Canali
+CL0445,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0446,Italiano,DOC0043,Raimondo Navone
+CL0446,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0446,Inglese,DOC0068,Ramona Giacconi
+CL0447,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0447,Matematica,DOC0061,Germana Giusti
+CL0447,Inglese,DOC0077,Hugo Barracco
+CL0448,Italiano,DOC0029,Tonia Nosiglia
+CL0448,Matematica,DOC0093,Gianluigi Impastato
+CL0448,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0449,Italiano,DOC0078,Griselda Mazzocchi
+CL0449,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0449,Inglese,DOC0039,Cecilia Correr
+CL0450,Italiano,DOC0100,Loredana Bocelli
+CL0450,Matematica,DOC0097,Angelina Bataglia
+CL0450,Inglese,DOC0055,Imelda Scamarcio
+CL0451,Italiano,DOC0041,Mariano Redi
+CL0451,Matematica,DOC0020,Sig.ra Paulina Argentero
+CL0451,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0452,Italiano,DOC0041,Mariano Redi
+CL0452,Matematica,DOC0025,Arnulfo Greggio
+CL0452,Inglese,DOC0069,Dino Caccianemico
+CL0453,Italiano,DOC0068,Ramona Giacconi
+CL0453,Matematica,DOC0008,Dott. Gemma Borromini
+CL0453,Inglese,DOC0030,Simonetta Troisi
+CL0454,Italiano,DOC0023,Luciano Alboni-Rismondo
+CL0454,Matematica,DOC0046,Natalia Sgarbi
+CL0454,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0455,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0455,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0455,Inglese,DOC0031,Adamo Baglioni
+CL0456,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0456,Matematica,DOC0047,Valerio Modugno
+CL0456,Inglese,DOC0088,Carla Gasperi
+CL0457,Italiano,DOC0006,Martino Gaggini
+CL0457,Matematica,DOC0042,Luciana Farinelli
+CL0457,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0458,Italiano,DOC0093,Gianluigi Impastato
+CL0458,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0458,Inglese,DOC0099,Ilaria Leone
+CL0459,Italiano,DOC0073,Santino Campise
+CL0459,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0459,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0460,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0460,Matematica,DOC0096,Elladio Migliaccio
+CL0460,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0461,Italiano,DOC0004,Etta Cassarà
+CL0461,Matematica,DOC0042,Luciana Farinelli
+CL0461,Inglese,DOC0059,Atenulf Pozzecco
+CL0462,Italiano,DOC0028,Melina Prati
+CL0462,Matematica,DOC0046,Natalia Sgarbi
+CL0462,Inglese,DOC0054,Cipriano Segni
+CL0463,Italiano,DOC0019,Marissa Modugno
+CL0463,Matematica,DOC0004,Etta Cassarà
+CL0463,Inglese,DOC0061,Germana Giusti
+CL0464,Italiano,DOC0088,Carla Gasperi
+CL0464,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0464,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0465,Italiano,DOC0003,Isabella Mezzetta
+CL0465,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0465,Inglese,DOC0035,Melina Monicelli
+CL0466,Italiano,DOC0024,Ludovica Tremonti
+CL0466,Matematica,DOC0081,Toni Trincavelli
+CL0466,Inglese,DOC0053,Victoria Balbi
+CL0467,Italiano,DOC0011,Bruno Cabrini
+CL0467,Matematica,DOC0076,Sergius Micca
+CL0467,Inglese,DOC0058,Bianca Pace
+CL0468,Italiano,DOC0032,Annamaria Trevisani
+CL0468,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0468,Inglese,DOC0039,Cecilia Correr
+CL0469,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0469,Matematica,DOC0076,Sergius Micca
+CL0469,Inglese,DOC0050,Gianna Cimarosa
+CL0470,Italiano,DOC0034,Bianca Sauro
+CL0470,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0470,Inglese,DOC0061,Germana Giusti
+CL0471,Italiano,DOC0059,Atenulf Pozzecco
+CL0471,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0471,Inglese,DOC0073,Santino Campise
+CL0472,Italiano,DOC0066,Dott. Fiorino Cannizzaro
+CL0472,Matematica,DOC0075,Licia Gatto
+CL0472,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0473,Italiano,DOC0077,Hugo Barracco
+CL0473,Matematica,DOC0035,Melina Monicelli
+CL0473,Inglese,DOC0068,Ramona Giacconi
+CL0474,Italiano,DOC0075,Licia Gatto
+CL0474,Matematica,DOC0020,Sig.ra Paulina Argentero
+CL0474,Inglese,DOC0019,Marissa Modugno
+CL0475,Italiano,DOC0040,Donatella Pace
+CL0475,Matematica,DOC0005,Valerio Gaito
+CL0475,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0476,Italiano,DOC0094,Dott. Chiara Panzera
+CL0476,Matematica,DOC0033,Sandro Versace-Battaglia
+CL0476,Inglese,DOC0095,Ennio Leonetti
+CL0477,Italiano,DOC0079,Lando Federici
+CL0477,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0477,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0478,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0478,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0478,Inglese,DOC0085,Federico Capuana
+CL0479,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0479,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0479,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0480,Italiano,DOC0042,Luciana Farinelli
+CL0480,Matematica,DOC0065,Santino Migliaccio
+CL0480,Inglese,DOC0008,Dott. Gemma Borromini
+CL0481,Italiano,DOC0002,Diana Canali
+CL0481,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0481,Inglese,DOC0034,Bianca Sauro
+CL0482,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0482,Matematica,DOC0050,Gianna Cimarosa
+CL0482,Inglese,DOC0087,Romina Bersani-Rocca
+CL0483,Italiano,DOC0013,Elisa Lanfranchi
+CL0483,Matematica,DOC0087,Romina Bersani-Rocca
+CL0483,Inglese,DOC0095,Ennio Leonetti
+CL0484,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0484,Matematica,DOC0084,Eraldo Leone
+CL0484,Inglese,DOC0060,Elena Toselli-Ponti
+CL0485,Italiano,DOC0025,Arnulfo Greggio
+CL0485,Matematica,DOC0040,Donatella Pace
+CL0485,Inglese,DOC0081,Toni Trincavelli
+CL0486,Italiano,DOC0047,Valerio Modugno
+CL0486,Matematica,DOC0017,Clelia Morandi
+CL0486,Inglese,DOC0069,Dino Caccianemico
+CL0487,Italiano,DOC0035,Melina Monicelli
+CL0487,Matematica,DOC0015,Amanda Cicala
+CL0487,Inglese,DOC0037,Ansaldo Calvo
+CL0487,Fisica,DOC0008,Dott. Gemma Borromini
+CL0487,Scienze,DOC0023,Luciano Alboni-Rismondo
+CL0487,Disegno Tecnico,DOC0024,Ludovica Tremonti
+CL0488,Italiano,DOC0078,Griselda Mazzocchi
+CL0488,Matematica,DOC0045,Claudia Filangieri
+CL0488,Inglese,DOC0055,Imelda Scamarcio
+CL0488,Fisica,DOC0023,Luciano Alboni-Rismondo
+CL0488,Scienze,DOC0096,Elladio Migliaccio
+CL0488,Disegno Tecnico,DOC0001,Ranieri Martucci-Pistoletto
+CL0489,Italiano,DOC0035,Melina Monicelli
+CL0489,Matematica,DOC0066,Dott. Fiorino Cannizzaro
+CL0489,Inglese,DOC0037,Ansaldo Calvo
+CL0489,Fisica,DOC0091,Costantino Valier
+CL0489,Scienze,DOC0083,Augusto Alfonsi-Saracino
+CL0489,Disegno Tecnico,DOC0051,Amadeo Acerbi
+CL0490,Italiano,DOC0099,Ilaria Leone
+CL0490,Matematica,DOC0094,Dott. Chiara Panzera
+CL0490,Inglese,DOC0072,Monica Ortolani
+CL0490,Fisica,DOC0008,Dott. Gemma Borromini
+CL0490,Scienze,DOC0020,Sig.ra Paulina Argentero
+CL0490,Disegno Tecnico,DOC0068,Ramona Giacconi
+CL0491,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0491,Matematica,DOC0028,Melina Prati
+CL0491,Inglese,DOC0073,Santino Campise
+CL0491,Fisica,DOC0065,Santino Migliaccio
+CL0491,Scienze,DOC0070,Piergiorgio Scaramucci
+CL0491,Disegno Tecnico,DOC0098,Bianca Satta
+CL0492,Italiano,DOC0025,Arnulfo Greggio
+CL0492,Matematica,DOC0061,Germana Giusti
+CL0492,Inglese,DOC0061,Germana Giusti
+CL0492,Fisica,DOC0017,Clelia Morandi
+CL0492,Scienze,DOC0014,Elena Gargallo-Borroni
+CL0492,Disegno Tecnico,DOC0010,Fortunata Ortese
+CL0493,Italiano,DOC0042,Luciana Farinelli
+CL0493,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0493,Inglese,DOC0075,Licia Gatto
+CL0494,Italiano,DOC0002,Diana Canali
+CL0494,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0494,Inglese,DOC0005,Valerio Gaito
+CL0495,Italiano,DOC0079,Lando Federici
+CL0495,Matematica,DOC0039,Cecilia Correr
+CL0495,Inglese,DOC0028,Melina Prati
+CL0496,Italiano,DOC0048,Patrizio Platini
+CL0496,Matematica,DOC0081,Toni Trincavelli
+CL0496,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0497,Italiano,DOC0057,Elladio Cattaneo
+CL0497,Matematica,DOC0011,Bruno Cabrini
+CL0497,Inglese,DOC0052,Sole Bragaglia
+CL0498,Italiano,DOC0071,Ramona Piazzi
+CL0498,Matematica,DOC0079,Lando Federici
+CL0498,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0499,Italiano,DOC0091,Costantino Valier
+CL0499,Matematica,DOC0078,Griselda Mazzocchi
+CL0499,Inglese,DOC0081,Toni Trincavelli
+CL0500,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0500,Matematica,DOC0079,Lando Federici
+CL0500,Inglese,DOC0050,Gianna Cimarosa
+CL0501,Italiano,DOC0069,Dino Caccianemico
+CL0501,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0501,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0502,Italiano,DOC0078,Griselda Mazzocchi
+CL0502,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0502,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0503,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0503,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0503,Inglese,DOC0017,Clelia Morandi
+CL0504,Italiano,DOC0089,Marcella Broschi
+CL0504,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0504,Inglese,DOC0089,Marcella Broschi
+CL0505,Italiano,DOC0011,Bruno Cabrini
+CL0505,Matematica,DOC0040,Donatella Pace
+CL0505,Inglese,DOC0079,Lando Federici
+CL0505,Francese,DOC0003,Isabella Mezzetta
+CL0505,Spagnolo,DOC0002,Diana Canali
+CL0505,Tedesco,DOC0052,Sole Bragaglia
+CL0506,Italiano,DOC0053,Victoria Balbi
+CL0506,Matematica,DOC0031,Adamo Baglioni
+CL0506,Inglese,DOC0097,Angelina Bataglia
+CL0506,Francese,DOC0092,Marco Tornatore
+CL0506,Spagnolo,DOC0018,Sig. Domenico Iannotti
+CL0506,Tedesco,DOC0017,Clelia Morandi
+CL0507,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0507,Matematica,DOC0015,Amanda Cicala
+CL0507,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0507,Francese,DOC0001,Ranieri Martucci-Pistoletto
+CL0507,Spagnolo,DOC0098,Bianca Satta
+CL0507,Tedesco,DOC0017,Clelia Morandi
+CL0508,Italiano,DOC0027,Gelsomina Antonioni
+CL0508,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0508,Inglese,DOC0091,Costantino Valier
+CL0508,Francese,DOC0064,Durante Fischetti-Trentini
+CL0508,Spagnolo,DOC0075,Licia Gatto
+CL0508,Tedesco,DOC0081,Toni Trincavelli
+CL0509,Italiano,DOC0034,Bianca Sauro
+CL0509,Matematica,DOC0046,Natalia Sgarbi
+CL0509,Inglese,DOC0008,Dott. Gemma Borromini
+CL0509,Francese,DOC0047,Valerio Modugno
+CL0509,Spagnolo,DOC0033,Sandro Versace-Battaglia
+CL0509,Tedesco,DOC0089,Marcella Broschi
+CL0510,Italiano,DOC0046,Natalia Sgarbi
+CL0510,Matematica,DOC0022,Clelia Notarbartolo
+CL0510,Inglese,DOC0091,Costantino Valier
+CL0510,Francese,DOC0020,Sig.ra Paulina Argentero
+CL0510,Spagnolo,DOC0017,Clelia Morandi
+CL0510,Tedesco,DOC0033,Sandro Versace-Battaglia
+CL0511,Italiano,DOC0096,Elladio Migliaccio
+CL0511,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0511,Inglese,DOC0071,Ramona Piazzi
+CL0511,Francese,DOC0086,Gioele Lippomano-Brancaccio
+CL0511,Spagnolo,DOC0050,Gianna Cimarosa
+CL0511,Tedesco,DOC0060,Elena Toselli-Ponti
+CL0512,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0512,Matematica,DOC0057,Elladio Cattaneo
+CL0512,Inglese,DOC0040,Donatella Pace
+CL0513,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0513,Matematica,DOC0034,Bianca Sauro
+CL0513,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0514,Italiano,DOC0040,Donatella Pace
+CL0514,Matematica,DOC0042,Luciana Farinelli
+CL0514,Inglese,DOC0004,Etta Cassarà
+CL0515,Italiano,DOC0030,Simonetta Troisi
+CL0515,Matematica,DOC0051,Amadeo Acerbi
+CL0515,Inglese,DOC0032,Annamaria Trevisani
+CL0516,Italiano,DOC0087,Romina Bersani-Rocca
+CL0516,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0516,Inglese,DOC0057,Elladio Cattaneo
+CL0517,Italiano,DOC0024,Ludovica Tremonti
+CL0517,Matematica,DOC0050,Gianna Cimarosa
+CL0517,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0518,Italiano,DOC0030,Simonetta Troisi
+CL0518,Matematica,DOC0079,Lando Federici
+CL0518,Inglese,DOC0037,Ansaldo Calvo
+CL0519,Italiano,DOC0006,Martino Gaggini
+CL0519,Matematica,DOC0046,Natalia Sgarbi
+CL0519,Inglese,DOC0032,Annamaria Trevisani
+CL0520,Italiano,DOC0032,Annamaria Trevisani
+CL0520,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0520,Inglese,DOC0084,Eraldo Leone
+CL0521,Italiano,DOC0048,Patrizio Platini
+CL0521,Matematica,DOC0038,Annamaria Brichese-Marinetti
+CL0521,Inglese,DOC0032,Annamaria Trevisani
+CL0522,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0522,Matematica,DOC0065,Santino Migliaccio
+CL0522,Inglese,DOC0032,Annamaria Trevisani
+CL0522,Francese,DOC0012,Barbara Granatelli
+CL0522,Spagnolo,DOC0090,Dott. Giulia Ferretti
+CL0522,Tedesco,DOC0053,Victoria Balbi
+CL0523,Italiano,DOC0066,Dott. Fiorino Cannizzaro
+CL0523,Matematica,DOC0069,Dino Caccianemico
+CL0523,Inglese,DOC0060,Elena Toselli-Ponti
+CL0523,Francese,DOC0039,Cecilia Correr
+CL0523,Spagnolo,DOC0047,Valerio Modugno
+CL0523,Tedesco,DOC0031,Adamo Baglioni
+CL0524,Italiano,DOC0011,Bruno Cabrini
+CL0524,Matematica,DOC0067,Caterina Boccaccio
+CL0524,Inglese,DOC0093,Gianluigi Impastato
+CL0524,Francese,DOC0058,Bianca Pace
+CL0524,Spagnolo,DOC0071,Ramona Piazzi
+CL0524,Tedesco,DOC0055,Imelda Scamarcio
+CL0525,Italiano,DOC0067,Caterina Boccaccio
+CL0525,Matematica,DOC0044,Bianca Pagliaro
+CL0525,Inglese,DOC0069,Dino Caccianemico
+CL0525,Francese,DOC0037,Ansaldo Calvo
+CL0525,Spagnolo,DOC0098,Bianca Satta
+CL0525,Tedesco,DOC0059,Atenulf Pozzecco
+CL0526,Italiano,DOC0092,Marco Tornatore
+CL0526,Matematica,DOC0047,Valerio Modugno
+CL0526,Inglese,DOC0041,Mariano Redi
+CL0526,Fisica,DOC0099,Ilaria Leone
+CL0526,Scienze,DOC0039,Cecilia Correr
+CL0526,Disegno Tecnico,DOC0061,Germana Giusti
+CL0527,Italiano,DOC0054,Cipriano Segni
+CL0527,Matematica,DOC0005,Valerio Gaito
+CL0527,Inglese,DOC0081,Toni Trincavelli
+CL0527,Fisica,DOC0064,Durante Fischetti-Trentini
+CL0527,Scienze,DOC0065,Santino Migliaccio
+CL0527,Disegno Tecnico,DOC0007,Elena Alighieri
+CL0528,Italiano,DOC0040,Donatella Pace
+CL0528,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0528,Inglese,DOC0057,Elladio Cattaneo
+CL0528,Fisica,DOC0015,Amanda Cicala
+CL0528,Scienze,DOC0022,Clelia Notarbartolo
+CL0528,Disegno Tecnico,DOC0076,Sergius Micca
+CL0529,Italiano,DOC0080,Giacomo Zito
+CL0529,Matematica,DOC0077,Hugo Barracco
+CL0529,Inglese,DOC0099,Ilaria Leone
+CL0529,Fisica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0529,Scienze,DOC0073,Santino Campise
+CL0529,Disegno Tecnico,DOC0002,Diana Canali
+CL0530,Italiano,DOC0011,Bruno Cabrini
+CL0530,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0530,Inglese,DOC0092,Marco Tornatore
+CL0530,Fisica,DOC0055,Imelda Scamarcio
+CL0530,Scienze,DOC0019,Marissa Modugno
+CL0530,Disegno Tecnico,DOC0011,Bruno Cabrini
+CL0531,Italiano,DOC0039,Cecilia Correr
+CL0531,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0531,Inglese,DOC0068,Ramona Giacconi
+CL0531,Fisica,DOC0072,Monica Ortolani
+CL0531,Scienze,DOC0017,Clelia Morandi
+CL0531,Disegno Tecnico,DOC0055,Imelda Scamarcio
+CL0532,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0532,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0532,Inglese,DOC0036,Gaspare Vecellio
+CL0532,Fisica,DOC0028,Melina Prati
+CL0532,Scienze,DOC0008,Dott. Gemma Borromini
+CL0532,Disegno Tecnico,DOC0040,Donatella Pace
+CL0533,Italiano,DOC0050,Gianna Cimarosa
+CL0533,Matematica,DOC0029,Tonia Nosiglia
+CL0533,Inglese,DOC0017,Clelia Morandi
+CL0533,Fisica,DOC0045,Claudia Filangieri
+CL0533,Scienze,DOC0094,Dott. Chiara Panzera
+CL0533,Disegno Tecnico,DOC0087,Romina Bersani-Rocca
+CL0534,Italiano,DOC0073,Santino Campise
+CL0534,Matematica,DOC0048,Patrizio Platini
+CL0534,Inglese,DOC0050,Gianna Cimarosa
+CL0534,Fisica,DOC0076,Sergius Micca
+CL0534,Scienze,DOC0011,Bruno Cabrini
+CL0534,Disegno Tecnico,DOC0002,Diana Canali
+CL0535,Italiano,DOC0048,Patrizio Platini
+CL0535,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0535,Inglese,DOC0037,Ansaldo Calvo
+CL0535,Fisica,DOC0093,Gianluigi Impastato
+CL0535,Scienze,DOC0086,Gioele Lippomano-Brancaccio
+CL0535,Disegno Tecnico,DOC0014,Elena Gargallo-Borroni
+CL0536,Italiano,DOC0043,Raimondo Navone
+CL0536,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0536,Inglese,DOC0048,Patrizio Platini
+CL0537,Italiano,DOC0066,Dott. Fiorino Cannizzaro
+CL0537,Matematica,DOC0025,Arnulfo Greggio
+CL0537,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0538,Italiano,DOC0078,Griselda Mazzocchi
+CL0538,Matematica,DOC0088,Carla Gasperi
+CL0538,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0539,Italiano,DOC0092,Marco Tornatore
+CL0539,Matematica,DOC0078,Griselda Mazzocchi
+CL0539,Inglese,DOC0051,Amadeo Acerbi
+CL0540,Italiano,DOC0097,Angelina Bataglia
+CL0540,Matematica,DOC0100,Loredana Bocelli
+CL0540,Inglese,DOC0072,Monica Ortolani
+CL0541,Italiano,DOC0041,Mariano Redi
+CL0541,Matematica,DOC0076,Sergius Micca
+CL0541,Inglese,DOC0093,Gianluigi Impastato
+CL0542,Italiano,DOC0052,Sole Bragaglia
+CL0542,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0542,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0543,Italiano,DOC0072,Monica Ortolani
+CL0543,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0543,Inglese,DOC0093,Gianluigi Impastato
+CL0544,Italiano,DOC0044,Bianca Pagliaro
+CL0544,Matematica,DOC0024,Ludovica Tremonti
+CL0544,Inglese,DOC0096,Elladio Migliaccio
+CL0545,Italiano,DOC0014,Elena Gargallo-Borroni
+CL0545,Matematica,DOC0075,Licia Gatto
+CL0545,Inglese,DOC0058,Bianca Pace
+CL0546,Italiano,DOC0052,Sole Bragaglia
+CL0546,Matematica,DOC0036,Gaspare Vecellio
+CL0546,Inglese,DOC0097,Angelina Bataglia
+CL0547,Italiano,DOC0072,Monica Ortolani
+CL0547,Matematica,DOC0007,Elena Alighieri
+CL0547,Inglese,DOC0060,Elena Toselli-Ponti
+CL0548,Italiano,DOC0072,Monica Ortolani
+CL0548,Matematica,DOC0079,Lando Federici
+CL0548,Inglese,DOC0068,Ramona Giacconi
+CL0549,Italiano,DOC0028,Melina Prati
+CL0549,Matematica,DOC0085,Federico Capuana
+CL0549,Inglese,DOC0019,Marissa Modugno
+CL0550,Italiano,DOC0028,Melina Prati
+CL0550,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0550,Inglese,DOC0002,Diana Canali
+CL0551,Italiano,DOC0032,Annamaria Trevisani
+CL0551,Matematica,DOC0066,Dott. Fiorino Cannizzaro
+CL0551,Inglese,DOC0072,Monica Ortolani
+CL0552,Italiano,DOC0084,Eraldo Leone
+CL0552,Matematica,DOC0008,Dott. Gemma Borromini
+CL0552,Inglese,DOC0060,Elena Toselli-Ponti
+CL0553,Italiano,DOC0030,Simonetta Troisi
+CL0553,Matematica,DOC0041,Mariano Redi
+CL0553,Inglese,DOC0061,Germana Giusti
+CL0554,Italiano,DOC0085,Federico Capuana
+CL0554,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0554,Inglese,DOC0053,Victoria Balbi
+CL0555,Italiano,DOC0095,Ennio Leonetti
+CL0555,Matematica,DOC0079,Lando Federici
+CL0555,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0556,Italiano,DOC0042,Luciana Farinelli
+CL0556,Matematica,DOC0051,Amadeo Acerbi
+CL0556,Inglese,DOC0078,Griselda Mazzocchi
+CL0557,Italiano,DOC0089,Marcella Broschi
+CL0557,Matematica,DOC0085,Federico Capuana
+CL0557,Inglese,DOC0013,Elisa Lanfranchi
+CL0558,Italiano,DOC0075,Licia Gatto
+CL0558,Matematica,DOC0039,Cecilia Correr
+CL0558,Inglese,DOC0060,Elena Toselli-Ponti
+CL0559,Italiano,DOC0089,Marcella Broschi
+CL0559,Matematica,DOC0016,Fortunata Mengolo-Tresoldi
+CL0559,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0560,Italiano,DOC0052,Sole Bragaglia
+CL0560,Matematica,DOC0032,Annamaria Trevisani
+CL0560,Inglese,DOC0010,Fortunata Ortese
+CL0561,Italiano,DOC0047,Valerio Modugno
+CL0561,Matematica,DOC0051,Amadeo Acerbi
+CL0561,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0562,Italiano,DOC0013,Elisa Lanfranchi
+CL0562,Matematica,DOC0092,Marco Tornatore
+CL0562,Inglese,DOC0061,Germana Giusti
+CL0563,Italiano,DOC0010,Fortunata Ortese
+CL0563,Matematica,DOC0054,Cipriano Segni
+CL0563,Inglese,DOC0017,Clelia Morandi
+CL0564,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0564,Matematica,DOC0072,Monica Ortolani
+CL0564,Inglese,DOC0017,Clelia Morandi
+CL0565,Italiano,DOC0059,Atenulf Pozzecco
+CL0565,Matematica,DOC0081,Toni Trincavelli
+CL0565,Inglese,DOC0008,Dott. Gemma Borromini
+CL0566,Italiano,DOC0012,Barbara Granatelli
+CL0566,Matematica,DOC0091,Costantino Valier
+CL0566,Inglese,DOC0024,Ludovica Tremonti
+CL0567,Italiano,DOC0071,Ramona Piazzi
+CL0567,Matematica,DOC0097,Angelina Bataglia
+CL0567,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0568,Italiano,DOC0031,Adamo Baglioni
+CL0568,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0568,Inglese,DOC0035,Melina Monicelli
+CL0569,Italiano,DOC0025,Arnulfo Greggio
+CL0569,Matematica,DOC0058,Bianca Pace
+CL0569,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0570,Italiano,DOC0029,Tonia Nosiglia
+CL0570,Matematica,DOC0100,Loredana Bocelli
+CL0570,Inglese,DOC0054,Cipriano Segni
+CL0571,Italiano,DOC0019,Marissa Modugno
+CL0571,Matematica,DOC0097,Angelina Bataglia
+CL0571,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0572,Italiano,DOC0093,Gianluigi Impastato
+CL0572,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0572,Inglese,DOC0024,Ludovica Tremonti
+CL0573,Italiano,DOC0066,Dott. Fiorino Cannizzaro
+CL0573,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0573,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0574,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0574,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0574,Inglese,DOC0050,Gianna Cimarosa
+CL0575,Italiano,DOC0069,Dino Caccianemico
+CL0575,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0575,Inglese,DOC0072,Monica Ortolani
+CL0576,Italiano,DOC0028,Melina Prati
+CL0576,Matematica,DOC0077,Hugo Barracco
+CL0576,Inglese,DOC0073,Santino Campise
+CL0577,Italiano,DOC0015,Amanda Cicala
+CL0577,Matematica,DOC0088,Carla Gasperi
+CL0577,Inglese,DOC0057,Elladio Cattaneo
+CL0578,Italiano,DOC0071,Ramona Piazzi
+CL0578,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0578,Inglese,DOC0008,Dott. Gemma Borromini
+CL0579,Italiano,DOC0015,Amanda Cicala
+CL0579,Matematica,DOC0041,Mariano Redi
+CL0579,Inglese,DOC0045,Claudia Filangieri
+CL0580,Italiano,DOC0007,Elena Alighieri
+CL0580,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0580,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0581,Italiano,DOC0084,Eraldo Leone
+CL0581,Matematica,DOC0022,Clelia Notarbartolo
+CL0581,Inglese,DOC0003,Isabella Mezzetta
+CL0582,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0582,Matematica,DOC0003,Isabella Mezzetta
+CL0582,Inglese,DOC0037,Ansaldo Calvo
+CL0583,Italiano,DOC0008,Dott. Gemma Borromini
+CL0583,Matematica,DOC0035,Melina Monicelli
+CL0583,Inglese,DOC0094,Dott. Chiara Panzera
+CL0584,Italiano,DOC0034,Bianca Sauro
+CL0584,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0584,Inglese,DOC0071,Ramona Piazzi
+CL0585,Italiano,DOC0060,Elena Toselli-Ponti
+CL0585,Matematica,DOC0055,Imelda Scamarcio
+CL0585,Inglese,DOC0073,Santino Campise
+CL0586,Italiano,DOC0044,Bianca Pagliaro
+CL0586,Matematica,DOC0008,Dott. Gemma Borromini
+CL0586,Inglese,DOC0071,Ramona Piazzi
+CL0587,Italiano,DOC0019,Marissa Modugno
+CL0587,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0587,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0588,Italiano,DOC0007,Elena Alighieri
+CL0588,Matematica,DOC0059,Atenulf Pozzecco
+CL0588,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0589,Italiano,DOC0039,Cecilia Correr
+CL0589,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0589,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0590,Italiano,DOC0048,Patrizio Platini
+CL0590,Matematica,DOC0025,Arnulfo Greggio
+CL0590,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0591,Italiano,DOC0002,Diana Canali
+CL0591,Matematica,DOC0051,Amadeo Acerbi
+CL0591,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0592,Italiano,DOC0012,Barbara Granatelli
+CL0592,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0592,Inglese,DOC0071,Ramona Piazzi
+CL0593,Italiano,DOC0088,Carla Gasperi
+CL0593,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0593,Inglese,DOC0012,Barbara Granatelli
+CL0594,Italiano,DOC0035,Melina Monicelli
+CL0594,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0594,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0595,Italiano,DOC0077,Hugo Barracco
+CL0595,Matematica,DOC0089,Marcella Broschi
+CL0595,Inglese,DOC0045,Claudia Filangieri
+CL0596,Italiano,DOC0068,Ramona Giacconi
+CL0596,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0596,Inglese,DOC0093,Gianluigi Impastato
+CL0597,Italiano,DOC0057,Elladio Cattaneo
+CL0597,Matematica,DOC0025,Arnulfo Greggio
+CL0597,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0598,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0598,Matematica,DOC0060,Elena Toselli-Ponti
+CL0598,Inglese,DOC0051,Amadeo Acerbi
+CL0599,Italiano,DOC0012,Barbara Granatelli
+CL0599,Matematica,DOC0073,Santino Campise
+CL0599,Inglese,DOC0087,Romina Bersani-Rocca
+CL0600,Italiano,DOC0017,Clelia Morandi
+CL0600,Matematica,DOC0099,Ilaria Leone
+CL0600,Inglese,DOC0010,Fortunata Ortese
+CL0601,Italiano,DOC0028,Melina Prati
+CL0601,Matematica,DOC0004,Etta Cassarà
+CL0601,Inglese,DOC0069,Dino Caccianemico
+CL0602,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0602,Matematica,DOC0005,Valerio Gaito
+CL0602,Inglese,DOC0091,Costantino Valier
+CL0603,Italiano,DOC0047,Valerio Modugno
+CL0603,Matematica,DOC0048,Patrizio Platini
+CL0603,Inglese,DOC0079,Lando Federici
+CL0604,Italiano,DOC0072,Monica Ortolani
+CL0604,Matematica,DOC0058,Bianca Pace
+CL0604,Inglese,DOC0012,Barbara Granatelli
+CL0605,Italiano,DOC0100,Loredana Bocelli
+CL0605,Matematica,DOC0022,Clelia Notarbartolo
+CL0605,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0606,Italiano,DOC0022,Clelia Notarbartolo
+CL0606,Matematica,DOC0030,Simonetta Troisi
+CL0606,Inglese,DOC0094,Dott. Chiara Panzera
+CL0607,Italiano,DOC0034,Bianca Sauro
+CL0607,Matematica,DOC0050,Gianna Cimarosa
+CL0607,Inglese,DOC0051,Amadeo Acerbi
+CL0608,Italiano,DOC0006,Martino Gaggini
+CL0608,Matematica,DOC0039,Cecilia Correr
+CL0608,Inglese,DOC0078,Griselda Mazzocchi
+CL0609,Italiano,DOC0005,Valerio Gaito
+CL0609,Matematica,DOC0003,Isabella Mezzetta
+CL0609,Inglese,DOC0069,Dino Caccianemico
+CL0610,Italiano,DOC0015,Amanda Cicala
+CL0610,Matematica,DOC0037,Ansaldo Calvo
+CL0610,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0611,Italiano,DOC0066,Dott. Fiorino Cannizzaro
+CL0611,Matematica,DOC0089,Marcella Broschi
+CL0611,Inglese,DOC0021,Annunziata Malenchini-Caruso
+CL0612,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0612,Matematica,DOC0093,Gianluigi Impastato
+CL0612,Inglese,DOC0045,Claudia Filangieri
+CL0613,Italiano,DOC0061,Germana Giusti
+CL0613,Matematica,DOC0032,Annamaria Trevisani
+CL0613,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0614,Italiano,DOC0081,Toni Trincavelli
+CL0614,Matematica,DOC0053,Victoria Balbi
+CL0614,Inglese,DOC0098,Bianca Satta
+CL0615,Italiano,DOC0098,Bianca Satta
+CL0615,Matematica,DOC0038,Annamaria Brichese-Marinetti
+CL0615,Inglese,DOC0059,Atenulf Pozzecco
+CL0616,Italiano,DOC0003,Isabella Mezzetta
+CL0616,Matematica,DOC0071,Ramona Piazzi
+CL0616,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0617,Italiano,DOC0088,Carla Gasperi
+CL0617,Matematica,DOC0046,Natalia Sgarbi
+CL0617,Inglese,DOC0005,Valerio Gaito
+CL0618,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0618,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0618,Inglese,DOC0028,Melina Prati
+CL0619,Italiano,DOC0029,Tonia Nosiglia
+CL0619,Matematica,DOC0087,Romina Bersani-Rocca
+CL0619,Inglese,DOC0005,Valerio Gaito
+CL0620,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0620,Matematica,DOC0088,Carla Gasperi
+CL0620,Inglese,DOC0012,Barbara Granatelli
+CL0621,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0621,Matematica,DOC0003,Isabella Mezzetta
+CL0621,Inglese,DOC0100,Loredana Bocelli
+CL0622,Italiano,DOC0052,Sole Bragaglia
+CL0622,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0622,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0623,Italiano,DOC0022,Clelia Notarbartolo
+CL0623,Matematica,DOC0089,Marcella Broschi
+CL0623,Inglese,DOC0052,Sole Bragaglia
+CL0624,Italiano,DOC0071,Ramona Piazzi
+CL0624,Matematica,DOC0097,Angelina Bataglia
+CL0624,Inglese,DOC0052,Sole Bragaglia
+CL0625,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0625,Matematica,DOC0092,Marco Tornatore
+CL0625,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0626,Italiano,DOC0036,Gaspare Vecellio
+CL0626,Matematica,DOC0050,Gianna Cimarosa
+CL0626,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0627,Italiano,DOC0009,Dott. Giada Mazzocchi
+CL0627,Matematica,DOC0003,Isabella Mezzetta
+CL0627,Inglese,DOC0050,Gianna Cimarosa
+CL0628,Italiano,DOC0044,Bianca Pagliaro
+CL0628,Matematica,DOC0002,Diana Canali
+CL0628,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0629,Italiano,DOC0069,Dino Caccianemico
+CL0629,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0629,Inglese,DOC0045,Claudia Filangieri
+CL0630,Italiano,DOC0099,Ilaria Leone
+CL0630,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0630,Inglese,DOC0046,Natalia Sgarbi
+CL0631,Italiano,DOC0051,Amadeo Acerbi
+CL0631,Matematica,DOC0039,Cecilia Correr
+CL0631,Inglese,DOC0002,Diana Canali
+CL0632,Italiano,DOC0085,Federico Capuana
+CL0632,Matematica,DOC0003,Isabella Mezzetta
+CL0632,Inglese,DOC0032,Annamaria Trevisani
+CL0633,Italiano,DOC0091,Costantino Valier
+CL0633,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0633,Inglese,DOC0057,Elladio Cattaneo
+CL0634,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0634,Matematica,DOC0028,Melina Prati
+CL0634,Inglese,DOC0075,Licia Gatto
+CL0635,Italiano,DOC0044,Bianca Pagliaro
+CL0635,Matematica,DOC0079,Lando Federici
+CL0635,Inglese,DOC0075,Licia Gatto
+CL0636,Italiano,DOC0040,Donatella Pace
+CL0636,Matematica,DOC0032,Annamaria Trevisani
+CL0636,Inglese,DOC0024,Ludovica Tremonti
+CL0637,Italiano,DOC0060,Elena Toselli-Ponti
+CL0637,Matematica,DOC0011,Bruno Cabrini
+CL0637,Inglese,DOC0088,Carla Gasperi
+CL0638,Italiano,DOC0044,Bianca Pagliaro
+CL0638,Matematica,DOC0084,Eraldo Leone
+CL0638,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0639,Italiano,DOC0081,Toni Trincavelli
+CL0639,Matematica,DOC0075,Licia Gatto
+CL0639,Inglese,DOC0051,Amadeo Acerbi
+CL0640,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0640,Matematica,DOC0007,Elena Alighieri
+CL0640,Inglese,DOC0055,Imelda Scamarcio
+CL0641,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0641,Matematica,DOC0013,Elisa Lanfranchi
+CL0641,Inglese,DOC0047,Valerio Modugno
+CL0642,Italiano,DOC0036,Gaspare Vecellio
+CL0642,Matematica,DOC0100,Loredana Bocelli
+CL0642,Inglese,DOC0010,Fortunata Ortese
+CL0643,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0643,Matematica,DOC0005,Valerio Gaito
+CL0643,Inglese,DOC0059,Atenulf Pozzecco
+CL0644,Italiano,DOC0040,Donatella Pace
+CL0644,Matematica,DOC0099,Ilaria Leone
+CL0644,Inglese,DOC0044,Bianca Pagliaro
+CL0645,Italiano,DOC0036,Gaspare Vecellio
+CL0645,Matematica,DOC0072,Monica Ortolani
+CL0645,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0646,Italiano,DOC0031,Adamo Baglioni
+CL0646,Matematica,DOC0042,Luciana Farinelli
+CL0646,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0647,Italiano,DOC0088,Carla Gasperi
+CL0647,Matematica,DOC0075,Licia Gatto
+CL0647,Inglese,DOC0061,Germana Giusti
+CL0648,Italiano,DOC0046,Natalia Sgarbi
+CL0648,Matematica,DOC0073,Santino Campise
+CL0648,Inglese,DOC0091,Costantino Valier
+CL0649,Italiano,DOC0025,Arnulfo Greggio
+CL0649,Matematica,DOC0048,Patrizio Platini
+CL0649,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0650,Italiano,DOC0100,Loredana Bocelli
+CL0650,Matematica,DOC0067,Caterina Boccaccio
+CL0650,Inglese,DOC0050,Gianna Cimarosa
+CL0651,Italiano,DOC0100,Loredana Bocelli
+CL0651,Matematica,DOC0004,Etta Cassarà
+CL0651,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0652,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0652,Matematica,DOC0100,Loredana Bocelli
+CL0652,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0653,Italiano,DOC0023,Luciano Alboni-Rismondo
+CL0653,Matematica,DOC0066,Dott. Fiorino Cannizzaro
+CL0653,Inglese,DOC0008,Dott. Gemma Borromini
+CL0654,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0654,Matematica,DOC0043,Raimondo Navone
+CL0654,Inglese,DOC0007,Elena Alighieri
+CL0655,Italiano,DOC0025,Arnulfo Greggio
+CL0655,Matematica,DOC0079,Lando Federici
+CL0655,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0656,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0656,Matematica,DOC0088,Carla Gasperi
+CL0656,Inglese,DOC0031,Adamo Baglioni
+CL0657,Italiano,DOC0061,Germana Giusti
+CL0657,Matematica,DOC0072,Monica Ortolani
+CL0657,Inglese,DOC0032,Annamaria Trevisani
+CL0658,Italiano,DOC0084,Eraldo Leone
+CL0658,Matematica,DOC0010,Fortunata Ortese
+CL0658,Inglese,DOC0015,Amanda Cicala
+CL0659,Italiano,DOC0039,Cecilia Correr
+CL0659,Matematica,DOC0078,Griselda Mazzocchi
+CL0659,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0660,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0660,Matematica,DOC0042,Luciana Farinelli
+CL0660,Inglese,DOC0079,Lando Federici
+CL0661,Italiano,DOC0041,Mariano Redi
+CL0661,Matematica,DOC0054,Cipriano Segni
+CL0661,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0662,Italiano,DOC0059,Atenulf Pozzecco
+CL0662,Matematica,DOC0048,Patrizio Platini
+CL0662,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0663,Italiano,DOC0030,Simonetta Troisi
+CL0663,Matematica,DOC0036,Gaspare Vecellio
+CL0663,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0664,Italiano,DOC0094,Dott. Chiara Panzera
+CL0664,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0664,Inglese,DOC0094,Dott. Chiara Panzera
+CL0665,Italiano,DOC0100,Loredana Bocelli
+CL0665,Matematica,DOC0100,Loredana Bocelli
+CL0665,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0666,Italiano,DOC0067,Caterina Boccaccio
+CL0666,Matematica,DOC0076,Sergius Micca
+CL0666,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0667,Italiano,DOC0096,Elladio Migliaccio
+CL0667,Matematica,DOC0013,Elisa Lanfranchi
+CL0667,Inglese,DOC0077,Hugo Barracco
+CL0668,Italiano,DOC0081,Toni Trincavelli
+CL0668,Matematica,DOC0035,Melina Monicelli
+CL0668,Inglese,DOC0043,Raimondo Navone
+CL0669,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0669,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0669,Inglese,DOC0080,Giacomo Zito
+CL0670,Italiano,DOC0023,Luciano Alboni-Rismondo
+CL0670,Matematica,DOC0022,Clelia Notarbartolo
+CL0670,Inglese,DOC0036,Gaspare Vecellio
+CL0671,Italiano,DOC0054,Cipriano Segni
+CL0671,Matematica,DOC0003,Isabella Mezzetta
+CL0671,Inglese,DOC0015,Amanda Cicala
+CL0672,Italiano,DOC0076,Sergius Micca
+CL0672,Matematica,DOC0032,Annamaria Trevisani
+CL0672,Inglese,DOC0003,Isabella Mezzetta
+CL0673,Italiano,DOC0033,Sandro Versace-Battaglia
+CL0673,Matematica,DOC0034,Bianca Sauro
+CL0673,Inglese,DOC0087,Romina Bersani-Rocca
+CL0674,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0674,Matematica,DOC0002,Diana Canali
+CL0674,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0675,Italiano,DOC0048,Patrizio Platini
+CL0675,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0675,Inglese,DOC0099,Ilaria Leone
+CL0676,Italiano,DOC0100,Loredana Bocelli
+CL0676,Matematica,DOC0091,Costantino Valier
+CL0676,Inglese,DOC0039,Cecilia Correr
+CL0677,Italiano,DOC0055,Imelda Scamarcio
+CL0677,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0677,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0678,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0678,Matematica,DOC0034,Bianca Sauro
+CL0678,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0679,Italiano,DOC0089,Marcella Broschi
+CL0679,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0679,Inglese,DOC0034,Bianca Sauro
+CL0680,Italiano,DOC0054,Cipriano Segni
+CL0680,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0680,Inglese,DOC0004,Etta Cassarà
+CL0681,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0681,Matematica,DOC0053,Victoria Balbi
+CL0681,Inglese,DOC0073,Santino Campise
+CL0682,Italiano,DOC0039,Cecilia Correr
+CL0682,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0682,Inglese,DOC0005,Valerio Gaito
+CL0683,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0683,Matematica,DOC0095,Ennio Leonetti
+CL0683,Inglese,DOC0008,Dott. Gemma Borromini
+CL0684,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0684,Matematica,DOC0066,Dott. Fiorino Cannizzaro
+CL0684,Inglese,DOC0019,Marissa Modugno
+CL0685,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0685,Matematica,DOC0012,Barbara Granatelli
+CL0685,Inglese,DOC0003,Isabella Mezzetta
+CL0686,Italiano,DOC0001,Ranieri Martucci-Pistoletto
+CL0686,Matematica,DOC0037,Ansaldo Calvo
+CL0686,Inglese,DOC0034,Bianca Sauro
+CL0686,Fisica,DOC0092,Marco Tornatore
+CL0686,Scienze,DOC0069,Dino Caccianemico
+CL0686,Disegno Tecnico,DOC0081,Toni Trincavelli
+CL0687,Italiano,DOC0048,Patrizio Platini
+CL0687,Matematica,DOC0080,Giacomo Zito
+CL0687,Inglese,DOC0091,Costantino Valier
+CL0687,Fisica,DOC0055,Imelda Scamarcio
+CL0687,Scienze,DOC0086,Gioele Lippomano-Brancaccio
+CL0687,Disegno Tecnico,DOC0051,Amadeo Acerbi
+CL0688,Italiano,DOC0032,Annamaria Trevisani
+CL0688,Matematica,DOC0092,Marco Tornatore
+CL0688,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0688,Fisica,DOC0069,Dino Caccianemico
+CL0688,Scienze,DOC0063,Piergiorgio Curatoli-Battelli
+CL0688,Disegno Tecnico,DOC0035,Melina Monicelli
+CL0689,Italiano,DOC0078,Griselda Mazzocchi
+CL0689,Matematica,DOC0100,Loredana Bocelli
+CL0689,Inglese,DOC0080,Giacomo Zito
+CL0689,Fisica,DOC0016,Fortunata Mengolo-Tresoldi
+CL0689,Scienze,DOC0084,Eraldo Leone
+CL0689,Disegno Tecnico,DOC0074,Sig.ra Imelda Morricone
+CL0690,Italiano,DOC0004,Etta Cassarà
+CL0690,Matematica,DOC0100,Loredana Bocelli
+CL0690,Inglese,DOC0028,Melina Prati
+CL0690,Fisica,DOC0012,Barbara Granatelli
+CL0690,Scienze,DOC0048,Patrizio Platini
+CL0690,Disegno Tecnico,DOC0067,Caterina Boccaccio
+CL0691,Italiano,DOC0099,Ilaria Leone
+CL0691,Matematica,DOC0100,Loredana Bocelli
+CL0691,Inglese,DOC0017,Clelia Morandi
+CL0691,Fisica,DOC0044,Bianca Pagliaro
+CL0691,Scienze,DOC0053,Victoria Balbi
+CL0691,Disegno Tecnico,DOC0009,Dott. Giada Mazzocchi
+CL0692,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0692,Matematica,DOC0098,Bianca Satta
+CL0692,Inglese,DOC0077,Hugo Barracco
+CL0692,Fisica,DOC0029,Tonia Nosiglia
+CL0692,Scienze,DOC0071,Ramona Piazzi
+CL0692,Disegno Tecnico,DOC0030,Simonetta Troisi
+CL0693,Italiano,DOC0024,Ludovica Tremonti
+CL0693,Matematica,DOC0017,Clelia Morandi
+CL0693,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0694,Italiano,DOC0040,Donatella Pace
+CL0694,Matematica,DOC0078,Griselda Mazzocchi
+CL0694,Inglese,DOC0060,Elena Toselli-Ponti
+CL0695,Italiano,DOC0088,Carla Gasperi
+CL0695,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0695,Inglese,DOC0010,Fortunata Ortese
+CL0696,Italiano,DOC0087,Romina Bersani-Rocca
+CL0696,Matematica,DOC0058,Bianca Pace
+CL0696,Inglese,DOC0011,Bruno Cabrini
+CL0697,Italiano,DOC0023,Luciano Alboni-Rismondo
+CL0697,Matematica,DOC0015,Amanda Cicala
+CL0697,Inglese,DOC0060,Elena Toselli-Ponti
+CL0698,Italiano,DOC0081,Toni Trincavelli
+CL0698,Matematica,DOC0077,Hugo Barracco
+CL0698,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0698,Greco,DOC0049,Luisa Solimena-Olivetti
+CL0698,Latino,DOC0091,Costantino Valier
+CL0698,Filosofia,DOC0012,Barbara Granatelli
+CL0699,Italiano,DOC0002,Diana Canali
+CL0699,Matematica,DOC0004,Etta Cassarà
+CL0699,Inglese,DOC0012,Barbara Granatelli
+CL0699,Greco,DOC0060,Elena Toselli-Ponti
+CL0699,Latino,DOC0009,Dott. Giada Mazzocchi
+CL0699,Filosofia,DOC0017,Clelia Morandi
+CL0700,Italiano,DOC0002,Diana Canali
+CL0700,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0700,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0700,Greco,DOC0092,Marco Tornatore
+CL0700,Latino,DOC0001,Ranieri Martucci-Pistoletto
+CL0700,Filosofia,DOC0063,Piergiorgio Curatoli-Battelli
+CL0701,Italiano,DOC0065,Santino Migliaccio
+CL0701,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0701,Inglese,DOC0043,Raimondo Navone
+CL0701,Greco,DOC0092,Marco Tornatore
+CL0701,Latino,DOC0100,Loredana Bocelli
+CL0701,Filosofia,DOC0064,Durante Fischetti-Trentini
+CL0702,Italiano,DOC0037,Ansaldo Calvo
+CL0702,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0702,Inglese,DOC0071,Ramona Piazzi
+CL0702,Greco,DOC0029,Tonia Nosiglia
+CL0702,Latino,DOC0088,Carla Gasperi
+CL0702,Filosofia,DOC0082,Dott. Leonardo Armellini
+CL0703,Italiano,DOC0040,Donatella Pace
+CL0703,Matematica,DOC0033,Sandro Versace-Battaglia
+CL0703,Inglese,DOC0025,Arnulfo Greggio
+CL0703,Greco,DOC0077,Hugo Barracco
+CL0703,Latino,DOC0054,Cipriano Segni
+CL0703,Filosofia,DOC0037,Ansaldo Calvo
+CL0704,Italiano,DOC0011,Bruno Cabrini
+CL0704,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0704,Inglese,DOC0041,Mariano Redi
+CL0704,Greco,DOC0010,Fortunata Ortese
+CL0704,Latino,DOC0096,Elladio Migliaccio
+CL0704,Filosofia,DOC0095,Ennio Leonetti
+CL0705,Italiano,DOC0099,Ilaria Leone
+CL0705,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0705,Inglese,DOC0019,Marissa Modugno
+CL0706,Italiano,DOC0048,Patrizio Platini
+CL0706,Matematica,DOC0015,Amanda Cicala
+CL0706,Inglese,DOC0059,Atenulf Pozzecco
+CL0707,Italiano,DOC0015,Amanda Cicala
+CL0707,Matematica,DOC0031,Adamo Baglioni
+CL0707,Inglese,DOC0048,Patrizio Platini
+CL0708,Italiano,DOC0018,Sig. Domenico Iannotti
+CL0708,Matematica,DOC0084,Eraldo Leone
+CL0708,Inglese,DOC0039,Cecilia Correr
+CL0709,Italiano,DOC0084,Eraldo Leone
+CL0709,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0709,Inglese,DOC0092,Marco Tornatore
+CL0710,Italiano,DOC0039,Cecilia Correr
+CL0710,Matematica,DOC0087,Romina Bersani-Rocca
+CL0710,Inglese,DOC0069,Dino Caccianemico
+CL0711,Italiano,DOC0095,Ennio Leonetti
+CL0711,Matematica,DOC0020,Sig.ra Paulina Argentero
+CL0711,Inglese,DOC0092,Marco Tornatore
+CL0712,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0712,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0712,Inglese,DOC0099,Ilaria Leone
+CL0713,Italiano,DOC0081,Toni Trincavelli
+CL0713,Matematica,DOC0019,Marissa Modugno
+CL0713,Inglese,DOC0055,Imelda Scamarcio
+CL0714,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0714,Matematica,DOC0044,Bianca Pagliaro
+CL0714,Inglese,DOC0004,Etta Cassarà
+CL0715,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0715,Matematica,DOC0094,Dott. Chiara Panzera
+CL0715,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0716,Italiano,DOC0037,Ansaldo Calvo
+CL0716,Matematica,DOC0038,Annamaria Brichese-Marinetti
+CL0716,Inglese,DOC0091,Costantino Valier
+CL0717,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0717,Matematica,DOC0054,Cipriano Segni
+CL0717,Inglese,DOC0059,Atenulf Pozzecco
+CL0718,Italiano,DOC0054,Cipriano Segni
+CL0718,Matematica,DOC0065,Santino Migliaccio
+CL0718,Inglese,DOC0060,Elena Toselli-Ponti
+CL0719,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0719,Matematica,DOC0007,Elena Alighieri
+CL0719,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0720,Italiano,DOC0061,Germana Giusti
+CL0720,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0720,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0721,Italiano,DOC0034,Bianca Sauro
+CL0721,Matematica,DOC0011,Bruno Cabrini
+CL0721,Inglese,DOC0008,Dott. Gemma Borromini
+CL0722,Italiano,DOC0052,Sole Bragaglia
+CL0722,Matematica,DOC0085,Federico Capuana
+CL0722,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0723,Italiano,DOC0006,Martino Gaggini
+CL0723,Matematica,DOC0032,Annamaria Trevisani
+CL0723,Inglese,DOC0099,Ilaria Leone
+CL0724,Italiano,DOC0047,Valerio Modugno
+CL0724,Matematica,DOC0033,Sandro Versace-Battaglia
+CL0724,Inglese,DOC0067,Caterina Boccaccio
+CL0725,Italiano,DOC0081,Toni Trincavelli
+CL0725,Matematica,DOC0038,Annamaria Brichese-Marinetti
+CL0725,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0726,Italiano,DOC0041,Mariano Redi
+CL0726,Matematica,DOC0040,Donatella Pace
+CL0726,Inglese,DOC0072,Monica Ortolani
+CL0727,Italiano,DOC0061,Germana Giusti
+CL0727,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0727,Inglese,DOC0037,Ansaldo Calvo
+CL0728,Italiano,DOC0032,Annamaria Trevisani
+CL0728,Matematica,DOC0055,Imelda Scamarcio
+CL0728,Inglese,DOC0039,Cecilia Correr
+CL0729,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0729,Matematica,DOC0023,Luciano Alboni-Rismondo
+CL0729,Inglese,DOC0037,Ansaldo Calvo
+CL0730,Italiano,DOC0002,Diana Canali
+CL0730,Matematica,DOC0022,Clelia Notarbartolo
+CL0730,Inglese,DOC0052,Sole Bragaglia
+CL0731,Italiano,DOC0092,Marco Tornatore
+CL0731,Matematica,DOC0054,Cipriano Segni
+CL0731,Inglese,DOC0067,Caterina Boccaccio
+CL0732,Italiano,DOC0001,Ranieri Martucci-Pistoletto
+CL0732,Matematica,DOC0027,Gelsomina Antonioni
+CL0732,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0733,Italiano,DOC0005,Valerio Gaito
+CL0733,Matematica,DOC0037,Ansaldo Calvo
+CL0733,Inglese,DOC0067,Caterina Boccaccio
+CL0734,Italiano,DOC0017,Clelia Morandi
+CL0734,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0734,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0735,Italiano,DOC0080,Giacomo Zito
+CL0735,Matematica,DOC0075,Licia Gatto
+CL0735,Inglese,DOC0003,Isabella Mezzetta
+CL0736,Italiano,DOC0092,Marco Tornatore
+CL0736,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0736,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0737,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0737,Matematica,DOC0060,Elena Toselli-Ponti
+CL0737,Inglese,DOC0075,Licia Gatto
+CL0738,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0738,Matematica,DOC0077,Hugo Barracco
+CL0738,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0739,Italiano,DOC0088,Carla Gasperi
+CL0739,Matematica,DOC0053,Victoria Balbi
+CL0739,Inglese,DOC0089,Marcella Broschi
+CL0740,Italiano,DOC0099,Ilaria Leone
+CL0740,Matematica,DOC0065,Santino Migliaccio
+CL0740,Inglese,DOC0029,Tonia Nosiglia
+CL0741,Italiano,DOC0012,Barbara Granatelli
+CL0741,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0741,Inglese,DOC0079,Lando Federici
+CL0742,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0742,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0742,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0743,Italiano,DOC0017,Clelia Morandi
+CL0743,Matematica,DOC0067,Caterina Boccaccio
+CL0743,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0744,Italiano,DOC0036,Gaspare Vecellio
+CL0744,Matematica,DOC0077,Hugo Barracco
+CL0744,Inglese,DOC0060,Elena Toselli-Ponti
+CL0745,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0745,Matematica,DOC0058,Bianca Pace
+CL0745,Inglese,DOC0047,Valerio Modugno
+CL0746,Italiano,DOC0054,Cipriano Segni
+CL0746,Matematica,DOC0099,Ilaria Leone
+CL0746,Inglese,DOC0092,Marco Tornatore
+CL0747,Italiano,DOC0011,Bruno Cabrini
+CL0747,Matematica,DOC0027,Gelsomina Antonioni
+CL0747,Inglese,DOC0047,Valerio Modugno
+CL0748,Italiano,DOC0088,Carla Gasperi
+CL0748,Matematica,DOC0040,Donatella Pace
+CL0748,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0749,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0749,Matematica,DOC0015,Amanda Cicala
+CL0749,Inglese,DOC0068,Ramona Giacconi
+CL0750,Italiano,DOC0015,Amanda Cicala
+CL0750,Matematica,DOC0034,Bianca Sauro
+CL0750,Inglese,DOC0036,Gaspare Vecellio
+CL0751,Italiano,DOC0078,Griselda Mazzocchi
+CL0751,Matematica,DOC0019,Marissa Modugno
+CL0751,Inglese,DOC0004,Etta Cassarà
+CL0752,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0752,Matematica,DOC0036,Gaspare Vecellio
+CL0752,Inglese,DOC0084,Eraldo Leone
+CL0753,Italiano,DOC0024,Ludovica Tremonti
+CL0753,Matematica,DOC0011,Bruno Cabrini
+CL0753,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0754,Italiano,DOC0038,Annamaria Brichese-Marinetti
+CL0754,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0754,Inglese,DOC0031,Adamo Baglioni
+CL0755,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0755,Matematica,DOC0058,Bianca Pace
+CL0755,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0756,Italiano,DOC0010,Fortunata Ortese
+CL0756,Matematica,DOC0042,Luciana Farinelli
+CL0756,Inglese,DOC0084,Eraldo Leone
+CL0757,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0757,Matematica,DOC0024,Ludovica Tremonti
+CL0757,Inglese,DOC0053,Victoria Balbi
+CL0758,Italiano,DOC0020,Sig.ra Paulina Argentero
+CL0758,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0758,Inglese,DOC0040,Donatella Pace
+CL0759,Italiano,DOC0001,Ranieri Martucci-Pistoletto
+CL0759,Matematica,DOC0053,Victoria Balbi
+CL0759,Inglese,DOC0097,Angelina Bataglia
+CL0760,Italiano,DOC0016,Fortunata Mengolo-Tresoldi
+CL0760,Matematica,DOC0057,Elladio Cattaneo
+CL0760,Inglese,DOC0052,Sole Bragaglia
+CL0761,Italiano,DOC0015,Amanda Cicala
+CL0761,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0761,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0762,Italiano,DOC0065,Santino Migliaccio
+CL0762,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0762,Inglese,DOC0078,Griselda Mazzocchi
+CL0763,Italiano,DOC0061,Germana Giusti
+CL0763,Matematica,DOC0048,Patrizio Platini
+CL0763,Inglese,DOC0012,Barbara Granatelli
+CL0764,Italiano,DOC0075,Licia Gatto
+CL0764,Matematica,DOC0057,Elladio Cattaneo
+CL0764,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0765,Italiano,DOC0045,Claudia Filangieri
+CL0765,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0765,Inglese,DOC0084,Eraldo Leone
+CL0766,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0766,Matematica,DOC0079,Lando Federici
+CL0766,Inglese,DOC0027,Gelsomina Antonioni
+CL0766,Fisica,DOC0054,Cipriano Segni
+CL0766,Scienze,DOC0088,Carla Gasperi
+CL0766,Disegno Tecnico,DOC0074,Sig.ra Imelda Morricone
+CL0767,Italiano,DOC0078,Griselda Mazzocchi
+CL0767,Matematica,DOC0066,Dott. Fiorino Cannizzaro
+CL0767,Inglese,DOC0071,Ramona Piazzi
+CL0767,Fisica,DOC0028,Melina Prati
+CL0767,Scienze,DOC0042,Luciana Farinelli
+CL0767,Disegno Tecnico,DOC0022,Clelia Notarbartolo
+CL0768,Italiano,DOC0019,Marissa Modugno
+CL0768,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0768,Inglese,DOC0032,Annamaria Trevisani
+CL0768,Fisica,DOC0016,Fortunata Mengolo-Tresoldi
+CL0768,Scienze,DOC0028,Melina Prati
+CL0768,Disegno Tecnico,DOC0098,Bianca Satta
+CL0769,Italiano,DOC0042,Luciana Farinelli
+CL0769,Matematica,DOC0080,Giacomo Zito
+CL0769,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0769,Fisica,DOC0071,Ramona Piazzi
+CL0769,Scienze,DOC0073,Santino Campise
+CL0769,Disegno Tecnico,DOC0064,Durante Fischetti-Trentini
+CL0770,Italiano,DOC0098,Bianca Satta
+CL0770,Matematica,DOC0040,Donatella Pace
+CL0770,Inglese,DOC0018,Sig. Domenico Iannotti
+CL0770,Fisica,DOC0089,Marcella Broschi
+CL0770,Scienze,DOC0090,Dott. Giulia Ferretti
+CL0770,Disegno Tecnico,DOC0072,Monica Ortolani
+CL0771,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0771,Matematica,DOC0012,Barbara Granatelli
+CL0771,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0771,Fisica,DOC0014,Elena Gargallo-Borroni
+CL0771,Scienze,DOC0076,Sergius Micca
+CL0771,Disegno Tecnico,DOC0014,Elena Gargallo-Borroni
+CL0772,Italiano,DOC0095,Ennio Leonetti
+CL0772,Matematica,DOC0062,Serena Gradenigo-Pareto
+CL0772,Inglese,DOC0060,Elena Toselli-Ponti
+CL0772,Fisica,DOC0073,Santino Campise
+CL0772,Scienze,DOC0053,Victoria Balbi
+CL0772,Disegno Tecnico,DOC0023,Luciano Alboni-Rismondo
+CL0773,Italiano,DOC0085,Federico Capuana
+CL0773,Matematica,DOC0097,Angelina Bataglia
+CL0773,Inglese,DOC0017,Clelia Morandi
+CL0774,Italiano,DOC0095,Ennio Leonetti
+CL0774,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0774,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0775,Italiano,DOC0071,Ramona Piazzi
+CL0775,Matematica,DOC0088,Carla Gasperi
+CL0775,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0776,Italiano,DOC0050,Gianna Cimarosa
+CL0776,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0776,Inglese,DOC0031,Adamo Baglioni
+CL0777,Italiano,DOC0053,Victoria Balbi
+CL0777,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0777,Inglese,DOC0025,Arnulfo Greggio
+CL0778,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0778,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0778,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0779,Italiano,DOC0082,Dott. Leonardo Armellini
+CL0779,Matematica,DOC0095,Ennio Leonetti
+CL0779,Inglese,DOC0053,Victoria Balbi
+CL0780,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0780,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0780,Inglese,DOC0038,Annamaria Brichese-Marinetti
+CL0781,Italiano,DOC0029,Tonia Nosiglia
+CL0781,Matematica,DOC0038,Annamaria Brichese-Marinetti
+CL0781,Inglese,DOC0100,Loredana Bocelli
+CL0782,Italiano,DOC0072,Monica Ortolani
+CL0782,Matematica,DOC0071,Ramona Piazzi
+CL0782,Inglese,DOC0010,Fortunata Ortese
+CL0783,Italiano,DOC0022,Clelia Notarbartolo
+CL0783,Matematica,DOC0011,Bruno Cabrini
+CL0783,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0784,Italiano,DOC0047,Valerio Modugno
+CL0784,Matematica,DOC0089,Marcella Broschi
+CL0784,Inglese,DOC0054,Cipriano Segni
+CL0785,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0785,Matematica,DOC0046,Natalia Sgarbi
+CL0785,Inglese,DOC0006,Martino Gaggini
+CL0786,Italiano,DOC0044,Bianca Pagliaro
+CL0786,Matematica,DOC0079,Lando Federici
+CL0786,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0787,Italiano,DOC0073,Santino Campise
+CL0787,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0787,Inglese,DOC0042,Luciana Farinelli
+CL0788,Italiano,DOC0098,Bianca Satta
+CL0788,Matematica,DOC0017,Clelia Morandi
+CL0788,Inglese,DOC0084,Eraldo Leone
+CL0789,Italiano,DOC0090,Dott. Giulia Ferretti
+CL0789,Matematica,DOC0015,Amanda Cicala
+CL0789,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0790,Italiano,DOC0031,Adamo Baglioni
+CL0790,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0790,Inglese,DOC0008,Dott. Gemma Borromini
+CL0791,Italiano,DOC0012,Barbara Granatelli
+CL0791,Matematica,DOC0022,Clelia Notarbartolo
+CL0791,Inglese,DOC0098,Bianca Satta
+CL0792,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0792,Matematica,DOC0017,Clelia Morandi
+CL0792,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0793,Italiano,DOC0032,Annamaria Trevisani
+CL0793,Matematica,DOC0084,Eraldo Leone
+CL0793,Inglese,DOC0062,Serena Gradenigo-Pareto
+CL0794,Italiano,DOC0013,Elisa Lanfranchi
+CL0794,Matematica,DOC0055,Imelda Scamarcio
+CL0794,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0795,Italiano,DOC0059,Atenulf Pozzecco
+CL0795,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0795,Inglese,DOC0035,Melina Monicelli
+CL0796,Italiano,DOC0072,Monica Ortolani
+CL0796,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0796,Inglese,DOC0094,Dott. Chiara Panzera
+CL0797,Italiano,DOC0024,Ludovica Tremonti
+CL0797,Matematica,DOC0047,Valerio Modugno
+CL0797,Inglese,DOC0081,Toni Trincavelli
+CL0798,Italiano,DOC0027,Gelsomina Antonioni
+CL0798,Matematica,DOC0078,Griselda Mazzocchi
+CL0798,Inglese,DOC0041,Mariano Redi
+CL0799,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0799,Matematica,DOC0003,Isabella Mezzetta
+CL0799,Inglese,DOC0025,Arnulfo Greggio
+CL0800,Italiano,DOC0100,Loredana Bocelli
+CL0800,Matematica,DOC0053,Victoria Balbi
+CL0800,Inglese,DOC0065,Santino Migliaccio
+CL0801,Italiano,DOC0048,Patrizio Platini
+CL0801,Matematica,DOC0043,Raimondo Navone
+CL0801,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0802,Italiano,DOC0092,Marco Tornatore
+CL0802,Matematica,DOC0066,Dott. Fiorino Cannizzaro
+CL0802,Inglese,DOC0073,Santino Campise
+CL0803,Italiano,DOC0044,Bianca Pagliaro
+CL0803,Matematica,DOC0029,Tonia Nosiglia
+CL0803,Inglese,DOC0077,Hugo Barracco
+CL0804,Italiano,DOC0002,Diana Canali
+CL0804,Matematica,DOC0025,Arnulfo Greggio
+CL0804,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0805,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0805,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0805,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0806,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0806,Matematica,DOC0010,Fortunata Ortese
+CL0806,Inglese,DOC0084,Eraldo Leone
+CL0807,Italiano,DOC0044,Bianca Pagliaro
+CL0807,Matematica,DOC0035,Melina Monicelli
+CL0807,Inglese,DOC0048,Patrizio Platini
+CL0808,Italiano,DOC0087,Romina Bersani-Rocca
+CL0808,Matematica,DOC0016,Fortunata Mengolo-Tresoldi
+CL0808,Inglese,DOC0088,Carla Gasperi
+CL0809,Italiano,DOC0047,Valerio Modugno
+CL0809,Matematica,DOC0005,Valerio Gaito
+CL0809,Inglese,DOC0058,Bianca Pace
+CL0810,Italiano,DOC0075,Licia Gatto
+CL0810,Matematica,DOC0033,Sandro Versace-Battaglia
+CL0810,Inglese,DOC0019,Marissa Modugno
+CL0811,Italiano,DOC0046,Natalia Sgarbi
+CL0811,Matematica,DOC0057,Elladio Cattaneo
+CL0811,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0812,Italiano,DOC0087,Romina Bersani-Rocca
+CL0812,Matematica,DOC0080,Giacomo Zito
+CL0812,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0813,Italiano,DOC0007,Elena Alighieri
+CL0813,Matematica,DOC0045,Claudia Filangieri
+CL0813,Inglese,DOC0061,Germana Giusti
+CL0814,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0814,Matematica,DOC0037,Ansaldo Calvo
+CL0814,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0815,Italiano,DOC0025,Arnulfo Greggio
+CL0815,Matematica,DOC0028,Melina Prati
+CL0815,Inglese,DOC0036,Gaspare Vecellio
+CL0816,Italiano,DOC0073,Santino Campise
+CL0816,Matematica,DOC0058,Bianca Pace
+CL0816,Inglese,DOC0050,Gianna Cimarosa
+CL0817,Italiano,DOC0078,Griselda Mazzocchi
+CL0817,Matematica,DOC0011,Bruno Cabrini
+CL0817,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0818,Italiano,DOC0035,Melina Monicelli
+CL0818,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0818,Inglese,DOC0037,Ansaldo Calvo
+CL0819,Italiano,DOC0044,Bianca Pagliaro
+CL0819,Matematica,DOC0091,Costantino Valier
+CL0819,Inglese,DOC0072,Monica Ortolani
+CL0819,Greco,DOC0023,Luciano Alboni-Rismondo
+CL0819,Latino,DOC0015,Amanda Cicala
+CL0819,Filosofia,DOC0064,Durante Fischetti-Trentini
+CL0820,Italiano,DOC0009,Dott. Giada Mazzocchi
+CL0820,Matematica,DOC0082,Dott. Leonardo Armellini
+CL0820,Inglese,DOC0007,Elena Alighieri
+CL0820,Greco,DOC0046,Natalia Sgarbi
+CL0820,Latino,DOC0012,Barbara Granatelli
+CL0820,Filosofia,DOC0058,Bianca Pace
+CL0821,Italiano,DOC0038,Annamaria Brichese-Marinetti
+CL0821,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0821,Inglese,DOC0087,Romina Bersani-Rocca
+CL0821,Greco,DOC0022,Clelia Notarbartolo
+CL0821,Latino,DOC0092,Marco Tornatore
+CL0821,Filosofia,DOC0008,Dott. Gemma Borromini
+CL0822,Italiano,DOC0051,Amadeo Acerbi
+CL0822,Matematica,DOC0094,Dott. Chiara Panzera
+CL0822,Inglese,DOC0058,Bianca Pace
+CL0822,Greco,DOC0007,Elena Alighieri
+CL0822,Latino,DOC0037,Ansaldo Calvo
+CL0822,Filosofia,DOC0024,Ludovica Tremonti
+CL0823,Italiano,DOC0052,Sole Bragaglia
+CL0823,Matematica,DOC0069,Dino Caccianemico
+CL0823,Inglese,DOC0071,Ramona Piazzi
+CL0823,Greco,DOC0090,Dott. Giulia Ferretti
+CL0823,Latino,DOC0029,Tonia Nosiglia
+CL0823,Filosofia,DOC0074,Sig.ra Imelda Morricone
+CL0824,Italiano,DOC0075,Licia Gatto
+CL0824,Matematica,DOC0095,Ennio Leonetti
+CL0824,Inglese,DOC0008,Dott. Gemma Borromini
+CL0824,Greco,DOC0098,Bianca Satta
+CL0824,Latino,DOC0095,Ennio Leonetti
+CL0824,Filosofia,DOC0087,Romina Bersani-Rocca
+CL0825,Italiano,DOC0065,Santino Migliaccio
+CL0825,Matematica,DOC0007,Elena Alighieri
+CL0825,Inglese,DOC0098,Bianca Satta
+CL0825,Greco,DOC0026,Rolando Bulzoni-Mazzanti
+CL0825,Latino,DOC0004,Etta Cassarà
+CL0825,Filosofia,DOC0068,Ramona Giacconi
+CL0826,Italiano,DOC0085,Federico Capuana
+CL0826,Matematica,DOC0058,Bianca Pace
+CL0826,Inglese,DOC0072,Monica Ortolani
+CL0826,Fisica,DOC0055,Imelda Scamarcio
+CL0826,Scienze,DOC0019,Marissa Modugno
+CL0826,Disegno Tecnico,DOC0053,Victoria Balbi
+CL0827,Italiano,DOC0100,Loredana Bocelli
+CL0827,Matematica,DOC0089,Marcella Broschi
+CL0827,Inglese,DOC0027,Gelsomina Antonioni
+CL0827,Fisica,DOC0055,Imelda Scamarcio
+CL0827,Scienze,DOC0041,Mariano Redi
+CL0827,Disegno Tecnico,DOC0051,Amadeo Acerbi
+CL0828,Italiano,DOC0093,Gianluigi Impastato
+CL0828,Matematica,DOC0043,Raimondo Navone
+CL0828,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0828,Fisica,DOC0050,Gianna Cimarosa
+CL0828,Scienze,DOC0052,Sole Bragaglia
+CL0828,Disegno Tecnico,DOC0032,Annamaria Trevisani
+CL0829,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0829,Matematica,DOC0076,Sergius Micca
+CL0829,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0829,Fisica,DOC0024,Ludovica Tremonti
+CL0829,Scienze,DOC0085,Federico Capuana
+CL0829,Disegno Tecnico,DOC0073,Santino Campise
+CL0830,Italiano,DOC0052,Sole Bragaglia
+CL0830,Matematica,DOC0093,Gianluigi Impastato
+CL0830,Inglese,DOC0095,Ennio Leonetti
+CL0831,Italiano,DOC0073,Santino Campise
+CL0831,Matematica,DOC0100,Loredana Bocelli
+CL0831,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0832,Italiano,DOC0098,Bianca Satta
+CL0832,Matematica,DOC0067,Caterina Boccaccio
+CL0832,Inglese,DOC0096,Elladio Migliaccio
+CL0833,Italiano,DOC0065,Santino Migliaccio
+CL0833,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0833,Inglese,DOC0099,Ilaria Leone
+CL0834,Italiano,DOC0070,Piergiorgio Scaramucci
+CL0834,Matematica,DOC0081,Toni Trincavelli
+CL0834,Inglese,DOC0076,Sergius Micca
+CL0835,Italiano,DOC0075,Licia Gatto
+CL0835,Matematica,DOC0048,Patrizio Platini
+CL0835,Inglese,DOC0088,Carla Gasperi
+CL0836,Italiano,DOC0055,Imelda Scamarcio
+CL0836,Matematica,DOC0088,Carla Gasperi
+CL0836,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0837,Italiano,DOC0013,Elisa Lanfranchi
+CL0837,Matematica,DOC0077,Hugo Barracco
+CL0837,Inglese,DOC0084,Eraldo Leone
+CL0838,Italiano,DOC0017,Clelia Morandi
+CL0838,Matematica,DOC0042,Luciana Farinelli
+CL0838,Inglese,DOC0058,Bianca Pace
+CL0839,Italiano,DOC0088,Carla Gasperi
+CL0839,Matematica,DOC0043,Raimondo Navone
+CL0839,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0840,Italiano,DOC0040,Donatella Pace
+CL0840,Matematica,DOC0004,Etta Cassarà
+CL0840,Inglese,DOC0008,Dott. Gemma Borromini
+CL0841,Italiano,DOC0019,Marissa Modugno
+CL0841,Matematica,DOC0077,Hugo Barracco
+CL0841,Inglese,DOC0094,Dott. Chiara Panzera
+CL0842,Italiano,DOC0004,Etta Cassarà
+CL0842,Matematica,DOC0054,Cipriano Segni
+CL0842,Inglese,DOC0045,Claudia Filangieri
+CL0843,Italiano,DOC0098,Bianca Satta
+CL0843,Matematica,DOC0045,Claudia Filangieri
+CL0843,Inglese,DOC0001,Ranieri Martucci-Pistoletto
+CL0844,Italiano,DOC0079,Lando Federici
+CL0844,Matematica,DOC0055,Imelda Scamarcio
+CL0844,Inglese,DOC0006,Martino Gaggini
+CL0845,Italiano,DOC0031,Adamo Baglioni
+CL0845,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0845,Inglese,DOC0060,Elena Toselli-Ponti
+CL0846,Italiano,DOC0004,Etta Cassarà
+CL0846,Matematica,DOC0026,Rolando Bulzoni-Mazzanti
+CL0846,Inglese,DOC0081,Toni Trincavelli
+CL0847,Italiano,DOC0027,Gelsomina Antonioni
+CL0847,Matematica,DOC0087,Romina Bersani-Rocca
+CL0847,Inglese,DOC0054,Cipriano Segni
+CL0848,Italiano,DOC0006,Martino Gaggini
+CL0848,Matematica,DOC0081,Toni Trincavelli
+CL0848,Inglese,DOC0039,Cecilia Correr
+CL0849,Italiano,DOC0058,Bianca Pace
+CL0849,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0849,Inglese,DOC0039,Cecilia Correr
+CL0850,Italiano,DOC0039,Cecilia Correr
+CL0850,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0850,Inglese,DOC0097,Angelina Bataglia
+CL0851,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0851,Matematica,DOC0066,Dott. Fiorino Cannizzaro
+CL0851,Inglese,DOC0074,Sig.ra Imelda Morricone
+CL0852,Italiano,DOC0073,Santino Campise
+CL0852,Matematica,DOC0042,Luciana Farinelli
+CL0852,Inglese,DOC0094,Dott. Chiara Panzera
+CL0853,Italiano,DOC0048,Patrizio Platini
+CL0853,Matematica,DOC0061,Germana Giusti
+CL0853,Inglese,DOC0092,Marco Tornatore
+CL0854,Italiano,DOC0003,Isabella Mezzetta
+CL0854,Matematica,DOC0024,Ludovica Tremonti
+CL0854,Inglese,DOC0013,Elisa Lanfranchi
+CL0855,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0855,Matematica,DOC0069,Dino Caccianemico
+CL0855,Inglese,DOC0042,Luciana Farinelli
+CL0856,Italiano,DOC0072,Monica Ortolani
+CL0856,Matematica,DOC0043,Raimondo Navone
+CL0856,Inglese,DOC0007,Elena Alighieri
+CL0857,Italiano,DOC0071,Ramona Piazzi
+CL0857,Matematica,DOC0051,Amadeo Acerbi
+CL0857,Inglese,DOC0032,Annamaria Trevisani
+CL0858,Italiano,DOC0078,Griselda Mazzocchi
+CL0858,Matematica,DOC0052,Sole Bragaglia
+CL0858,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0859,Italiano,DOC0028,Melina Prati
+CL0859,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0859,Inglese,DOC0089,Marcella Broschi
+CL0860,Italiano,DOC0085,Federico Capuana
+CL0860,Matematica,DOC0007,Elena Alighieri
+CL0860,Inglese,DOC0024,Ludovica Tremonti
+CL0861,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0861,Matematica,DOC0069,Dino Caccianemico
+CL0861,Inglese,DOC0052,Sole Bragaglia
+CL0862,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0862,Matematica,DOC0058,Bianca Pace
+CL0862,Inglese,DOC0045,Claudia Filangieri
+CL0863,Italiano,DOC0053,Victoria Balbi
+CL0863,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0863,Inglese,DOC0010,Fortunata Ortese
+CL0864,Italiano,DOC0045,Claudia Filangieri
+CL0864,Matematica,DOC0005,Valerio Gaito
+CL0864,Inglese,DOC0021,Annunziata Malenchini-Caruso
+CL0865,Italiano,DOC0047,Valerio Modugno
+CL0865,Matematica,DOC0047,Valerio Modugno
+CL0865,Inglese,DOC0015,Amanda Cicala
+CL0866,Italiano,DOC0095,Ennio Leonetti
+CL0866,Matematica,DOC0040,Donatella Pace
+CL0866,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0867,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0867,Matematica,DOC0008,Dott. Gemma Borromini
+CL0867,Inglese,DOC0048,Patrizio Platini
+CL0868,Italiano,DOC0037,Ansaldo Calvo
+CL0868,Matematica,DOC0057,Elladio Cattaneo
+CL0868,Inglese,DOC0086,Gioele Lippomano-Brancaccio
+CL0869,Italiano,DOC0088,Carla Gasperi
+CL0869,Matematica,DOC0039,Cecilia Correr
+CL0869,Inglese,DOC0091,Costantino Valier
+CL0870,Italiano,DOC0058,Bianca Pace
+CL0870,Matematica,DOC0011,Bruno Cabrini
+CL0870,Inglese,DOC0052,Sole Bragaglia
+CL0871,Italiano,DOC0046,Natalia Sgarbi
+CL0871,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0871,Inglese,DOC0037,Ansaldo Calvo
+CL0872,Italiano,DOC0009,Dott. Giada Mazzocchi
+CL0872,Matematica,DOC0085,Federico Capuana
+CL0872,Inglese,DOC0037,Ansaldo Calvo
+CL0873,Italiano,DOC0011,Bruno Cabrini
+CL0873,Matematica,DOC0050,Gianna Cimarosa
+CL0873,Inglese,DOC0067,Caterina Boccaccio
+CL0874,Italiano,DOC0014,Elena Gargallo-Borroni
+CL0874,Matematica,DOC0085,Federico Capuana
+CL0874,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0875,Italiano,DOC0003,Isabella Mezzetta
+CL0875,Matematica,DOC0095,Ennio Leonetti
+CL0875,Inglese,DOC0087,Romina Bersani-Rocca
+CL0876,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0876,Matematica,DOC0068,Ramona Giacconi
+CL0876,Inglese,DOC0028,Melina Prati
+CL0877,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0877,Matematica,DOC0007,Elena Alighieri
+CL0877,Inglese,DOC0057,Elladio Cattaneo
+CL0878,Italiano,DOC0041,Mariano Redi
+CL0878,Matematica,DOC0092,Marco Tornatore
+CL0878,Inglese,DOC0058,Bianca Pace
+CL0879,Italiano,DOC0078,Griselda Mazzocchi
+CL0879,Matematica,DOC0088,Carla Gasperi
+CL0879,Inglese,DOC0055,Imelda Scamarcio
+CL0880,Italiano,DOC0025,Arnulfo Greggio
+CL0880,Matematica,DOC0075,Licia Gatto
+CL0880,Inglese,DOC0014,Elena Gargallo-Borroni
+CL0881,Italiano,DOC0061,Germana Giusti
+CL0881,Matematica,DOC0047,Valerio Modugno
+CL0881,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0882,Italiano,DOC0045,Claudia Filangieri
+CL0882,Matematica,DOC0022,Clelia Notarbartolo
+CL0882,Inglese,DOC0067,Caterina Boccaccio
+CL0883,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0883,Matematica,DOC0018,Sig. Domenico Iannotti
+CL0883,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0884,Italiano,DOC0004,Etta Cassarà
+CL0884,Matematica,DOC0017,Clelia Morandi
+CL0884,Inglese,DOC0003,Isabella Mezzetta
+CL0885,Italiano,DOC0087,Romina Bersani-Rocca
+CL0885,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0885,Inglese,DOC0069,Dino Caccianemico
+CL0886,Italiano,DOC0028,Melina Prati
+CL0886,Matematica,DOC0081,Toni Trincavelli
+CL0886,Inglese,DOC0037,Ansaldo Calvo
+CL0887,Italiano,DOC0043,Raimondo Navone
+CL0887,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0887,Inglese,DOC0085,Federico Capuana
+CL0888,Italiano,DOC0046,Natalia Sgarbi
+CL0888,Matematica,DOC0019,Marissa Modugno
+CL0888,Inglese,DOC0006,Martino Gaggini
+CL0889,Italiano,DOC0057,Elladio Cattaneo
+CL0889,Matematica,DOC0045,Claudia Filangieri
+CL0889,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0890,Italiano,DOC0061,Germana Giusti
+CL0890,Matematica,DOC0063,Piergiorgio Curatoli-Battelli
+CL0890,Inglese,DOC0041,Mariano Redi
+CL0891,Italiano,DOC0047,Valerio Modugno
+CL0891,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0891,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0892,Italiano,DOC0089,Marcella Broschi
+CL0892,Matematica,DOC0036,Gaspare Vecellio
+CL0892,Inglese,DOC0094,Dott. Chiara Panzera
+CL0893,Italiano,DOC0046,Natalia Sgarbi
+CL0893,Matematica,DOC0046,Natalia Sgarbi
+CL0893,Inglese,DOC0019,Marissa Modugno
+CL0894,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0894,Matematica,DOC0028,Melina Prati
+CL0894,Inglese,DOC0056,Ermenegildo Boccaccio
+CL0895,Italiano,DOC0048,Patrizio Platini
+CL0895,Matematica,DOC0015,Amanda Cicala
+CL0895,Inglese,DOC0099,Ilaria Leone
+CL0896,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0896,Matematica,DOC0041,Mariano Redi
+CL0896,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0897,Italiano,DOC0084,Eraldo Leone
+CL0897,Matematica,DOC0099,Ilaria Leone
+CL0897,Inglese,DOC0047,Valerio Modugno
+CL0898,Italiano,DOC0030,Simonetta Troisi
+CL0898,Matematica,DOC0002,Diana Canali
+CL0898,Inglese,DOC0051,Amadeo Acerbi
+CL0899,Italiano,DOC0035,Melina Monicelli
+CL0899,Matematica,DOC0027,Gelsomina Antonioni
+CL0899,Inglese,DOC0035,Melina Monicelli
+CL0900,Italiano,DOC0093,Gianluigi Impastato
+CL0900,Matematica,DOC0010,Fortunata Ortese
+CL0900,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0901,Italiano,DOC0074,Sig.ra Imelda Morricone
+CL0901,Matematica,DOC0052,Sole Bragaglia
+CL0901,Inglese,DOC0099,Ilaria Leone
+CL0902,Italiano,DOC0025,Arnulfo Greggio
+CL0902,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0902,Inglese,DOC0061,Germana Giusti
+CL0903,Italiano,DOC0031,Adamo Baglioni
+CL0903,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0903,Inglese,DOC0042,Luciana Farinelli
+CL0904,Italiano,DOC0002,Diana Canali
+CL0904,Matematica,DOC0072,Monica Ortolani
+CL0904,Inglese,DOC0004,Etta Cassarà
+CL0905,Italiano,DOC0010,Fortunata Ortese
+CL0905,Matematica,DOC0010,Fortunata Ortese
+CL0905,Inglese,DOC0024,Ludovica Tremonti
+CL0906,Italiano,DOC0011,Bruno Cabrini
+CL0906,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0906,Inglese,DOC0064,Durante Fischetti-Trentini
+CL0907,Italiano,DOC0034,Bianca Sauro
+CL0907,Matematica,DOC0100,Loredana Bocelli
+CL0907,Inglese,DOC0024,Ludovica Tremonti
+CL0908,Italiano,DOC0071,Ramona Piazzi
+CL0908,Matematica,DOC0013,Elisa Lanfranchi
+CL0908,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0909,Italiano,DOC0006,Martino Gaggini
+CL0909,Matematica,DOC0067,Caterina Boccaccio
+CL0909,Inglese,DOC0017,Clelia Morandi
+CL0910,Italiano,DOC0013,Elisa Lanfranchi
+CL0910,Matematica,DOC0028,Melina Prati
+CL0910,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0911,Italiano,DOC0043,Raimondo Navone
+CL0911,Matematica,DOC0084,Eraldo Leone
+CL0911,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0912,Italiano,DOC0011,Bruno Cabrini
+CL0912,Matematica,DOC0059,Atenulf Pozzecco
+CL0912,Inglese,DOC0047,Valerio Modugno
+CL0913,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0913,Matematica,DOC0055,Imelda Scamarcio
+CL0913,Inglese,DOC0084,Eraldo Leone
+CL0914,Italiano,DOC0071,Ramona Piazzi
+CL0914,Matematica,DOC0046,Natalia Sgarbi
+CL0914,Inglese,DOC0100,Loredana Bocelli
+CL0915,Italiano,DOC0046,Natalia Sgarbi
+CL0915,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0915,Inglese,DOC0019,Marissa Modugno
+CL0916,Italiano,DOC0046,Natalia Sgarbi
+CL0916,Matematica,DOC0071,Ramona Piazzi
+CL0916,Inglese,DOC0057,Elladio Cattaneo
+CL0917,Italiano,DOC0005,Valerio Gaito
+CL0917,Matematica,DOC0007,Elena Alighieri
+CL0917,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0918,Italiano,DOC0065,Santino Migliaccio
+CL0918,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0918,Inglese,DOC0096,Elladio Migliaccio
+CL0919,Italiano,DOC0067,Caterina Boccaccio
+CL0919,Matematica,DOC0009,Dott. Giada Mazzocchi
+CL0919,Inglese,DOC0050,Gianna Cimarosa
+CL0920,Italiano,DOC0080,Giacomo Zito
+CL0920,Matematica,DOC0059,Atenulf Pozzecco
+CL0920,Inglese,DOC0010,Fortunata Ortese
+CL0921,Italiano,DOC0054,Cipriano Segni
+CL0921,Matematica,DOC0060,Elena Toselli-Ponti
+CL0921,Inglese,DOC0076,Sergius Micca
+CL0922,Italiano,DOC0050,Gianna Cimarosa
+CL0922,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0922,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0923,Italiano,DOC0085,Federico Capuana
+CL0923,Matematica,DOC0027,Gelsomina Antonioni
+CL0923,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0924,Italiano,DOC0008,Dott. Gemma Borromini
+CL0924,Matematica,DOC0065,Santino Migliaccio
+CL0924,Inglese,DOC0044,Bianca Pagliaro
+CL0925,Italiano,DOC0056,Ermenegildo Boccaccio
+CL0925,Matematica,DOC0052,Sole Bragaglia
+CL0925,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0926,Italiano,DOC0075,Licia Gatto
+CL0926,Matematica,DOC0048,Patrizio Platini
+CL0926,Inglese,DOC0069,Dino Caccianemico
+CL0927,Italiano,DOC0027,Gelsomina Antonioni
+CL0927,Matematica,DOC0076,Sergius Micca
+CL0927,Inglese,DOC0072,Monica Ortolani
+CL0928,Italiano,DOC0086,Gioele Lippomano-Brancaccio
+CL0928,Matematica,DOC0031,Adamo Baglioni
+CL0928,Inglese,DOC0059,Atenulf Pozzecco
+CL0929,Italiano,DOC0095,Ennio Leonetti
+CL0929,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0929,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0930,Italiano,DOC0068,Ramona Giacconi
+CL0930,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0930,Inglese,DOC0078,Griselda Mazzocchi
+CL0931,Italiano,DOC0042,Luciana Farinelli
+CL0931,Matematica,DOC0034,Bianca Sauro
+CL0931,Inglese,DOC0052,Sole Bragaglia
+CL0932,Italiano,DOC0075,Licia Gatto
+CL0932,Matematica,DOC0058,Bianca Pace
+CL0932,Inglese,DOC0077,Hugo Barracco
+CL0933,Italiano,DOC0043,Raimondo Navone
+CL0933,Matematica,DOC0068,Ramona Giacconi
+CL0933,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0934,Italiano,DOC0050,Gianna Cimarosa
+CL0934,Matematica,DOC0085,Federico Capuana
+CL0934,Inglese,DOC0037,Ansaldo Calvo
+CL0935,Italiano,DOC0083,Augusto Alfonsi-Saracino
+CL0935,Matematica,DOC0029,Tonia Nosiglia
+CL0935,Inglese,DOC0039,Cecilia Correr
+CL0936,Italiano,DOC0012,Barbara Granatelli
+CL0936,Matematica,DOC0099,Ilaria Leone
+CL0936,Inglese,DOC0045,Claudia Filangieri
+CL0937,Italiano,DOC0065,Santino Migliaccio
+CL0937,Matematica,DOC0011,Bruno Cabrini
+CL0937,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0938,Italiano,DOC0044,Bianca Pagliaro
+CL0938,Matematica,DOC0007,Elena Alighieri
+CL0938,Inglese,DOC0082,Dott. Leonardo Armellini
+CL0939,Italiano,DOC0045,Claudia Filangieri
+CL0939,Matematica,DOC0047,Valerio Modugno
+CL0939,Inglese,DOC0036,Gaspare Vecellio
+CL0940,Italiano,DOC0034,Bianca Sauro
+CL0940,Matematica,DOC0035,Melina Monicelli
+CL0940,Inglese,DOC0063,Piergiorgio Curatoli-Battelli
+CL0941,Italiano,DOC0096,Elladio Migliaccio
+CL0941,Matematica,DOC0064,Durante Fischetti-Trentini
+CL0941,Inglese,DOC0076,Sergius Micca
+CL0942,Italiano,DOC0076,Sergius Micca
+CL0942,Matematica,DOC0039,Cecilia Correr
+CL0942,Inglese,DOC0040,Donatella Pace
+CL0943,Italiano,DOC0029,Tonia Nosiglia
+CL0943,Matematica,DOC0011,Bruno Cabrini
+CL0943,Inglese,DOC0010,Fortunata Ortese
+CL0944,Italiano,DOC0036,Gaspare Vecellio
+CL0944,Matematica,DOC0088,Carla Gasperi
+CL0944,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0945,Italiano,DOC0039,Cecilia Correr
+CL0945,Matematica,DOC0045,Claudia Filangieri
+CL0945,Inglese,DOC0075,Licia Gatto
+CL0946,Italiano,DOC0027,Gelsomina Antonioni
+CL0946,Matematica,DOC0002,Diana Canali
+CL0946,Inglese,DOC0004,Etta Cassarà
+CL0947,Italiano,DOC0099,Ilaria Leone
+CL0947,Matematica,DOC0085,Federico Capuana
+CL0947,Inglese,DOC0019,Marissa Modugno
+CL0948,Italiano,DOC0047,Valerio Modugno
+CL0948,Matematica,DOC0001,Ranieri Martucci-Pistoletto
+CL0948,Inglese,DOC0058,Bianca Pace
+CL0949,Italiano,DOC0023,Luciano Alboni-Rismondo
+CL0949,Matematica,DOC0046,Natalia Sgarbi
+CL0949,Inglese,DOC0016,Fortunata Mengolo-Tresoldi
+CL0950,Italiano,DOC0067,Caterina Boccaccio
+CL0950,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0950,Inglese,DOC0035,Melina Monicelli
+CL0951,Italiano,DOC0008,Dott. Gemma Borromini
+CL0951,Matematica,DOC0002,Diana Canali
+CL0951,Inglese,DOC0069,Dino Caccianemico
+CL0952,Italiano,DOC0042,Luciana Farinelli
+CL0952,Matematica,DOC0061,Germana Giusti
+CL0952,Inglese,DOC0012,Barbara Granatelli
+CL0953,Italiano,DOC0021,Annunziata Malenchini-Caruso
+CL0953,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0953,Inglese,DOC0049,Luisa Solimena-Olivetti
+CL0954,Italiano,DOC0027,Gelsomina Antonioni
+CL0954,Matematica,DOC0035,Melina Monicelli
+CL0954,Inglese,DOC0065,Santino Migliaccio
+CL0955,Italiano,DOC0054,Cipriano Segni
+CL0955,Matematica,DOC0035,Melina Monicelli
+CL0955,Inglese,DOC0033,Sandro Versace-Battaglia
+CL0956,Italiano,DOC0010,Fortunata Ortese
+CL0956,Matematica,DOC0030,Simonetta Troisi
+CL0956,Inglese,DOC0089,Marcella Broschi
+CL0957,Italiano,DOC0023,Luciano Alboni-Rismondo
+CL0957,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0957,Inglese,DOC0009,Dott. Giada Mazzocchi
+CL0958,Italiano,DOC0042,Luciana Farinelli
+CL0958,Matematica,DOC0090,Dott. Giulia Ferretti
+CL0958,Inglese,DOC0066,Dott. Fiorino Cannizzaro
+CL0959,Italiano,DOC0014,Elena Gargallo-Borroni
+CL0959,Matematica,DOC0033,Sandro Versace-Battaglia
+CL0959,Inglese,DOC0080,Giacomo Zito
+CL0960,Italiano,DOC0026,Rolando Bulzoni-Mazzanti
+CL0960,Matematica,DOC0024,Ludovica Tremonti
+CL0960,Inglese,DOC0042,Luciana Farinelli
+CL0961,Italiano,DOC0043,Raimondo Navone
+CL0961,Matematica,DOC0029,Tonia Nosiglia
+CL0961,Inglese,DOC0031,Adamo Baglioni
+CL0962,Italiano,DOC0072,Monica Ortolani
+CL0962,Matematica,DOC0096,Elladio Migliaccio
+CL0962,Inglese,DOC0078,Griselda Mazzocchi
+CL0963,Italiano,DOC0058,Bianca Pace
+CL0963,Matematica,DOC0093,Gianluigi Impastato
+CL0963,Inglese,DOC0003,Isabella Mezzetta
+CL0964,Italiano,DOC0031,Adamo Baglioni
+CL0964,Matematica,DOC0057,Elladio Cattaneo
+CL0964,Inglese,DOC0061,Germana Giusti
+CL0965,Italiano,DOC0092,Marco Tornatore
+CL0965,Matematica,DOC0085,Federico Capuana
+CL0965,Inglese,DOC0084,Eraldo Leone
+CL0966,Italiano,DOC0081,Toni Trincavelli
+CL0966,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0966,Inglese,DOC0020,Sig.ra Paulina Argentero
+CL0967,Italiano,DOC0099,Ilaria Leone
+CL0967,Matematica,DOC0073,Santino Campise
+CL0967,Inglese,DOC0039,Cecilia Correr
+CL0968,Italiano,DOC0035,Melina Monicelli
+CL0968,Matematica,DOC0022,Clelia Notarbartolo
+CL0968,Inglese,DOC0083,Augusto Alfonsi-Saracino
+CL0969,Italiano,DOC0051,Amadeo Acerbi
+CL0969,Matematica,DOC0074,Sig.ra Imelda Morricone
+CL0969,Inglese,DOC0034,Bianca Sauro
+CL0970,Italiano,DOC0010,Fortunata Ortese
+CL0970,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0970,Inglese,DOC0008,Dott. Gemma Borromini
+CL0971,Italiano,DOC0093,Gianluigi Impastato
+CL0971,Matematica,DOC0083,Augusto Alfonsi-Saracino
+CL0971,Inglese,DOC0045,Claudia Filangieri
+CL0972,Italiano,DOC0007,Elena Alighieri
+CL0972,Matematica,DOC0067,Caterina Boccaccio
+CL0972,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0973,Italiano,DOC0078,Griselda Mazzocchi
+CL0973,Matematica,DOC0028,Melina Prati
+CL0973,Inglese,DOC0019,Marissa Modugno
+CL0974,Italiano,DOC0058,Bianca Pace
+CL0974,Matematica,DOC0077,Hugo Barracco
+CL0974,Inglese,DOC0040,Donatella Pace
+CL0975,Italiano,DOC0030,Simonetta Troisi
+CL0975,Matematica,DOC0014,Elena Gargallo-Borroni
+CL0975,Inglese,DOC0079,Lando Federici
+CL0976,Italiano,DOC0087,Romina Bersani-Rocca
+CL0976,Matematica,DOC0072,Monica Ortolani
+CL0976,Inglese,DOC0026,Rolando Bulzoni-Mazzanti
+CL0977,Italiano,DOC0042,Luciana Farinelli
+CL0977,Matematica,DOC0013,Elisa Lanfranchi
+CL0977,Inglese,DOC0059,Atenulf Pozzecco
+CL0978,Italiano,DOC0010,Fortunata Ortese
+CL0978,Matematica,DOC0068,Ramona Giacconi
+CL0978,Inglese,DOC0084,Eraldo Leone
+CL0979,Italiano,DOC0011,Bruno Cabrini
+CL0979,Matematica,DOC0040,Donatella Pace
+CL0979,Inglese,DOC0024,Ludovica Tremonti
+CL0980,Italiano,DOC0100,Loredana Bocelli
+CL0980,Matematica,DOC0056,Ermenegildo Boccaccio
+CL0980,Inglese,DOC0013,Elisa Lanfranchi
+CL0981,Italiano,DOC0019,Marissa Modugno
+CL0981,Matematica,DOC0052,Sole Bragaglia
+CL0981,Inglese,DOC0061,Germana Giusti
+CL0982,Italiano,DOC0097,Angelina Bataglia
+CL0982,Matematica,DOC0055,Imelda Scamarcio
+CL0982,Inglese,DOC0032,Annamaria Trevisani
+CL0983,Italiano,DOC0068,Ramona Giacconi
+CL0983,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0983,Inglese,DOC0023,Luciano Alboni-Rismondo
+CL0984,Italiano,DOC0034,Bianca Sauro
+CL0984,Matematica,DOC0045,Claudia Filangieri
+CL0984,Inglese,DOC0077,Hugo Barracco
+CL0985,Italiano,DOC0027,Gelsomina Antonioni
+CL0985,Matematica,DOC0057,Elladio Cattaneo
+CL0985,Inglese,DOC0085,Federico Capuana
+CL0986,Italiano,DOC0049,Luisa Solimena-Olivetti
+CL0986,Matematica,DOC0067,Caterina Boccaccio
+CL0986,Inglese,DOC0068,Ramona Giacconi
+CL0987,Italiano,DOC0004,Etta Cassarà
+CL0987,Matematica,DOC0007,Elena Alighieri
+CL0987,Inglese,DOC0070,Piergiorgio Scaramucci
+CL0988,Italiano,DOC0064,Durante Fischetti-Trentini
+CL0988,Matematica,DOC0070,Piergiorgio Scaramucci
+CL0988,Inglese,DOC0059,Atenulf Pozzecco
+CL0989,Italiano,DOC0077,Hugo Barracco
+CL0989,Matematica,DOC0086,Gioele Lippomano-Brancaccio
+CL0989,Inglese,DOC0072,Monica Ortolani
+CL0990,Italiano,DOC0088,Carla Gasperi
+CL0990,Matematica,DOC0093,Gianluigi Impastato
+CL0990,Inglese,DOC0051,Amadeo Acerbi
+CL0991,Italiano,DOC0100,Loredana Bocelli
+CL0991,Matematica,DOC0079,Lando Federici
+CL0991,Inglese,DOC0036,Gaspare Vecellio
+CL0992,Italiano,DOC0019,Marissa Modugno
+CL0992,Matematica,DOC0085,Federico Capuana
+CL0992,Inglese,DOC0058,Bianca Pace
+CL0993,Italiano,DOC0062,Serena Gradenigo-Pareto
+CL0993,Matematica,DOC0071,Ramona Piazzi
+CL0993,Inglese,DOC0012,Barbara Granatelli
+CL0994,Italiano,DOC0069,Dino Caccianemico
+CL0994,Matematica,DOC0098,Bianca Satta
+CL0994,Inglese,DOC0081,Toni Trincavelli
+CL0995,Italiano,DOC0040,Donatella Pace
+CL0995,Matematica,DOC0049,Luisa Solimena-Olivetti
+CL0995,Inglese,DOC0045,Claudia Filangieri
+CL0996,Italiano,DOC0058,Bianca Pace
+CL0996,Matematica,DOC0041,Mariano Redi
+CL0996,Inglese,DOC0021,Annunziata Malenchini-Caruso
+CL0997,Italiano,DOC0087,Romina Bersani-Rocca
+CL0997,Matematica,DOC0021,Annunziata Malenchini-Caruso
+CL0997,Inglese,DOC0090,Dott. Giulia Ferretti
+CL0998,Italiano,DOC0063,Piergiorgio Curatoli-Battelli
+CL0998,Matematica,DOC0044,Bianca Pagliaro
+CL0998,Inglese,DOC0095,Ennio Leonetti

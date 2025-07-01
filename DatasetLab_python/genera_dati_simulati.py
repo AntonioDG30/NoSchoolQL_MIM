@@ -1,164 +1,239 @@
 # -*- coding: utf-8 -*-
-# Imposto l'encoding UTF-8 per supportare caratteri speciali
-
-import pandas as pd       # Uso pandas per gestire tabelle e CSV
-import os                 # Uso os per gestire i percorsi di file e cartelle
-import random             # Uso random per generare dati casuali
-from faker import Faker   # Uso Faker per generare nomi e cognomi fittizi in italiano
-import shutil             # Uso shutil per copiare i file
-
+import pandas as pd
+import os
+import math
+import random
+from faker import Faker
+import shutil
 
 # -----------------------------
-# CONFIGURAZIONE
+# CONFIGURAZIONE PERCORSI
 # -----------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))                           # Ottengo il percorso assoluto dello script
-INPUT_FILE = os.path.join(BASE_DIR, '../file/dataset_puliti', 'statistiche_simulazione.csv')   # Percorso del file statistico di input
-OUTPUT_DIR = os.path.join(BASE_DIR, '../file', 'dataset_definitivi')                       # Cartella dove salvo i CSV generati
-STUDENTI_PER_CLASSE = 22                                                        # Numero medio di studenti per classe
-random.seed(42)                                                                 # Fisso il seed per avere risultati ripetibili
-fake = Faker('it_IT')                                                           # Inizializzo Faker in lingua italiana
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_puliti')
+OUTPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_simulati')
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # -----------------------------
-# CREAZIONE CARTELLA
+# CARICAMENTO FILE
 # -----------------------------
-os.makedirs(OUTPUT_DIR, exist_ok=True)  # Creo la cartella 'dataset_definitivi' se non esiste già
+df_anag = pd.read_csv(os.path.join(INPUT_DIR, 'anagrafica_scuole_pulita.csv'))
+df_ind = pd.read_csv(os.path.join(INPUT_DIR, 'stu_indirizzi_pulito.csv'))
+df_stats = pd.read_csv(os.path.join(INPUT_DIR, 'statistiche_base.csv'))
 
-# -----------------------------
-# CARICAMENTO STATISTICHE
-# -----------------------------
-df = pd.read_csv(INPUT_FILE)            # Carico il file delle statistiche pre-aggregate
-df = df[df['totale'] >= 5].copy()       # Considero solo le righe con almeno 5 studenti
+def to_int_safe(x):
+    try:
+        return int(x)
+    except:
+        return 0
 
-# -----------------------------
-# DIZIONARIO MATERIE PER INDIRIZZO
-# -----------------------------
-materie_generiche = ['Italiano', 'Matematica', 'Inglese', 'Storia']  # Materie comuni a tutti
-materie_per_indirizzo = {                                            # Materie specifiche per indirizzo scolastico
-    'liceo': materie_generiche + ['Latino', 'Filosofia', 'Fisica'],
-    'industriale': materie_generiche + ['Informatica', 'Elettronica', 'Sistemi'],
-    'linguistico': materie_generiche + ['Francese', 'Spagnolo', 'Tedesco'],
-    'scientifico': materie_generiche + ['Fisica', 'Scienze', 'Disegno Tecnico'],
-    'classico': materie_generiche + ['Greco', 'Latino', 'Filosofia']
-}
+for col in ['alunnimaschi', 'alunnifemmine']:
+    df_ind[col] = df_ind[col].map(to_int_safe)
+
+if 'totale' not in df_ind.columns:
+    df_ind['totale'] = df_ind['alunnimaschi'] + df_ind['alunnifemmine']
 
 # -----------------------------
-# INIZIALIZZAZIONE STRUTTURE
+# GENERAZIONE CLASSI
 # -----------------------------
-studenti_rows = []       # Lista per le righe della tabella studenti
-classi_rows = []         # Lista per le righe della tabella classi
-percorsi_rows = []       # Lista per il legame tra classe e indirizzo
-docenti_rows = []        # Lista delle classi con i docenti associati
-voti_rows = []           # Lista di tutti i voti generati
-assegnazioni_rows = []   # Lista per le assegnazioni materia-docente per ogni classe
+classi_generate = []
+MEDIA_ALUNNI_PER_CLASSE = 22
+class_counter_per_school = {}
 
-# Genero un pool di 100 docenti fittizi con ID univoco
-docenti_pool = [{'id_docente': f"DOC{str(i+1).zfill(4)}", 'nome': fake.name()} for i in range(100)]
-docenti_usati = {}  # Dizionario per tenere traccia di quale docente insegna quale materia in ogni classe
+for _, row in df_ind.iterrows():
+    codice_scuola = row['codicescuola']
+    indirizzo = row['indirizzo']
+    annocorso = to_int_safe(row['annocorso'])
+    totale = to_int_safe(row['totale'])
 
-student_id_counter = 1   # Contatore progressivo per gli ID studenti
-classe_id_counter = 1    # Contatore progressivo per gli ID classi
+    if totale == 0:
+        continue
 
-# -----------------------------
-# LOOP PRINCIPALE
-# -----------------------------
-for _, row in df.iterrows():               # Ciclo su ogni riga del file delle statistiche
-    codice = row['codicescuola']           # Codice della scuola
-    indirizzo = row['indirizzo']           # Nome dell'indirizzo scolastico
-    totale = int(row['totale'])            # Numero totale di studenti
+    stats_row = df_stats[df_stats['codicescuola'] == codice_scuola].head(1)
+    if stats_row.empty:
+        continue
 
-    indirizzo_lower = indirizzo.lower()    # Rendo l'indirizzo minuscolo per confrontarlo facilmente
-    materie = materie_generiche.copy()     # Di default uso le materie generiche
-    for chiave, mat in materie_per_indirizzo.items():  # Cerco una chiave coerente
-        if chiave in indirizzo_lower:
-            materie = mat
-            break
+    perc_maschi = float(stats_row['perc_maschi'].values[0])
+    perc_femmine = float(stats_row['perc_femmine'].values[0])
+    perc_italiani = float(stats_row['perc_italiani'].values[0])
+    perc_stranieri = float(stats_row['perc_stranieri'].values[0])
 
-    num_classi = max(1, totale // STUDENTI_PER_CLASSE)  # Calcolo il numero di classi necessarie
-    classi_ids = []  # Tengo traccia degli ID delle classi generate
+    num_classi = math.ceil(totale / MEDIA_ALUNNI_PER_CLASSE)
+    studenti_per_classe = [totale // num_classi] * num_classi
+    for i in range(totale % num_classi):
+        studenti_per_classe[i] += 1
 
-    for i in range(num_classi):                        # Creo ciascuna classe
-        nome_classe = f"{random.randint(3, 5)}{chr(65 + i % 5)}"      # Es: 3A, 4B, 5C...
-        id_classe = f"CL{classe_id_counter:04}"                      # Es: CL0001, CL0002...
-        classe_id_counter += 1
-        classi_ids.append(id_classe)
+    for num_studenti in studenti_per_classe:
+        class_counter_per_school.setdefault(codice_scuola, 0)
+        class_counter_per_school[codice_scuola] += 1
+        id_classe = f"{codice_scuola}_{class_counter_per_school[codice_scuola]:04d}"
 
-        classi_rows.append({                 # Salvo i dati della classe
+        num_maschi = round(num_studenti * perc_maschi)
+        num_femmine = num_studenti - num_maschi
+        num_italiani = round(num_studenti * perc_italiani)
+        num_stranieri = num_studenti - num_italiani
+
+        classi_generate.append({
             'id_classe': id_classe,
-            'codicescuola': codice,
-            'nome_classe': nome_classe
+            'codicescuola': codice_scuola,
+            'indirizzo': indirizzo,
+            'annocorso': annocorso,
+            'num_studenti': num_studenti,
+            'num_maschi': num_maschi,
+            'num_femmine': num_femmine,
+            'num_italiani': num_italiani,
+            'num_stranieri': num_stranieri
         })
 
-        percorsi_rows.append({               # Associo la classe a un indirizzo
-            'id_classe': id_classe,
-            'indirizzo': indirizzo
-        })
+df_classi = pd.DataFrame(classi_generate)
+df_classi.to_csv(os.path.join(OUTPUT_DIR, 'classi.csv'), index=False)
+print("✅ Classi generate e salvate.")
 
-        for materia in materie:              # Per ogni materia assegno un docente
-            docente = random.choice(docenti_pool)
-            nome_docente = docente['nome']
-            id_docente = docente['id_docente']
+# -----------------------------
+# GENERAZIONE STUDENTI
+# -----------------------------
+faker = Faker('it_IT')
+faker.unique.clear()
+studenti = []
+studente_counter = 1
 
-            assegnazioni_rows.append({       # Salvo l'assegnazione materia-docente-classe
-                'id_classe': id_classe,
-                'materia': materia,
-                'id_docente': id_docente,
-                'nome_docente': nome_docente
-            })
+for _, row in df_classi.iterrows():
+    id_classe = row['id_classe']
+    num_studenti = int(row['num_studenti'])
+    num_maschi = int(row['num_maschi'])
+    num_femmine = int(row['num_femmine'])
+    num_italiani = int(row['num_italiani'])
+    num_stranieri = int(row['num_stranieri'])
 
-            docenti_rows.append({            # Salvo la presenza del docente nella classe
-                'id_classe': id_classe,
-                'id_docente': id_docente,
-                'nome_docente': nome_docente
-            })
+    sesso_lista = ['M'] * num_maschi + ['F'] * num_femmine
+    cittadinanza_lista = ['ITA'] * num_italiani + ['NON_ITA'] * num_stranieri
 
-            docenti_usati[(id_classe, materia)] = id_docente  # Memorizzo l'abbinamento per generare voti coerenti
+    while len(sesso_lista) < num_studenti:
+        sesso_lista.append(random.choice(['M', 'F']))
+    while len(cittadinanza_lista) < num_studenti:
+        cittadinanza_lista.append(random.choice(['ITA', 'NON_ITA']))
 
-    for idx in range(totale):  # Generazione degli studenti
-        id_studente = f"STU{student_id_counter:05}"  # Es: STU00001, STU00002...
-        student_id_counter += 1
-        id_classe = classi_ids[idx % num_classi]  # Assegno lo studente a una classe in modo bilanciato
+    random.shuffle(sesso_lista)
+    random.shuffle(cittadinanza_lista)
 
-        genere = 'M' if random.random() < row['perc_maschi'] else 'F'             # Genere basato sulla percentuale maschi
-        cittadinanza = 'ITA' if random.random() < row['perc_italiani'] else 'NON_ITA'  # Cittadinanza basata sulla percentuale italiani
+    for i in range(num_studenti):
+        sesso = sesso_lista[i]
+        cittadinanza = cittadinanza_lista[i]
+        nome = faker.first_name_male() if sesso == 'M' else faker.first_name_female()
+        cognome = faker.last_name()
+        id_studente = f"STU{studente_counter:04d}"
+        studente_counter += 1
 
-        nome = fake.first_name_male() if genere == 'M' else fake.first_name_female()  # Nome coerente con il genere
-        cognome = fake.last_name()                                                   # Cognome casuale
-
-        studenti_rows.append({             # Salvo i dati dello studente
+        studenti.append({
             'id_studente': id_studente,
             'id_classe': id_classe,
             'nome': nome,
             'cognome': cognome,
-            'genere': genere,
+            'sesso': sesso,
             'cittadinanza': cittadinanza
         })
 
-        for materia in materie:            # Genero i voti dello studente per ogni materia
-            num_voti = random.choice([2, 3])                        # Ogni materia ha 2 o 3 voti
-            id_docente = docenti_usati.get((id_classe, materia))   # Recupero il docente che insegna quella materia
-            for _ in range(num_voti):
-                voto_base = random.randint(1, 9)                    # Parte intera del voto
-                decimale = random.choice([0.25, 0.5, 0.75])         # Parte decimale casuale
-                voto = round(min(voto_base + decimale, 10.0), 2)    # Somma con decimale, massimo 10
-
-                voti_rows.append({              # Salvo il voto completo
-                    'id_studente': id_studente,
-                    'materia': materia,
-                    'voto': voto,
-                    'id_docente': id_docente
-                })
+df_studenti = pd.DataFrame(studenti)
+df_studenti.to_csv(os.path.join(OUTPUT_DIR, 'studenti.csv'), index=False)
+print("✅ Studenti generati e salvati.")
 
 # -----------------------------
-# SALVATAGGIO FILE
+# GENERAZIONE DOCENTI
 # -----------------------------
-# Esporto tutti i file generati come CSV
-pd.DataFrame(studenti_rows).to_csv(os.path.join(OUTPUT_DIR, 'studenti.csv'), index=False)
-pd.DataFrame(classi_rows).to_csv(os.path.join(OUTPUT_DIR, 'classi.csv'), index=False)
-pd.DataFrame(percorsi_rows).to_csv(os.path.join(OUTPUT_DIR, 'percorsi.csv'), index=False)
-pd.DataFrame(docenti_rows).to_csv(os.path.join(OUTPUT_DIR, 'docenti.csv'), index=False)
-pd.DataFrame(assegnazioni_rows).to_csv(os.path.join(OUTPUT_DIR, 'assegnazioni_docenti.csv'), index=False)
-pd.DataFrame(voti_rows).to_csv(os.path.join(OUTPUT_DIR, 'voti.csv'), index=False)
+materie_comuni = ['Italiano', 'Matematica']
+materie_per_indirizzo = {
+    'LICEO SCIENTIFICO': ['Fisica', 'Latino', 'Scienze Naturali'],
+    'LICEO CLASSICO': ['Latino', 'Greco', 'Filosofia'],
+    'ISTITUTO TECNICO INDUSTRIALE': ['Informatica', 'Elettronica', 'Sistemi'],
+    'ISTITUTO TECNICO COMMERCIALE': ['Economia', 'Diritto', 'Informatica'],
+    'ISTITUTO PROFESSIONALE': ['Tecnologia', 'Laboratorio', 'Sicurezza'],
+    'LICEO LINGUISTICO': ['Inglese', 'Francese', 'Spagnolo'],
+    'LICEO ARTISTICO': ['Storia dell’Arte', 'Disegno', 'Scultura'],
+}
+
+docenti = []
+assegnazioni = []
+docente_counter = 1
+faker.unique.clear()
+
+gruppo_classi = df_classi.groupby(['codicescuola', 'indirizzo'])
+
+for (codice_scuola, indirizzo), classi in gruppo_classi:
+    classi_ids = classi['id_classe'].tolist()
+    indirizzo_upper = indirizzo.upper()
+    materie_spec = materie_per_indirizzo.get(indirizzo_upper, ['Scienze', 'Educazione Fisica', 'Storia'])
+    materie_finali = materie_comuni + materie_spec
+    random.shuffle(materie_finali)
+
+    for materia in materie_finali:
+        nome = faker.first_name()
+        cognome = faker.last_name()
+        id_docente = f"DOC{docente_counter:04d}"
+        docente_counter += 1
+
+        docenti.append({
+            'id_docente': id_docente,
+            'nome': nome,
+            'cognome': cognome,
+            'materia': materia,
+            'codicescuola': codice_scuola
+        })
+
+        n_classi = random.randint(1, min(2, len(classi_ids)))
+        classi_assegnate = random.sample(classi_ids, n_classi)
+
+        for id_classe in classi_assegnate:
+            assegnazioni.append({
+                'id_docente': id_docente,
+                'id_classe': id_classe,
+                'materia': materia
+            })
+
+df_docenti = pd.DataFrame(docenti)
+df_assegnazioni = pd.DataFrame(assegnazioni)
+df_docenti.to_csv(os.path.join(OUTPUT_DIR, 'docenti.csv'), index=False)
+df_assegnazioni.to_csv(os.path.join(OUTPUT_DIR, 'assegnazioni_docenti.csv'), index=False)
+print("✅ Docenti generati e assegnazioni salvate.")
+
+# -----------------------------
+# GENERAZIONE VOTI
+# -----------------------------
+def genera_voto():
+    voto = round(random.gauss(6.5, 1.5))
+    return min(10, max(3, voto))
+
+df_assegnazioni = pd.read_csv(os.path.join(OUTPUT_DIR, 'assegnazioni_docenti.csv'))
+voti = []
+voto_counter = 1
+assegnazioni_per_classe = df_assegnazioni.groupby('id_classe')
+
+for _, studente in df_studenti.iterrows():
+    id_studente = studente['id_studente']
+    id_classe = studente['id_classe']
+
+    if id_classe not in assegnazioni_per_classe.groups:
+        continue
+
+    assegnazioni = assegnazioni_per_classe.get_group(id_classe)
+
+    for _, riga in assegnazioni.iterrows():
+        id_docente = riga['id_docente']
+        materia = riga['materia']
+        for _ in range(2):
+            id_voto = f"VOT{voto_counter:04d}"
+            voto_counter += 1
+            voti.append({
+                'id_voto': id_voto,
+                'id_studente': id_studente,
+                'id_docente': id_docente,
+                'materia': materia,
+                'voto': genera_voto()
+            })
+
+df_voti = pd.DataFrame(voti)
+df_voti.to_csv(os.path.join(OUTPUT_DIR, 'voti.csv'), index=False)
+print("✅ Voti generati e salvati.")
+
+
 shutil.copy2(os.path.join(BASE_DIR, '../file/dataset_puliti', 'anagrafica_scuole_pulita.csv'), os.path.join(OUTPUT_DIR, 'anagrafica_scuole_pulita.csv'))
-
-
-print("✅ File simulati con docenti generati in:", OUTPUT_DIR)  # Messaggio di conferma finale
+print("✅ File anagrafiche salvato.")

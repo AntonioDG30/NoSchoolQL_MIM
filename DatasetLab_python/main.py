@@ -26,7 +26,7 @@ def esegui_script(nome_script, descrizione):
 # Ordine delle fasi
 fasi = [
     ('pulizia_mir.py', 'Pulizia dei file MIUR'),                   # 1. Pulizia dei dati grezzi
-    ('genera_stats.py', 'Generazione statistiche per simulazione'),# 2. Calcolo delle statistiche base
+    ('calcolo_statistiche.py', 'Generazione statistiche per simulazione'),# 2. Calcolo delle statistiche base
     ('genera_dati_simulati.py', 'Generazione dei dati simulati'),  # 3. Creazione del dataset fittizio
     ('analisi_dataset.py', 'Analisi del dataset simulato')         # 4. Analisi descrittiva finale
 ]
