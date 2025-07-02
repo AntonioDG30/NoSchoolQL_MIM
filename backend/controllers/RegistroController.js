@@ -151,5 +151,56 @@ module.exports = {
     } catch (err) {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
+  },
+
+  // Docente: ottieni tutti gli studenti e i voti delle sue classi
+  async getClassiConStudenti(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+
+    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+
+    try {
+      const {
+        docentiCollection,
+        assegnazioniCollection,
+        classiCollection,
+        studentiCollection,
+        votiCollection
+      } = getCollections();
+
+      const assegnazioni = await assegnazioniCollection.find({ id_docente: userId }).toArray();
+      const classiIds = assegnazioni.map(a => a.id_classe);
+      const classi = await classiCollection.find({ id_classe: { $in: classiIds } }).toArray();
+
+      const classiResult = [];
+
+      for (const classe of classi) {
+        const studenti = await studentiCollection.find({ id_classe: classe.id_classe }).toArray();
+        const studentiConVoti = [];
+
+        for (const studente of studenti) {
+          const voti = await votiCollection.find({
+            id_studente: studente.id_studente,
+            id_docente: userId
+          }).toArray();
+
+          studentiConVoti.push({
+            studente,
+            voti
+          });
+        }
+
+        classiResult.push({
+          id_classe: classe.id_classe,
+          studenti: studentiConVoti
+        });
+      }
+
+      return res.json({ classi: classiResult });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
   }
+
 };

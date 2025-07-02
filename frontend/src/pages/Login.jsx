@@ -1,71 +1,75 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [userId, setUserId] = useState('');
+  const [id, setId] = useState('');
   const [errore, setErrore] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!userId.trim()) {
-      setErrore('Inserisci un ID utente.');
-      return;
+    setErrore('');
+
+    try {
+      // Prova come studente
+      const resStudente = await axios.get('http://localhost:3000/api/registro/studente/voti', {
+        headers: { Authorization: `STUDENTE:${id}` }
+      });
+
+      if (resStudente.data?.studente) {
+        localStorage.setItem('id', id);
+        localStorage.setItem('tipo', 'studente');
+        navigate('/registro');
+        return;
+      }
+    } catch (err) {
+      console.log('Non è uno studente:', err.response?.data?.message || err.message);
     }
 
     try {
-      const headers = { Authorization: `STUDENTE:${userId}` };
-      let response = await fetch('http://localhost:3000/api/registro/studente/voti', { headers });
-
-      if (response.ok) {
-        localStorage.setItem('userId', userId);
-        localStorage.setItem('userType', 'studente');
-        navigate('/registro');
-        return;
-      }
-
       // Prova come docente
-      headers.Authorization = `DOCENTE:${userId}`;
-      response = await fetch('http://localhost:3000/api/registro/docente/classi', { headers });
+      const resDocente = await axios.get('http://localhost:3000/api/registro/docente/classi', {
+        headers: { Authorization: `DOCENTE:${id}` }
+      });
 
-      if (response.ok) {
-        localStorage.setItem('userId', userId);
-        localStorage.setItem('userType', 'docente');
+      if (resDocente.data?.docente) {
+        localStorage.setItem('id', id);
+        localStorage.setItem('tipo', 'docente');
         navigate('/registro');
         return;
       }
-
-      setErrore('Utente non trovato o ID non valido.');
-
     } catch (err) {
-      console.error('Errore durante il login:', err);
-      setErrore('Errore di connessione al server.');
+      console.log('Non è un docente:', err.response?.data?.message || err.message);
     }
+
+    setErrore('ID non valido. Riprova.');
   };
 
   return (
-    <div className="max-w-md mx-auto mt-24 p-6 border shadow rounded text-center">
-      <h2 className="text-2xl font-semibold mb-4">Accedi al Registro</h2>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-96">
+        <h1 className="text-2xl font-semibold mb-4 text-center">Login</h1>
 
-      <input
-        type="text"
-        placeholder="Inserisci ID utente (es. STU0001)"
-        className="border p-2 w-full rounded mb-4"
-        value={userId}
-        onChange={(e) => setUserId(e.target.value.toUpperCase())}
-      />
+        <label className="block mb-2 text-sm font-medium text-gray-700">Inserisci il tuo ID</label>
+        <input
+          type="text"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+          placeholder="es. STU0001 o DOC0001"
+          className="w-full p-2 border rounded mb-4"
+        />
 
-      <button
-        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full"
-        onClick={handleLogin}
-      >
-        Accedi
-      </button>
+        <button
+          onClick={handleLogin}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+        >
+          Accedi
+        </button>
 
-      {errore && <p className="text-red-600 mt-4">{errore}</p>}
-
-      <p className="mt-6">
-        <a href="/" className="text-sm text-blue-500 hover:underline">🔙 Torna alla Home</a>
-      </p>
+        {errore && (
+          <p className="mt-4 text-red-600 text-sm text-center">{errore}</p>
+        )}
+      </div>
     </div>
   );
 }

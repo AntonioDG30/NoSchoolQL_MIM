@@ -18,4 +18,7 @@ router.put('/docente/voto', authMiddleware, RegistroController.modificaVoto);
 // Docente: elimina un voto
 router.delete('/docente/voto', authMiddleware, RegistroController.eliminaVoto);
 
+router.get('/docente/classi-complete', authMiddleware, RegistroController.getClassiConStudenti);
+
+
 module.exports = router;
