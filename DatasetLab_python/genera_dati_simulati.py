@@ -5,6 +5,8 @@ import math
 import random
 from faker import Faker
 import shutil
+import datetime
+from collections import defaultdict
 
 # -----------------------------
 # CONFIGURAZIONE PERCORSI
@@ -40,6 +42,9 @@ classi_generate = []
 MEDIA_ALUNNI_PER_CLASSE = 22
 class_counter_per_school = {}
 
+lettere_classi = defaultdict(lambda: defaultdict(int))  # {codicescuola: {annocorso: counter}}
+lettere_disponibili = [chr(i) for i in range(ord('A'), ord('Z')+1)]
+
 for _, row in df_ind.iterrows():
     codice_scuola = row['codicescuola']
     indirizzo = row['indirizzo']
@@ -66,6 +71,11 @@ for _, row in df_ind.iterrows():
     for num_studenti in studenti_per_classe:
         class_counter_per_school.setdefault(codice_scuola, 0)
         class_counter_per_school[codice_scuola] += 1
+
+        lettere_classi[codice_scuola][annocorso] += 1
+        indice_lettera = lettere_classi[codice_scuola][annocorso] - 1
+        nome_classe = f"{annocorso}{lettere_disponibili[indice_lettera]}"
+
         id_classe = f"{codice_scuola}_{class_counter_per_school[codice_scuola]:04d}"
 
         num_maschi = round(num_studenti * perc_maschi)
@@ -78,6 +88,7 @@ for _, row in df_ind.iterrows():
             'codicescuola': codice_scuola,
             'indirizzo': indirizzo,
             'annocorso': annocorso,
+            'nome_classe': nome_classe,
             'num_studenti': num_studenti,
             'num_maschi': num_maschi,
             'num_femmine': num_femmine,
@@ -202,6 +213,13 @@ def genera_voto():
     voto = round(random.gauss(6.5, 1.5))
     return min(10, max(3, voto))
 
+def genera_data_voto():
+    inizio = datetime.date(2023, 9, 15)
+    fine = datetime.date(2024, 5, 31)
+    delta = (fine - inizio).days
+    giorno_casuale = random.randint(0, delta)
+    return (inizio + datetime.timedelta(days=giorno_casuale)).isoformat()
+
 df_assegnazioni = pd.read_csv(os.path.join(OUTPUT_DIR, 'assegnazioni_docenti.csv'))
 voti = []
 voto_counter = 1
@@ -227,13 +245,13 @@ for _, studente in df_studenti.iterrows():
                 'id_studente': id_studente,
                 'id_docente': id_docente,
                 'materia': materia,
-                'voto': genera_voto()
+                'voto': genera_voto(),
+                'data': genera_data_voto()
             })
 
 df_voti = pd.DataFrame(voti)
 df_voti.to_csv(os.path.join(OUTPUT_DIR, 'voti.csv'), index=False)
 print("✅ Voti generati e salvati.")
 
-
-shutil.copy2(os.path.join(BASE_DIR, '../file/dataset_puliti', 'anagrafica_scuole_pulita.csv'), os.path.join(OUTPUT_DIR, 'anagrafica_scuole_pulita.csv'))
+shutil.copy2(os.path.join(BASE_DIR, '../file/dataset_puliti', 'anagrafica_scuole_pulita.csv'), os.path.join(OUTPUT_DIR, 'anagrafica.csv'))
 print("✅ File anagrafiche salvato.")

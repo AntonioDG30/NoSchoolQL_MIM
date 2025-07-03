@@ -55,7 +55,13 @@ module.exports = {
             id_docente: userId
           }).toArray();
 
-          result.push({ classe: classe.id_classe, studente, voti });
+          result.push({
+            id_classe: classe.id_classe,
+            nome_classe: classe.nome_classe, // <- Aggiunto campo corretto
+            studente,
+            voti
+          });
+
         }
       }
 
@@ -69,11 +75,13 @@ module.exports = {
   async inserisciVoto(req, res) {
     const userId = req.userId;
     const userType = req.userType;
-    const { id_studente, materia, voto } = req.body;
+    const { id_studente, materia, voto, data } = req.body;
 
-    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+    if (userType !== 'docente') {
+      return res.status(403).json({ message: 'Accesso negato' });
+    }
 
-    if (!id_studente || !materia || typeof voto !== 'number') {
+    if (!id_studente || !materia || typeof voto !== 'number' || !data) {
       return res.status(400).json({ message: 'Dati incompleti o errati' });
     }
 
@@ -86,7 +94,8 @@ module.exports = {
         id_studente,
         id_docente: userId,
         materia,
-        voto: Number(voto)
+        voto: Number(voto),
+        data: new Date(data)
       };
 
       await votiCollection.insertOne(nuovoVoto);
@@ -95,6 +104,7 @@ module.exports = {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
   },
+
 
   // Docente: modifica un voto esistente
   async modificaVoto(req, res) {
@@ -201,6 +211,122 @@ module.exports = {
     } catch (err) {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
+  },
+
+  async mediaStudente(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+    const { id_studente } = req.params;
+
+    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+
+    try {
+      const { votiCollection } = getCollections();
+
+      const mediaAgg = await votiCollection.aggregate([
+        {
+          $match: {
+            id_studente,
+            id_docente: userId
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            media: { $avg: "$voto" }
+          }
+        }
+      ]).toArray();
+
+      const media = mediaAgg[0]?.media?.toFixed(2) || "0.00";
+
+      res.json({ id_studente, media });
+    } catch (err) {
+      res.status(500).json({ message: 'Errore nel calcolo della media', error: err.message });
+    }
+  },
+
+  async inserisciVotoPerClasse(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+    const { id_classe, materia, voto } = req.body;
+
+    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+
+    if (!id_classe || !materia || typeof voto !== 'number') {
+      return res.status(400).json({ message: 'Dati incompleti o errati' });
+    }
+
+    try {
+      const { studentiCollection, votiCollection } = getCollections();
+
+      const studenti = await studentiCollection.find({ id_classe }).toArray();
+
+      const operazioni = studenti.map(studente => ({
+        id_voto: `VOT${Date.now()}${Math.floor(Math.random() * 1000)}`,
+        id_studente: studente.id_studente,
+        id_docente: userId,
+        materia,
+        voto: Number(voto)
+      }));
+
+      await votiCollection.insertMany(operazioni);
+
+      res.json({ message: 'Voti inseriti per tutta la classe', inseriti: operazioni.length });
+    } catch (err) {
+      res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+  async getMaterieDocente(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+
+    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+
+    try {
+      const { assegnazioniCollection } = getCollections();
+      const assegnazioni = await assegnazioniCollection.find({ id_docente: userId }).toArray();
+      const materie = [...new Set(assegnazioni.map(a => a.materia))];
+
+      return res.json({ materie });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+  async inserisciVotiTuttaClasse(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+    const { id_classe, materia, voti } = req.body;
+
+    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+    if (!id_classe || !materia || !Array.isArray(voti)) {
+      return res.status(400).json({ message: 'Dati incompleti o errati' });
+    }
+
+    try {
+      const { votiCollection } = getCollections();
+      const votiDaInserire = voti.map(v => ({
+        id_voto: `VOT${Date.now()}${Math.floor(Math.random() * 1000)}`,
+        id_docente: userId,
+        id_studente: v.id_studente,
+        materia: v.materia || materia, // fallback
+        voto: Number(v.voto),
+        data: new Date()
+      }));
+
+      if (votiDaInserire.length === 0) {
+        return res.status(400).json({ message: 'Nessun voto valido da inserire' });
+      }
+
+      await votiCollection.insertMany(votiDaInserire);
+      return res.status(201).json({ message: 'Voti inseriti correttamente' });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
   }
+
+
 
 };

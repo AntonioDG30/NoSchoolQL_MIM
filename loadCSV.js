@@ -10,6 +10,7 @@ const DB_NAME = 'NoSchoolQL';
 const DATASET_DIR = path.join(__dirname, 'file/dataset_definitivi');
 
 const COLLECTIONS = {
+  anagrafica: 'anagrafica.csv',
   studenti: 'studenti.csv',
   classi: 'classi.csv',
   docenti: 'docenti.csv',
@@ -17,13 +18,29 @@ const COLLECTIONS = {
   voti: 'voti.csv'
 };
 
-async function importCSVToMongo(client, collectionName, csvFilePath) {
+// Conversioni numeriche e date specifiche per ciascun file
+function convertTypes(row, file) {
+  if (file === 'classi.csv') {
+    ['annocorso', 'num_studenti', 'num_maschi', 'num_femmine', 'num_italiani', 'num_stranieri'].forEach(key => {
+      if (row[key]) row[key] = Number(row[key]);
+    });
+  }
+
+  if (file === 'voti.csv') {
+    if (row.voto) row.voto = Number(row.voto);
+    if (row.data) row.data = new Date(row.data);
+  }
+
+  return row;
+}
+
+async function importCSVToMongo(client, collectionName, csvFilePath, fileName) {
   return new Promise((resolve, reject) => {
     const data = [];
     fs.createReadStream(csvFilePath)
       .pipe(csv())
       .on('data', (row) => {
-        data.push(row);
+        data.push(convertTypes(row, fileName));
       })
       .on('end', async () => {
         try {
@@ -43,6 +60,8 @@ async function importCSVToMongo(client, collectionName, csvFilePath) {
 
 async function creaIndici(client) {
   const db = client.db(DB_NAME);
+
+  await db.collection('anagrafica').createIndex({ codicescuola: 1 });
 
   await db.collection('studenti').createIndex({ id_studente: 1 }, { unique: true });
   await db.collection('studenti').createIndex({ id_classe: 1 });
@@ -76,7 +95,7 @@ async function main() {
 
     for (const [collectionName, csvFile] of Object.entries(COLLECTIONS)) {
       const filePath = path.join(DATASET_DIR, csvFile);
-      await importCSVToMongo(client, collectionName, filePath);
+      await importCSVToMongo(client, collectionName, filePath, csvFile);
     }
 
     await creaIndici(client);

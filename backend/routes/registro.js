@@ -20,5 +20,16 @@ router.delete('/docente/voto', authMiddleware, RegistroController.eliminaVoto);
 
 router.get('/docente/classi-complete', authMiddleware, RegistroController.getClassiConStudenti);
 
+// Calcolo media di uno studente
+router.get('/docente/studente/:id_studente/media', authMiddleware, RegistroController.mediaStudente);
+
+// Inserisci stesso voto per tutti gli studenti della classe
+router.post('/docente/classe/voto', authMiddleware, RegistroController.inserisciVotoPerClasse);
+
+
+router.get('/docente/materie', authMiddleware, RegistroController.getMaterieDocente);
+
+router.post('/docente/classe/voti', authMiddleware, RegistroController.inserisciVotiTuttaClasse);
+
 
 module.exports = router;
