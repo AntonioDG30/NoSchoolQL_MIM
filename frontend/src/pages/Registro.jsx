@@ -124,15 +124,22 @@ export default function Registro() {
       .catch(err => console.error('Errore invio voti tutta la classe', err));
   };
 
-  const apriDettagliStudente = (studente, voti) => {
+  const apriDettagliStudente = (studente) => {
     setStudenteSelezionato(studente);
-    setVotiStudente(voti);
     setMediaStudente(null);
     setInserimentoVotoAperto(false);
     setMateriaPerModifica('');
     setMediaVisibile(false);
     setModificaVisibile('');
+    setVotoSelezionato(null);
+
+    axios.get(`http://localhost:3000/api/registro/docente/studente/${studente.id_studente}/voti`, {
+      headers: { Authorization: `${user.tipo.toUpperCase()}:${user.id}` },
+    })
+    .then(res => setVotiStudente(res.data.voti))
+    .catch(err => console.error('Errore nel caricamento voti aggiornati dello studente', err));
   };
+
 
   const toggleMedia = () => {
     if (mediaVisibile) {
@@ -158,10 +165,41 @@ export default function Registro() {
       headers: { Authorization: `${user.tipo.toUpperCase()}:${user.id}` },
     }).then(() => {
       alert('✅ Voto modificato con successo');
+      setVotiStudente(prev =>
+        prev.map(v =>
+          v.id_voto === votoSelezionato.id_voto
+            ? { ...v, voto: Number(nuovoVoto) }
+            : v
+        )
+      );
       setVotoSelezionato(null);
       setNuovoVoto('');
       setModificaVisibile('');
     }).catch(err => console.error('Errore modifica voto', err));
+  };
+
+  const eliminaVoto = () => {
+    if (!votoSelezionato) return alert('⚠️ Seleziona prima un voto da eliminare');
+
+    if (!window.confirm('Sei sicuro di voler eliminare questo voto?')) return;
+
+    axios.delete('http://localhost:3000/api/registro/docente/voto', {
+      headers: { Authorization: `${user.tipo.toUpperCase()}:${user.id}` },
+      data: { id_voto: votoSelezionato.id_voto }
+    })
+    .then(() => {
+      alert('✅ Voto eliminato con successo');
+      setVotiStudente(prev =>
+        prev.filter(v => v.id_voto !== votoSelezionato.id_voto)
+      );
+      setVotoSelezionato(null);
+      setNuovoVoto('');
+      setModificaVisibile('');
+    })
+    .catch(err => {
+      console.error('Errore eliminazione voto', err);
+      alert('❌ Errore durante l\'eliminazione del voto');
+    });
   };
 
   const inviaNuovoVotoSingolo = () => {
@@ -177,15 +215,15 @@ export default function Registro() {
       data: nuovoVotoData
     }, {
       headers: { Authorization: `${user.tipo.toUpperCase()}:${user.id}` },
-    }).then(() => {
+    }).then(res => {
       alert('✅ Voto inserito con successo');
+      setVotiStudente(prev => [...prev, res.data.voto]);
       setNuovoVotoMateria('');
       setNuovoVotoValore('');
       setNuovoVotoData('');
       setInserimentoVotoAperto(false);
     }).catch(err => console.error('Errore inserimento voto singolo', err));
   };
-
 
   const votiPerMateria = votiStudente.reduce((acc, voto) => {
     acc[voto.materia] = acc[voto.materia] || [];
@@ -266,7 +304,7 @@ export default function Registro() {
                         <li key={i}>
                           <button
                             className="text-green-700 underline"
-                            onClick={() => apriDettagliStudente(item.studente, item.voti)}
+                            onClick={() => apriDettagliStudente(item.studente)}
                           >
                             {item.studente.nome} {item.studente.cognome}
                           </button>
@@ -373,9 +411,16 @@ export default function Registro() {
                         />
                         <button
                           onClick={inviaModificaVoto}
-                          className="bg-blue-600 text-white px-3 py-1 rounded"
+                          className="bg-blue-600 text-white px-3 py-1 mr-2 rounded"
                         >
                           Salva
+                        </button>
+
+                        <button
+                          onClick={eliminaVoto}
+                          className="bg-red-600 text-white px-3 py-1 rounded"
+                        >
+                          Elimina
                         </button>
                       </div>
                     )}
