@@ -3,35 +3,29 @@ const router = express.Router();
 const RegistroController = require('../controllers/RegistroController');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// Studente: recupera i propri voti
+// ==== STUDENTE ====
+
 router.get('/studente/voti', authMiddleware, RegistroController.getVotiStudente);
+router.get('/studente/media-per-materia', authMiddleware, RegistroController.getMediaPerMateriaStudente);
+router.get('/studente/distribuzione-voti', authMiddleware, RegistroController.getDistribuzioneVotiStudente);
+router.get('/studente/voti-filtrati', authMiddleware, RegistroController.getVotiStudenteFiltratiPerData);
+router.get('/studente/voti-materia/:materia', authMiddleware, RegistroController.getVotiStudentePerMateria);
+router.get('/studente/media-generale', authMiddleware, RegistroController.getMediaGeneraleStudente);
 
-// Docente: recupera tutte le classi, studenti e voti che gestisce
+// ==== DOCENTE ====
+
 router.get('/docente/classi', authMiddleware, RegistroController.getClassiDocente);
-
-// Docente: inserisce un nuovo voto
-router.post('/docente/voto', authMiddleware, RegistroController.inserisciVoto);
-
-// Docente: modifica un voto esistente
-router.put('/docente/voto', authMiddleware, RegistroController.modificaVoto);
-
-// Docente: elimina un voto
-router.delete('/docente/voto', authMiddleware, RegistroController.eliminaVoto);
-
-router.get('/docente/classi-complete', authMiddleware, RegistroController.getClassiConStudenti);
-
-// Calcolo media di uno studente
-router.get('/docente/studente/:id_studente/media', authMiddleware, RegistroController.mediaStudente);
-
-// Inserisci stesso voto per tutti gli studenti della classe
-router.post('/docente/classe/voto', authMiddleware, RegistroController.inserisciVotoPerClasse);
-
-
 router.get('/docente/materie', authMiddleware, RegistroController.getMaterieDocente);
-
-router.post('/docente/classe/voti', authMiddleware, RegistroController.inserisciVotiTuttaClasse);
-
+router.get('/docente/classi-complete', authMiddleware, RegistroController.getClassiConStudenti);
+router.get('/docente/studente/:id_studente/media', authMiddleware, RegistroController.mediaStudente);
 router.get('/docente/studente/:id_studente/voti', authMiddleware, RegistroController.getVotiStudentePerDocente);
+router.get('/docente/studente/:id_studente/voti-filtro', authMiddleware, RegistroController.getVotiStudentePerDocenteConFiltro);
+router.get('/docente/classe/:id_classe/materia/:materia/media', authMiddleware, RegistroController.getMediaClassePerMateria);
 
+router.post('/docente/voto', authMiddleware, RegistroController.inserisciVoto);
+router.put('/docente/voto', authMiddleware, RegistroController.modificaVoto);
+router.delete('/docente/voto', authMiddleware, RegistroController.eliminaVoto);
+router.post('/docente/classe/voto', authMiddleware, RegistroController.inserisciVotoPerClasse);
+router.post('/docente/classe/voti', authMiddleware, RegistroController.inserisciVotiTuttaClasse);
 
 module.exports = router;

@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Doughnut, Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement,
+} from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
+
 
 export default function Registro() {
   const [user, setUser] = useState(null);
@@ -23,6 +30,20 @@ export default function Registro() {
   const [nuovoVotoData, setNuovoVotoData] = useState('');
   const [mediaVisibile, setMediaVisibile] = useState(false);
   const [modificaVisibile, setModificaVisibile] = useState('');
+  const [startDateDocente, setStartDateDocente] = useState('');
+  const [endDateDocente, setEndDateDocente] = useState('');
+  const [classePerMedia, setClassePerMedia] = useState('');
+  const [materiaPerClasse, setMateriaPerClasse] = useState('');
+  const [mediaClasse, setMediaClasse] = useState(null);
+  const [mediePerMateria, setMediePerMateria] = useState([]);
+  const [distribuzioneVoti, setDistribuzioneVoti] = useState([]);
+  const [mediaGenerale, setMediaGenerale] = useState(null);
+  const [filtroMateria, setFiltroMateria] = useState('');
+  const [filtroDataInizio, setFiltroDataInizio] = useState('');
+  const [filtroDataFine, setFiltroDataFine] = useState('');
+
+
+
 
   const navigate = useNavigate();
 
@@ -46,6 +67,19 @@ export default function Registro() {
         .catch(err => {
           console.error('❌ Errore nel caricamento voti studente:', err);
         });
+
+        axios.get('http://localhost:3000/api/registro/studente/media-per-materia', {
+          headers: { Authorization: `${tipo.toUpperCase()}:${id}` },
+        }).then(res => setMediePerMateria(res.data.medie));
+
+        axios.get('http://localhost:3000/api/registro/studente/distribuzione-voti', {
+          headers: { Authorization: `${tipo.toUpperCase()}:${id}` },
+        }).then(res => setDistribuzioneVoti(res.data.distribuzione));
+
+        axios.get('http://localhost:3000/api/registro/studente/media-generale', {
+          headers: { Authorization: `${tipo.toUpperCase()}:${id}` },
+        }).then(res => setMediaGenerale(res.data.media));
+
       }
 
       if (tipo === 'docente') {
@@ -225,6 +259,32 @@ export default function Registro() {
     }).catch(err => console.error('Errore inserimento voto singolo', err));
   };
 
+  const calcolaMediaClasse = (id_classe, materia) => {
+    if (!id_classe || !materia) {
+      alert('⚠️ Specificare sia la classe che la materia.');
+      return;
+    }
+
+    axios.get(`http://localhost:3000/api/registro/docente/classe/${id_classe}/materia/${materia}/media`, {
+      headers: { Authorization: `${user.tipo.toUpperCase()}:${user.id}` }
+    }).then(res => {
+      setMediaClasse(res.data.media);
+    }).catch(err => {
+      console.error('Errore nel calcolo della media classe:', err);
+      alert('❌ Errore nel calcolo della media della classe');
+    });
+  };
+
+
+
+  const filtraVotiDocentePerData = () => {
+    if (!startDateDocente || !endDateDocente || !studenteSelezionato) return alert('Compila tutte le informazioni');
+    axios.get(`http://localhost:3000/api/registro/docente/studente/${studenteSelezionato.id_studente}/voti-filtro?startDate=${startDateDocente}&endDate=${endDateDocente}`, {
+      headers: { Authorization: `${user.tipo.toUpperCase()}:${user.id}` }
+    }).then(res => setVotiStudente(res.data.voti));
+  };
+
+
   const votiPerMateria = votiStudente.reduce((acc, voto) => {
     acc[voto.materia] = acc[voto.materia] || [];
     acc[voto.materia].push(voto);
@@ -317,11 +377,64 @@ export default function Registro() {
             ))}
           </ul>
 
+          <div className="mt-6 p-4 border rounded bg-gray-50">
+            <h3 className="text-lg font-semibold mb-2">Calcola media di una classe per materia</h3>
+
+            <select
+              className="border px-2 py-1 mr-2"
+              value={classePerMedia}
+              onChange={e => setClassePerMedia(e.target.value)}
+            >
+              <option value="">-- Seleziona classe --</option>
+              {Array.from(new Set(classiData.map(c => c.id_classe))).map((id, i) => (
+                <option key={i} value={id}>{id}</option>
+              ))}
+            </select>
+
+            <select
+              value={materiaClasse}
+              onChange={e => setMateriaClasse(e.target.value)}
+              className="border px-2 py-1 mr-2"
+            >
+              <option value="">-- Seleziona materia --</option>
+              {materieDocente.map((mat, i) => (
+                <option key={i} value={mat}>{mat}</option>
+              ))}
+            </select>
+
+            <button
+              onClick={() => {
+                calcolaMediaClasse(classePerMedia, materiaClasse);
+                setMateriaPerClasse(materiaClasse);
+              }}
+              className="bg-blue-600 text-white px-3 py-1 mt-2 rounded"
+            >
+              Calcola Media per {materiaClasse}
+            </button>
+
+            {mediaClasse && (
+              <p className="mt-2 font-medium">
+                📈 Media di {materiaPerClasse} in {classePerMedia}: <strong>{mediaClasse}</strong>
+              </p>
+            )}
+          </div>
+
+
+
           {studenteSelezionato && (
             <div className="mt-6 bg-gray-50 border p-4 rounded shadow-sm">
               <h3 className="text-lg font-semibold mb-2">
                 Voti di {studenteSelezionato.nome} {studenteSelezionato.cognome}
               </h3>
+
+              <div className="mb-3">
+                <input type="date" value={startDateDocente} onChange={e => setStartDateDocente(e.target.value)} className="mr-2 border" />
+                <input type="date" value={endDateDocente} onChange={e => setEndDateDocente(e.target.value)} className="mr-2 border" />
+                <button onClick={filtraVotiDocentePerData} className="bg-blue-500 text-white px-3 py-1 rounded">
+                  Filtra per data
+                </button>
+              </div>
+
 
               <ul className="list-disc ml-6 space-y-1">
                 {Object.entries(votiPerMateria).map(([materia, voti], idx) => (
@@ -448,6 +561,84 @@ export default function Registro() {
                   {v.materia}: {v.voto} ({new Date(v.data).toLocaleDateString()})
                 </li>
               ))}
+              <div className="mt-6">
+  <h3 className="text-lg font-semibold">📈 Media per materia</h3>
+  <ul className="list-disc ml-6">
+    {mediePerMateria.map((item, i) => (
+      <li key={i}>{item.materia}: <strong>{item.media}</strong></li>
+    ))}
+  </ul>
+</div>
+
+<div className="mt-6">
+  <h3 className="text-lg font-semibold">📊 Distribuzione voti</h3>
+  <Bar
+    data={{
+      labels: distribuzioneVoti.map(d => d._id),
+      datasets: [{
+        label: 'Frequenza voti',
+        data: distribuzioneVoti.map(d => d.count),
+        backgroundColor: 'rgba(59,130,246,0.7)'
+      }]
+    }}
+    options={{ responsive: true, scales: { y: { beginAtZero: true } } }}
+  />
+</div>
+
+<div className="mt-6">
+  <h3 className="text-lg font-semibold">🗓️ Filtra voti per data</h3>
+  <input
+    type="date"
+    value={filtroDataInizio}
+    onChange={e => setFiltroDataInizio(e.target.value)}
+    className="border px-2 py-1 mr-2"
+  />
+  <input
+    type="date"
+    value={filtroDataFine}
+    onChange={e => setFiltroDataFine(e.target.value)}
+    className="border px-2 py-1 mr-2"
+  />
+  <button
+    onClick={() => {
+      if (!filtroDataInizio || !filtroDataFine) return alert('Compila entrambe le date');
+      axios.get(`http://localhost:3000/api/registro/studente/voti-filtrati?startDate=${filtroDataInizio}&endDate=${filtroDataFine}`, {
+        headers: { Authorization: `${user.tipo.toUpperCase()}:${user.id}` }
+      }).then(res => setVotiStudente(res.data.voti));
+    }}
+    className="bg-blue-500 text-white px-3 py-1 rounded"
+  >
+    Filtra
+  </button>
+</div>
+
+<div className="mt-6">
+  <h3 className="text-lg font-semibold">🗂️ Filtra per materia</h3>
+  <input
+    type="text"
+    value={filtroMateria}
+    onChange={e => setFiltroMateria(e.target.value)}
+    placeholder="Nome materia"
+    className="border px-2 py-1 mr-2"
+  />
+  <button
+    onClick={() => {
+      if (!filtroMateria) return alert('Inserisci il nome della materia');
+      axios.get(`http://localhost:3000/api/registro/studente/voti-materia/${filtroMateria}`, {
+        headers: { Authorization: `${user.tipo.toUpperCase()}:${user.id}` }
+      }).then(res => setVotiStudente(res.data.voti));
+    }}
+    className="bg-purple-600 text-white px-3 py-1 rounded"
+  >
+    Filtra materia
+  </button>
+</div>
+
+<div className="mt-6">
+  <h3 className="text-lg font-semibold">🧾 Media generale</h3>
+  <p>La tua media generale è: <strong>{mediaGenerale}</strong></p>
+</div>
+
             </ul>
           )}
         </div>

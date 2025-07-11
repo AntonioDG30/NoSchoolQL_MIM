@@ -1,7 +1,6 @@
 const { getCollections } = require('../db/connection');
 
 module.exports = {
-  // Studente: visualizza tutti i suoi voti
   async getVotiStudente(req, res) {
     const userId = req.userId;
     const userType = req.userType;
@@ -21,7 +20,6 @@ module.exports = {
     }
   },
 
-  // Docente: visualizza tutte le sue classi, studenti e voti
   async getClassiDocente(req, res) {
     const userId = req.userId;
     const userType = req.userType;
@@ -57,7 +55,7 @@ module.exports = {
 
           result.push({
             id_classe: classe.id_classe,
-            nome_classe: classe.nome_classe, // <- Aggiunto campo corretto
+            nome_classe: classe.nome_classe,
             studente,
             voti
           });
@@ -71,7 +69,6 @@ module.exports = {
     }
   },
 
-  // Docente: inserisce un nuovo voto
   async inserisciVoto(req, res) {
     const userId = req.userId;
     const userType = req.userType;
@@ -106,7 +103,6 @@ module.exports = {
   },
 
 
-  // Docente: modifica un voto esistente
   async modificaVoto(req, res) {
     const userId = req.userId;
     const userType = req.userType;
@@ -136,7 +132,6 @@ module.exports = {
     }
   },
 
-  // Docente: elimina un voto
   async eliminaVoto(req, res) {
     const userId = req.userId;
     const userType = req.userType;
@@ -163,7 +158,6 @@ module.exports = {
     }
   },
 
-  // Docente: ottieni tutti gli studenti e i voti delle sue classi
   async getClassiConStudenti(req, res) {
     const userId = req.userId;
     const userType = req.userType;
@@ -311,7 +305,7 @@ module.exports = {
         id_voto: `VOT${Date.now()}${Math.floor(Math.random() * 1000)}`,
         id_docente: userId,
         id_studente: v.id_studente,
-        materia: v.materia || materia, // fallback
+        materia: v.materia || materia,
         voto: Number(v.voto),
         data: new Date()
       }));
@@ -349,8 +343,199 @@ module.exports = {
     } catch (err) {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
-  }
+  },
 
+  async getVotiStudentePerDocenteConFiltro(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+    const { id_studente } = req.params;
+    const { startDate, endDate } = req.query;
+
+    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+
+    if (!startDate || !endDate) {
+      return res.status(400).json({ message: 'Intervallo di date non valido' });
+    }
+
+    try {
+      const { votiCollection } = getCollections();
+
+      const voti = await votiCollection.find({
+        id_studente,
+        id_docente: userId,
+        data: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate)
+        }
+      }).toArray();
+
+      return res.json({ voti });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+  async getMediaClassePerMateria(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+    const { id_classe, materia } = req.params; // <-- correzione qui
+
+    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+
+    if (!id_classe || !materia) {
+      return res.status(400).json({ message: 'Classe o materia non specificata' });
+    }
+
+    try {
+      const { studentiCollection, votiCollection } = getCollections();
+
+      const studenti = await studentiCollection.find({ id_classe }).toArray();
+      const idStudenti = studenti.map(s => s.id_studente);
+
+      const mediaAgg = await votiCollection.aggregate([
+        {
+          $match: {
+            id_studente: { $in: idStudenti },
+            materia
+          }
+        },
+        {
+          $group: {
+            _id: null,
+            media: { $avg: "$voto" }
+          }
+        }
+      ]).toArray();
+
+      const media = mediaAgg[0]?.media?.toFixed(2) || "0.00";
+
+      return res.json({ id_classe, materia, media });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+
+  async getMediaPerMateriaStudente(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+
+    if (userType !== 'studente') return res.status(403).json({ message: 'Accesso negato' });
+
+    try {
+      const { votiCollection } = getCollections();
+
+      const medie = await votiCollection.aggregate([
+        { $match: { id_studente: userId } },
+        { $group: { _id: "$materia", media: { $avg: "$voto" } } }
+      ]).toArray();
+
+      const result = medie.map(m => ({
+        materia: m._id,
+        media: m.media.toFixed(2)
+      }));
+
+      return res.json({ medie: result });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+  async getDistribuzioneVotiStudente(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+
+    if (userType !== 'studente') return res.status(403).json({ message: 'Accesso negato' });
+
+    try {
+      const { votiCollection } = getCollections();
+
+      const distribuzione = await votiCollection.aggregate([
+        { $match: { id_studente: userId } },
+        { $group: { _id: "$voto", count: { $sum: 1 } } },
+        { $sort: { _id: 1 } }
+      ]).toArray();
+
+      return res.json({ distribuzione });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+  async getVotiStudenteFiltratiPerData(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+    const { startDate, endDate } = req.query;
+
+    if (userType !== 'studente') return res.status(403).json({ message: 'Accesso negato' });
+
+    if (!startDate || !endDate) {
+      return res.status(400).json({ message: 'Intervallo di date non valido' });
+    }
+
+    try {
+      const { votiCollection } = getCollections();
+
+      const voti = await votiCollection.find({
+        id_studente: userId,
+        data: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate)
+        }
+      }).toArray();
+
+      return res.json({ voti });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+  async getVotiStudentePerMateria(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+    const { materia } = req.query;
+
+    if (userType !== 'studente') return res.status(403).json({ message: 'Accesso negato' });
+
+    if (!materia) {
+      return res.status(400).json({ message: 'Materia non specificata' });
+    }
+
+    try {
+      const { votiCollection } = getCollections();
+
+      const voti = await votiCollection.find({
+        id_studente: userId,
+        materia
+      }).toArray();
+
+      return res.json({ voti });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+  async getMediaGeneraleStudente(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+
+    if (userType !== 'studente') return res.status(403).json({ message: 'Accesso negato' });
+
+    try {
+      const { votiCollection } = getCollections();
+
+      const mediaAgg = await votiCollection.aggregate([
+        { $match: { id_studente: userId } },
+        { $group: { _id: null, media: { $avg: "$voto" } } }
+      ]).toArray();
+
+      const media = mediaAgg[0]?.media?.toFixed(2) || "0.00";
+
+      return res.json({ media });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  }
 
 
 
