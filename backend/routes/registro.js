@@ -31,5 +31,7 @@ router.get('/docente/materie', authMiddleware, RegistroController.getMaterieDoce
 
 router.post('/docente/classe/voti', authMiddleware, RegistroController.inserisciVotiTuttaClasse);
 
+router.get('/docente/studente/:id_studente/voti', authMiddleware, RegistroController.getVotiStudentePerDocente);
+
 
 module.exports = router;

@@ -325,7 +325,32 @@ module.exports = {
     } catch (err) {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
+  },
+
+  async getVotiStudentePerDocente(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+    const { id_studente } = req.params;
+
+    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+
+    try {
+      const { studentiCollection, votiCollection } = getCollections();
+
+      const studente = await studentiCollection.findOne({ id_studente });
+      if (!studente) return res.status(404).json({ message: 'Studente non trovato' });
+
+      const voti = await votiCollection.find({
+        id_studente,
+        id_docente: userId
+      }).toArray();
+
+      return res.json({ studente, voti });
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
   }
+
 
 
 

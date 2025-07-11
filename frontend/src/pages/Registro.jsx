@@ -431,6 +431,27 @@ export default function Registro() {
           )}
         </div>
       )}
+
+
+      {user?.tipo === 'studente' && studenteSelezionato && (
+        <div className="bg-white shadow p-4 rounded mt-4">
+          <h2 className="text-xl font-semibold mb-2">
+            Voti di {studenteSelezionato.nome} {studenteSelezionato.cognome}
+          </h2>
+
+          {votiStudente.length === 0 ? (
+            <p>Nessun voto disponibile.</p>
+          ) : (
+            <ul className="list-disc ml-6">
+              {votiStudente.map((v, i) => (
+                <li key={i}>
+                  {v.materia}: {v.voto} ({new Date(v.data).toLocaleDateString()})
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 }
