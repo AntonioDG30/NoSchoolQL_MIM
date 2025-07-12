@@ -473,14 +473,18 @@ module.exports = {
       return res.status(400).json({ message: 'Intervallo di date non valido' });
     }
 
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999);
+
     try {
       const { votiCollection } = getCollections();
 
       const voti = await votiCollection.find({
         id_studente: userId,
         data: {
-          $gte: new Date(startDate),
-          $lte: new Date(endDate)
+          $gte: start,
+          $lte: end
         }
       }).toArray();
 

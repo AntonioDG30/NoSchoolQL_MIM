@@ -41,6 +41,8 @@ export default function Registro() {
   const [filtroMateria, setFiltroMateria] = useState('');
   const [filtroDataInizio, setFiltroDataInizio] = useState('');
   const [filtroDataFine, setFiltroDataFine] = useState('');
+  const [materieDisponibili, setMaterieDisponibili] = useState([]);
+
 
 
 
@@ -63,10 +65,10 @@ export default function Registro() {
         .then(res => {
           setStudenteSelezionato(res.data.studente);
           setVotiStudente(res.data.voti);
-        })
-        .catch(err => {
-          console.error('❌ Errore nel caricamento voti studente:', err);
+          const materie = [...new Set(res.data.voti.map(v => v.materia))];
+          setMaterieDisponibili(materie);
         });
+
 
         axios.get('http://localhost:3000/api/registro/studente/media-per-materia', {
           headers: { Authorization: `${tipo.toUpperCase()}:${id}` },
@@ -613,14 +615,17 @@ export default function Registro() {
 </div>
 
 <div className="mt-6">
-  <h3 className="text-lg font-semibold">🗂️ Filtra per materia</h3>
-  <input
-    type="text"
+ <h3 className="text-lg font-semibold">🗂️ Filtra per materia</h3>
+  <select
     value={filtroMateria}
     onChange={e => setFiltroMateria(e.target.value)}
-    placeholder="Nome materia"
     className="border px-2 py-1 mr-2"
-  />
+  >
+    <option value="">-- Seleziona materia --</option>
+    {materieDisponibili.map((m, i) => (
+      <option key={i} value={m}>{m}</option>
+    ))}
+  </select>
   <button
     onClick={() => {
       if (!filtroMateria) return alert('Inserisci il nome della materia');
