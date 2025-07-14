@@ -497,7 +497,7 @@ module.exports = {
   async getVotiStudentePerMateria(req, res) {
     const userId = req.userId;
     const userType = req.userType;
-    const { materia } = req.query;
+    const { materia } = req.params; // 👈 CORRETTO QUI
 
     if (userType !== 'studente') return res.status(403).json({ message: 'Accesso negato' });
 
@@ -518,6 +518,7 @@ module.exports = {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
   },
+
 
   async getMediaGeneraleStudente(req, res) {
     const userId = req.userId;
