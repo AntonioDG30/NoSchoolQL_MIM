@@ -39,7 +39,7 @@ async function getDistribuzioneStudentiPerCittadinanza(req, res) {
   try {
     const { studentiCollection } = getCollections();
     const totale = await studentiCollection.countDocuments();
-    const italiani = await studentiCollection.countDocuments({ cittadinanza: "Italiana" });
+    const italiani = await studentiCollection.countDocuments({ cittadinanza: "ITA" });
     const stranieri = totale - italiani;
 
     res.json({
@@ -93,7 +93,7 @@ async function getNumeroClassiPerAnnoCorso(req, res) {
   try {
     const { classiCollection } = getCollections();
     const result = await classiCollection.aggregate([
-      { $group: { _id: "$anno_corso", numero_classi: { $sum: 1 } } },
+      { $group: { _id: "$annocorso", numero_classi: { $sum: 1 } } },
       { $project: { annocorso: "$_id", numero_classi: 1, _id: 0 } },
       { $sort: { annocorso: 1 } }
     ]).toArray();
@@ -107,10 +107,21 @@ async function getNumeroClassiPerAnnoCorso(req, res) {
 // Numero studenti per anno di corso
 async function getNumeroStudentiPerAnnoCorso(req, res) {
   try {
-    const { studentiCollection } = getCollections();
-    const result = await studentiCollection.aggregate([
-      { $group: { _id: "$anno_corso", numero_studenti: { $sum: 1 } } },
-      { $project: { annocorso: "$_id", numero_studenti: 1, _id: 0 } },
+    const { classiCollection } = getCollections(); // usa la collection 'classi'
+    const result = await classiCollection.aggregate([
+      {
+        $group: {
+          _id: "$annocorso",
+          numero_studenti: { $sum: "$num_studenti" }
+        }
+      },
+      {
+        $project: {
+          annocorso: "$_id",
+          numero_studenti: 1,
+          _id: 0
+        }
+      },
       { $sort: { annocorso: 1 } }
     ]).toArray();
     res.json(result);
@@ -119,6 +130,7 @@ async function getNumeroStudentiPerAnnoCorso(req, res) {
     res.status(500).json({ error: "Errore interno." });
   }
 }
+
 
 // Distribuzione voti (istogramma 0-10)
 async function getDistribuzioneVoti(req, res) {
