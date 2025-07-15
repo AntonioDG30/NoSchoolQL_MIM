@@ -1,3 +1,27 @@
+import { useApp } from '../../context/AppContext';
+import { useState, useEffect } from 'react';
+import ApiService from '../../services/ApiService';
+import useApiCall from '../../hooks/useApiCall';
+
+
+import Card from '../../components/ui/Card';
+import Button from '../../components/ui/Button';
+import LoadingSpinner from '../../components/ui/Spinner';
+import Badge from '../../components/ui/Badge';
+
+
+
+import VotiList from './VotiList';
+import VotoForm from './VotoForm';
+
+
+import { 
+  Plus,
+  ChevronDown,
+  Activity,
+  FileText
+} from 'lucide-react';
+
 const StudentCard = ({ studente, isExpanded, onToggle, materie }) => {
   const { currentTheme, user } = useApp();
   const [voti, setVoti] = useState([]);

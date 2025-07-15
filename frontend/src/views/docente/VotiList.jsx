@@ -1,3 +1,16 @@
+import { useApp } from '../../context/AppContext';
+import { useState, useEffect } from 'react';
+import ApiService from '../../services/ApiService';
+import useApiCall from '../../hooks/useApiCall';
+
+import Alert from '../../components/ui/Alert';
+
+
+import { 
+  Edit2,
+  Trash2
+} from 'lucide-react';
+
 const VotiList = ({ voti, onUpdate }) => {
   const { currentTheme, user } = useApp();
   const [editingVoto, setEditingVoto] = useState(null);

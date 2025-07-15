@@ -9,6 +9,14 @@ import {
   School
 } from 'lucide-react';
 
+import Card from '../../components/ui/Card';
+import Input from '../../components/ui/Input';
+import Button from '../../components/ui/Button';
+import StudentCard from '../../views/docente/StudentCard';
+
+
+
+
 const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
   const { currentTheme, user } = useApp();
   const [materiaSelezionata, setMateriaSelezionata] = useState('');

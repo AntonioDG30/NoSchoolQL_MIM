@@ -1,4 +1,14 @@
 import { useApp } from '../../context/AppContext';
+import { useState } from 'react';
+
+import Card from '../../components/ui/Card';
+import Button from '../../components/ui/Button';
+import Select from '../../components/ui/Select';
+import Input from '../../components/ui/Input';
+
+import { 
+  Save
+} from 'lucide-react';
 
 const VotoForm = ({ materie, onSubmit, onCancel, votoEdit = null }) => {
   const { currentTheme } = useApp();
