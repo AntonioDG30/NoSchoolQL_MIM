@@ -11,6 +11,9 @@ import Badge from '../../components/ui/registro/Badge_Registro';
 import VotiList from './VotiList';
 import VotoForm from './VotoForm';
 
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+
 import { 
   Plus,
   ChevronDown,
@@ -26,56 +29,48 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
   const [showVotoForm, setShowVotoForm] = useState(false);
   const execute = useApiCall();
 
+  // ricarica voti ad apertura o dopo bulk/in caso di override
   useEffect(() => {
     if (!isExpanded) return;
-
     if (Array.isArray(votiOverride) && votiOverride !== null) {
-      // ho davvero filtri, uso questi voti
       setVoti(votiOverride);
     } else {
-      // altrimenti vado a ripescare SEMPRE da API (anche dopo un bulkTime)
       loadVoti();
     }
   }, [isExpanded, votiOverride, bulkTime]);
 
-
-
+  // ricalcola media se cambia la lista voti
   useEffect(() => {
-    if (media !== null) {
-      // se avevi già una media, ricalcolala ogni volta che voti cambia
-      calcolaMedia();
-    }
+    if (media !== null) calcolaMedia();
   }, [voti]);
-
-  
 
   const loadVoti = async () => {
     setLoading(true);
     try {
-      const data = await execute(() => 
+      const data = await execute(() =>
         ApiService.getVotiStudenteDocente(user, studente.id_studente)
       );
       setVoti(data.voti);
-    } catch (error) {
-      console.error('Errore caricamento voti:', error);
+    } catch (err) {
+      console.error('Errore caricamento voti:', err);
     }
     setLoading(false);
   };
 
   const calcolaMedia = async () => {
     try {
-      const data = await execute(() => 
+      const data = await execute(() =>
         ApiService.getMediaStudente(user, studente.id_studente)
       );
       setMedia(data.media);
-    } catch (error) {
-      console.error('Errore calcolo media:', error);
+    } catch (err) {
+      console.error('Errore calcolo media:', err);
     }
   };
 
-  const handleAddVoto = async (votoData) => {
+  const handleAddVoto = async votoData => {
     try {
-      await execute(() => 
+      await execute(() =>
         ApiService.inserisciVoto(user, {
           ...votoData,
           id_studente: studente.id_studente
@@ -83,11 +78,37 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
       );
       await loadVoti();
       setShowVotoForm(false);
-    } catch (error) {
-      console.error('Errore inserimento voto:', error);
+    } catch (err) {
+      console.error('Errore inserimento voto:', err);
     }
   };
 
+  const handleReport = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text(`Report voti: ${studente.nome} ${studente.cognome}`, 14, 20);
+
+    const rows = voti.map(v => [
+      new Date(v.data).toLocaleDateString(),
+      v.materia,
+      v.voto,
+      v.tipo
+    ]);
+
+    autoTable(doc, {
+      head: [["Data", "Materia", "Voto", "Tipo"]],
+      body: rows,
+      startY: 30,
+      styles: { fontSize: 12 },
+      headStyles: {
+        fillColor: currentTheme.primary  // stringa esadecimale
+      }
+    });
+
+    doc.save(`Report_${studente.id_studente}.pdf`);
+  };
+
+  // stili e render...
   const headerStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -96,14 +117,12 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
     cursor: 'pointer',
     padding: '4px'
   };
-
   const studentInfoStyle = {
     display: 'flex',
     alignItems: 'center',
     gap: '16px',
     flex: 1
   };
-
   const avatarStyle = {
     width: '48px',
     height: '48px',
@@ -116,8 +135,8 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
     fontWeight: '600',
     fontSize: '18px'
   };
-
-  const getInitials = (nome, cognome) => `${nome.charAt(0)}${cognome.charAt(0)}`.toUpperCase();
+  const getInitials = (nome, cognome) =>
+    `${nome.charAt(0)}${cognome.charAt(0)}`.toUpperCase();
 
   return (
     <Card style={{ padding: '20px' }}>
@@ -142,7 +161,7 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
               Media: {media}
             </Badge>
           )}
-          <div style={{ transition: 'transform 0.3s ease', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)' }}>
+          <div style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }}>
             <ChevronDown size={24} color={currentTheme.textSecondary} />
           </div>
         </div>
@@ -154,14 +173,18 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
             <LoadingSpinner />
           ) : (
             <>
-              <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${currentTheme.border}` }}>
+              <div style={{
+                display: 'flex', gap: '12px',
+                marginBottom: '24px', paddingBottom: '24px',
+                borderBottom: `1px solid ${currentTheme.border}`
+              }}>
                 <Button icon={Plus} size="sm" onClick={() => setShowVotoForm(true)}>
                   Inserisci voto
                 </Button>
                 <Button icon={Activity} variant="secondary" size="sm" onClick={calcolaMedia}>
                   Calcola media
                 </Button>
-                <Button icon={FileText} variant="secondary" size="sm">
+                <Button icon={FileText} variant="secondary" size="sm" onClick={handleReport}>
                   Report
                 </Button>
               </div>
