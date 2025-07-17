@@ -259,6 +259,7 @@ function HomeContent() {
           }}>
             Scegli una delle due modalità per iniziare ad esplorare le funzionalità della piattaforma.
           </p>
+          <br/><br/>
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',

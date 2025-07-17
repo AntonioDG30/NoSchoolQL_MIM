@@ -51,29 +51,40 @@ const FeatureCard = ({ icon: Icon, title, description, link, linkText, color, de
       {/* Content */}
       <div style={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div style={{
-          width: '64px',
-          height: '64px',
-          borderRadius: '16px',
-          background: `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          gap: '16px',
           marginBottom: '24px',
-          boxShadow: `0 8px 16px ${color}40`,
-          transition: 'all 0.3s ease',
-          transform: isHovered ? 'rotate(-5deg) scale(1.1)' : 'rotate(0) scale(1)'
+          textAlign: 'center'
         }}>
-          <Icon size={32} color="white" />
+          <div style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '16px',
+            background: `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: `0 8px 16px ${color}40`,
+            transition: 'all 0.3s ease',
+            transform: isHovered ? 'rotate(-5deg) scale(1.1)' : 'rotate(0) scale(1)'
+          }}>
+            <Icon size={32} color="white" />
+          </div>
+
+          <h2 style={{
+            fontSize: '32px',
+            fontWeight: '800',
+            color: theme.text,
+            margin: 0,
+            lineHeight: '1'
+          }}>
+            {title}
+          </h2>
         </div>
 
-        <h2 style={{
-          fontSize: '24px',
-          fontWeight: '700',
-          marginBottom: '12px',
-          color: theme.text
-        }}>
-          {title}
-        </h2>
+
 
         <p style={{
           fontSize: '16px',
