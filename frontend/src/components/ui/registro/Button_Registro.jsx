@@ -1,5 +1,5 @@
-import { useApp } from '../../context/AppContext';
-import { useState } from 'react';
+import { useApp } from '../../../context/AppContext';
+import React, { useState } from 'react';
 
 const Button = ({ children, variant = "primary", size = "md", icon: Icon, iconPosition = "left", onClick, style = {}, className = "", ...props }) => {
   const { currentTheme } = useApp();

@@ -2,7 +2,7 @@ import { useApp } from '../../context/AppContext';
 import { Bar, Line, Doughnut } from 'react-chartjs-2';
 
 
-import Card from '../../components/ui/Card';
+import Card from '../../components/ui/registro/Card_Registro';
 
 
 import { 

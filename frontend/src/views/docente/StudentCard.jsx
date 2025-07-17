@@ -4,10 +4,10 @@ import ApiService from '../../services/ApiService';
 import useApiCall from '../../hooks/useApiCall';
 
 
-import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
-import LoadingSpinner from '../../components/ui/Spinner';
-import Badge from '../../components/ui/Badge';
+import Card from '../../components/ui/registro/Card_Registro';
+import Button from '../../components/ui/registro/Button_Registro';
+import LoadingSpinner from '../../components/ui/registro/Spinner_Registro';
+import Badge from '../../components/ui/registro/Badge_Registro';
 
 
 

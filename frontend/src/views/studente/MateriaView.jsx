@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Bar, Line, Doughnut } from 'react-chartjs-2';
 
 
-import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
+import Card from '../../components/ui/registro/Card_Registro';
+import Button from '../../components/ui/registro/Button_Registro';
 
 
 import { 

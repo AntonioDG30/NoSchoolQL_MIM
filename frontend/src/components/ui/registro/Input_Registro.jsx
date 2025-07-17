@@ -1,5 +1,5 @@
-import { useApp } from '../../context/AppContext';
-import { useState } from 'react';
+import { useApp } from '../../../context/AppContext';
+import React, { useState } from 'react';
 
 const Input = ({ label, icon: Icon, error, ...props }) => {
   const { currentTheme } = useApp();

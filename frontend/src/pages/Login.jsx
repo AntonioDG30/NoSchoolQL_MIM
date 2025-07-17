@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { GraduationCap, School, LogOut } from 'lucide-react';
 
 import { AppProvider, useApp } from '../context/AppContext';
-import Card from '../components/ui/Card';
-import Input from '../components/ui/Input';
-import Button from '../components/ui/Button';
+import Card from '../components/ui/registro/Card_Registro';
+import Input from '../components/ui/registro/Input_Registro';
+import Button from '../components/ui/registro/Button_Registro';
 
 function LoginContent() {
   const navigate = useNavigate();

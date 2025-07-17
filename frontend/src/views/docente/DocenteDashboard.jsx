@@ -9,9 +9,9 @@ import {
   School
 } from 'lucide-react';
 
-import Card from '../../components/ui/Card';
-import Input from '../../components/ui/Input';
-import Button from '../../components/ui/Button';
+import Card from '../../components/ui/registro/Card_Registro';
+import Input from '../../components/ui/registro/Input_Registro';
+import Button from '../../components/ui/registro/Button_Registro';
 import StudentCard from '../../views/docente/StudentCard';
 
 

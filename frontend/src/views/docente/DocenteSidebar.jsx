@@ -2,8 +2,8 @@ import { useApp } from '../../context/AppContext';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Badge from '../../components/ui/Badge';
-import Button from '../../components/ui/Button';
+import Badge from '../../components/ui/registro/Badge_Registro';
+import Button from '../../components/ui/registro/Button_Registro';
 
 import { 
   BookOpen, 

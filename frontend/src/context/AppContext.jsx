@@ -8,7 +8,7 @@ const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentView, setCurrentView] = useState('login');
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleTheme = () => {

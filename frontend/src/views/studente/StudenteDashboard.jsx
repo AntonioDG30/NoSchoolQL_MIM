@@ -4,7 +4,7 @@ import useApiCall from '../../hooks/useApiCall';
 import ApiService from '../../services/ApiService';
 
 
-import LoadingSpinner from '../../components/ui/Spinner';
+import LoadingSpinner from '../../components/ui/registro/Spinner_Registro';
 import DashboardGenerale from './DashboardGenerale';
 import MateriaView from './MateriaView';
 

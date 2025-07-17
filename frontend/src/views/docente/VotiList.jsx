@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import ApiService from '../../services/ApiService';
 import useApiCall from '../../hooks/useApiCall';
 
-import Alert from '../../components/ui/Alert';
+import Alert from '../../components/ui/registro/Alert_Registro';
 
 
 import { 

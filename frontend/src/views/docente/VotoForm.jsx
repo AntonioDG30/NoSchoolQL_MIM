@@ -1,10 +1,10 @@
 import { useApp } from '../../context/AppContext';
 import { useState } from 'react';
 
-import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
-import Select from '../../components/ui/Select';
-import Input from '../../components/ui/Input';
+import Card from '../../components/ui/registro/Card_Registro';
+import Button from '../../components/ui/registro/Button_Registro';
+import Select from '../../components/ui/registro/Select_Registro';
+import Input from '../../components/ui/registro/Input_Registro';
 
 import { 
   Save

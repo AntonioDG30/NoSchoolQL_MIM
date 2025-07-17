@@ -1,4 +1,4 @@
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../../context/AppContext';
 
 const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
   const { currentTheme } = useApp();

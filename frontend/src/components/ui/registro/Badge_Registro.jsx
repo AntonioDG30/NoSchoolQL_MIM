@@ -1,4 +1,4 @@
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../../context/AppContext';
 
 const Badge = ({ children, variant = "primary", size = "md", icon: Icon }) => {
   const { currentTheme } = useApp();
