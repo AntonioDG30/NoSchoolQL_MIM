@@ -3,17 +3,13 @@ import { useState, useEffect } from 'react';
 import ApiService from '../../services/ApiService';
 import useApiCall from '../../hooks/useApiCall';
 
-
 import Card from '../../components/ui/registro/Card_Registro';
 import Button from '../../components/ui/registro/Button_Registro';
 import LoadingSpinner from '../../components/ui/registro/Spinner_Registro';
 import Badge from '../../components/ui/registro/Badge_Registro';
 
-
-
 import VotiList from './VotiList';
 import VotoForm from './VotoForm';
-
 
 import { 
   Plus,
@@ -22,7 +18,7 @@ import {
   FileText
 } from 'lucide-react';
 
-const StudentCard = ({ studente, isExpanded, onToggle, materie }) => {
+const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride }) => {
   const { currentTheme, user } = useApp();
   const [voti, setVoti] = useState([]);
   const [media, setMedia] = useState(null);
@@ -31,10 +27,15 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie }) => {
   const execute = useApiCall();
 
   useEffect(() => {
-    if (isExpanded && voti.length === 0) {
-      loadVoti();
+    if (isExpanded) {
+      if (Array.isArray(votiOverride)) {
+        // usa i voti filtrati passati dal parent
+        setVoti(votiOverride);
+      } else if (voti.length === 0) {
+        loadVoti();
+      }
     }
-  }, [isExpanded]);
+  }, [isExpanded, votiOverride]);
 
   const loadVoti = async () => {
     setLoading(true);
@@ -104,9 +105,7 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie }) => {
     fontSize: '18px'
   };
 
-  const getInitials = (nome, cognome) => {
-    return `${nome.charAt(0)}${cognome.charAt(0)}`.toUpperCase();
-  };
+  const getInitials = (nome, cognome) => `${nome.charAt(0)}${cognome.charAt(0)}`.toUpperCase();
 
   return (
     <Card style={{ padding: '20px' }}>
@@ -131,10 +130,7 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie }) => {
               Media: {media}
             </Badge>
           )}
-          <div style={{
-            transition: 'transform 0.3s ease',
-            transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)'
-          }}>
+          <div style={{ transition: 'transform 0.3s ease', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)' }}>
             <ChevronDown size={24} color={currentTheme.textSecondary} />
           </div>
         </div>
@@ -146,27 +142,11 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie }) => {
             <LoadingSpinner />
           ) : (
             <>
-              {/* Action Buttons */}
-              <div style={{ 
-                display: 'flex', 
-                gap: '12px', 
-                marginBottom: '24px',
-                paddingBottom: '24px',
-                borderBottom: `1px solid ${currentTheme.border}`
-              }}>
-                <Button 
-                  icon={Plus} 
-                  size="sm"
-                  onClick={() => setShowVotoForm(true)}
-                >
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${currentTheme.border}` }}>
+                <Button icon={Plus} size="sm" onClick={() => setShowVotoForm(true)}>
                   Inserisci voto
                 </Button>
-                <Button 
-                  icon={Activity} 
-                  variant="secondary" 
-                  size="sm"
-                  onClick={calcolaMedia}
-                >
+                <Button icon={Activity} variant="secondary" size="sm" onClick={calcolaMedia}>
                   Calcola media
                 </Button>
                 <Button icon={FileText} variant="secondary" size="sm">
@@ -174,7 +154,6 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie }) => {
                 </Button>
               </div>
 
-              {/* Add Voto Form */}
               {showVotoForm && (
                 <VotoForm
                   materie={materie}
@@ -183,11 +162,7 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie }) => {
                 />
               )}
 
-              {/* Voti List */}
-              <VotiList
-                voti={voti}
-                onUpdate={loadVoti}
-              />
+              <VotiList voti={voti} onUpdate={loadVoti} />
             </>
           )}
         </div>

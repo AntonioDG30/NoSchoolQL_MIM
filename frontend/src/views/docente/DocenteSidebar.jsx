@@ -11,6 +11,9 @@ import {
   LogOut
 } from 'lucide-react';
 
+import ApiService from '../../services/ApiService';
+import useApiCall from '../../hooks/useApiCall';
+
 
 const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
   const { currentTheme, user } = useApp();
@@ -18,10 +21,21 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
   const navigate = useNavigate();
 
   
+  const execute = useApiCall();
+
   useEffect(() => {
-    // Simulate fetching docente data
-    setDocente({ nome: 'Mario', cognome: 'Rossi' });
-  }, []);
+    const fetchDocente = async () => {
+      try {
+        const data = await execute(() => ApiService.getInfoDocente(user));
+        setDocente(data);
+      } catch (err) {
+        console.error('Errore nel recupero del docente:', err);
+      }
+    };
+
+    fetchDocente();
+  }, [user]);
+
 
   const sidebarItemStyle = (isActive) => ({
     padding: '12px 16px',

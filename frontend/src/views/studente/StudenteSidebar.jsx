@@ -12,16 +12,31 @@ import {
   School
 } from 'lucide-react';
 
+import ApiService from '../../services/ApiService';
+import useApiCall from '../../hooks/useApiCall';
+
+
 const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
   const { currentTheme, user } = useApp();
   const [studente, setStudente] = useState(null);
   const navigate = useNavigate();
 
   
+  const execute = useApiCall();
+
   useEffect(() => {
-    // Simulate fetching studente data
-    setStudente({ nome: 'Anna', cognome: 'Bianchi', classe: '5A' });
-  }, []);
+    const fetchStudente = async () => {
+      try {
+        const data = await execute(() => ApiService.getInfoStudente(user));
+        setStudente(data);
+      } catch (err) {
+        console.error('Errore nel recupero dello studente:', err);
+      }
+    };
+
+    fetchStudente();
+  }, [user]);
+
 
   const sidebarItemStyle = (isActive) => ({
     padding: '12px 16px',

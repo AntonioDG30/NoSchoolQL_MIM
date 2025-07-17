@@ -16,6 +16,13 @@ class ApiService {
   }
 
   // Studente APIs
+  static async getInfoStudente(user) {
+    return this.fetchAPI(`${this.baseURL}/studente/info`, {
+      headers: this.getHeaders(user)
+    });
+  }
+
+
   static async getVotiStudente(user) {
     return this.fetchAPI(`${this.baseURL}/studente/voti`, {
       headers: this.getHeaders(user)
@@ -53,6 +60,12 @@ class ApiService {
   }
 
   // Docente APIs
+  static async getInfoDocente(user) {
+    return this.fetchAPI(`${this.baseURL}/docente/info`, {
+      headers: this.getHeaders(user)
+    });
+  }
+
   static async getClassiDocente(user) {
     return this.fetchAPI(`${this.baseURL}/docente/classi`, {
       headers: this.getHeaders(user)

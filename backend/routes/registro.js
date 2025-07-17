@@ -5,6 +5,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 // ==== STUDENTE ====
 
+router.get('/studente/info', authMiddleware, RegistroController.getInfoStudente);
 router.get('/studente/voti', authMiddleware, RegistroController.getVotiStudente);
 router.get('/studente/media-per-materia', authMiddleware, RegistroController.getMediaPerMateriaStudente);
 router.get('/studente/distribuzione-voti', authMiddleware, RegistroController.getDistribuzioneVotiStudente);
@@ -14,6 +15,7 @@ router.get('/studente/media-generale', authMiddleware, RegistroController.getMed
 
 // ==== DOCENTE ====
 
+router.get('/docente/info', authMiddleware, RegistroController.getInfoDocente);
 router.get('/docente/classi', authMiddleware, RegistroController.getClassiDocente);
 router.get('/docente/materie', authMiddleware, RegistroController.getMaterieDocente);
 router.get('/docente/classi-complete', authMiddleware, RegistroController.getClassiConStudenti);

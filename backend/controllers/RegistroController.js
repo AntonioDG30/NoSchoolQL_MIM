@@ -360,12 +360,16 @@ module.exports = {
     try {
       const { votiCollection } = getCollections();
 
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999); // inclusione del giorno finale
+
       const voti = await votiCollection.find({
         id_studente,
         id_docente: userId,
         data: {
-          $gte: new Date(startDate),
-          $lte: new Date(endDate)
+          $gte: start,
+          $lte: end
         }
       }).toArray();
 
@@ -374,6 +378,7 @@ module.exports = {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
   },
+
 
   async getMediaClassePerMateria(req, res) {
     const userId = req.userId;
@@ -540,8 +545,54 @@ module.exports = {
     } catch (err) {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
+  },
+
+  async getInfoDocente(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+
+    if (userType !== 'docente') {
+      return res.status(403).json({ message: 'Accesso negato' });
+    }
+
+    try {
+      const { docentiCollection } = getCollections();
+      const docente = await docentiCollection.findOne({ id_docente: userId });
+
+      if (!docente) {
+        return res.status(404).json({ message: 'Docente non trovato' });
+      }
+
+      res.json({ nome: docente.nome, cognome: docente.cognome });
+    } catch (err) {
+      res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
+  },
+
+  async getInfoStudente(req, res) {
+    const userId = req.userId;
+    const userType = req.userType;
+
+    if (userType !== 'studente') {
+      return res.status(403).json({ message: 'Accesso negato' });
+    }
+
+    try {
+      const { studentiCollection, classiCollection } = getCollections();
+      const studente = await studentiCollection.findOne({ id_studente: userId });
+
+      if (!studente) return res.status(404).json({ message: 'Studente non trovato' });
+
+      const classe = await classiCollection.findOne({ id_classe: studente.id_classe });
+
+      res.json({
+        nome: studente.nome,
+        cognome: studente.cognome,
+        classe: classe?.nome_classe || 'N/D'
+      });
+    } catch (err) {
+      res.status(500).json({ message: 'Errore interno', error: err.message });
+    }
   }
-
-
 
 };
