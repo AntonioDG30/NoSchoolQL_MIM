@@ -194,7 +194,7 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {(studentiFiltrati.length > 0 ? studentiFiltrati : studentiClasse).map((item, idx) => (
           <StudentCard
-            key={idx}
+            key={item.studente.id_studente}
             studente={item.studente}
             isExpanded={expandedStudents.includes(item.studente.id_studente)}
             onToggle={() => toggleStudentExpansion(item.studente.id_studente)}

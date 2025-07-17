@@ -37,6 +37,13 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride }) 
     }
   }, [isExpanded, votiOverride]);
 
+  useEffect(() => {
+    if (media !== null) {
+      // se avevi già una media, ricalcolala ogni volta che voti cambia
+      calcolaMedia();
+    }
+  }, [voti]);
+
   const loadVoti = async () => {
     setLoading(true);
     try {
