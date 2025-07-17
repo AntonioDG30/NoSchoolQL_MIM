@@ -24,6 +24,7 @@ async function connectToDatabase() {
       console.log('✅ Connessione a MongoDB riuscita');
 
       collections = {
+        anagraficaCollection: db.collection('anagrafica'),
         studentiCollection: db.collection('studenti'),
         docentiCollection: db.collection('docenti'),
         classiCollection: db.collection('classi'),

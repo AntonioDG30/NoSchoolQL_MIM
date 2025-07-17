@@ -39,11 +39,10 @@ import Button from '../components/ui/home/Button_Home';
 function HomeContent() {
   const [theme, toggleTheme, isDark] = useTheme();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [stats] = useState({
-    students: 1250,
-    teachers: 85,
-    classes: 42,
-  });
+  const [stats, setStats] = useState({ scuole: 0, docenti: 0, classi: 0 });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -52,6 +51,25 @@ function HomeContent() {
 
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/home/stats');
+        if (!response.ok) throw new Error('Errore nel recupero delle statistiche');
+        const data = await response.json();
+        setStats(data);
+      } catch (err) {
+        console.error('Errore:', err);
+        setError('Errore nel caricamento delle statistiche');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
 
   const containerStyle = {
     minHeight: '100vh',
@@ -202,9 +220,17 @@ function HomeContent() {
             maxWidth: '800px',
             margin: '0 auto'
           , animationDelay: '0.4s' }} className="animate-slideIn">
-            <StatCard icon={Users} value={stats.students} label="Studenti" color="white" />
-            <StatCard icon={UserCheck} value={stats.teachers} label="Docenti" color="white" />
-            <StatCard icon={School} value={stats.classes} label="Classi" color="white" />
+            {loading ? (
+              <p style={{ color: 'white' }}>Caricamento dati...</p>
+            ) : error ? (
+              <p style={{ color: 'red' }}>{error}</p>
+            ) : (
+              <>
+                <StatCard icon={School} value={stats.scuole} label="Scuole" color="white" />
+                <StatCard icon={UserCheck} value={stats.docenti} label="Docenti" color="white" />
+                <StatCard icon={Users} value={stats.classi} label="Classi" color="white" />
+              </>
+            )}
           </div>
         </div>
       </div>

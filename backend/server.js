@@ -20,9 +20,12 @@ app.get('/', (req, res) => {
 // Importa e monta i router (verranno creati nei prossimi step)
 const statisticheRoutes = require('./routes/statistiche');
 const registroRoutes = require('./routes/registro');
+const homeRoutes = require('./routes/home'); 
+
 
 app.use('/api/statistiche', statisticheRoutes);
 app.use('/api/registro', registroRoutes);
+app.use('/api/home', homeRoutes); 
 
 // Avvio del server
 connectToDatabase().then(() => {
