@@ -18,7 +18,7 @@ import {
   FileText
 } from 'lucide-react';
 
-const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride }) => {
+const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bulkTime }) => {
   const { currentTheme, user } = useApp();
   const [voti, setVoti] = useState([]);
   const [media, setMedia] = useState(null);
@@ -27,15 +27,18 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride }) 
   const execute = useApiCall();
 
   useEffect(() => {
-    if (isExpanded) {
-      if (Array.isArray(votiOverride)) {
-        // usa i voti filtrati passati dal parent
-        setVoti(votiOverride);
-      } else if (voti.length === 0) {
-        loadVoti();
-      }
+    if (!isExpanded) return;
+
+    if (Array.isArray(votiOverride) && votiOverride !== null) {
+      // ho davvero filtri, uso questi voti
+      setVoti(votiOverride);
+    } else {
+      // altrimenti vado a ripescare SEMPRE da API (anche dopo un bulkTime)
+      loadVoti();
     }
-  }, [isExpanded, votiOverride]);
+  }, [isExpanded, votiOverride, bulkTime]);
+
+
 
   useEffect(() => {
     if (media !== null) {
@@ -43,6 +46,8 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride }) 
       calcolaMedia();
     }
   }, [voti]);
+
+  
 
   const loadVoti = async () => {
     setLoading(true);
