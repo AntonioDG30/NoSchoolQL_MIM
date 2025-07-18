@@ -6,7 +6,7 @@ import os
 # CONFIGURAZIONE
 # -----------------------------
 ModalitaRidotta = True
-NUM_SCUOLE = 50
+NUM_SCUOLE = 200
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 

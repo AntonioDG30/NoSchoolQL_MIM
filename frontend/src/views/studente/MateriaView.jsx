@@ -1,12 +1,9 @@
 import { useApp } from '../../context/AppContext';
 import { useState } from 'react';
-
-import { Bar, Line, Doughnut } from 'react-chartjs-2';
-
+import { Line } from 'react-chartjs-2';
 
 import Card from '../../components/ui/registro/Card_Registro';
 import Button from '../../components/ui/registro/Button_Registro';
-
 
 import { 
   TrendingUp,
@@ -19,10 +16,9 @@ import {
 
 import StudentVotoCard from './StudentVotoCard';
 
-
 const MateriaView = ({ materia, voti }) => {
   const { currentTheme } = useApp();
-  const [viewMode, setViewMode] = useState('grid'); // grid or timeline
+  const [viewMode, setViewMode] = useState('grid');
 
   const media = voti.length > 0 
     ? (voti.reduce((sum, v) => sum + v.voto, 0) / voti.length).toFixed(2)
@@ -38,7 +34,31 @@ const MateriaView = ({ materia, voti }) => {
     return currentTheme.danger;
   };
 
-  // Prepare chart data
+  const normalizeTipologia = (t) => (t || '').toUpperCase();
+
+  const getTipologiaBadgeStyle = (tipologia) => {
+    const base = {
+      display: 'inline-block',
+      padding: '2px 8px',
+      borderRadius: '999px',
+      fontSize: '10px',
+      fontWeight: 600,
+      letterSpacing: '0.5px',
+      textTransform: 'uppercase'
+    };
+
+    switch (tipologia) {
+      case 'SCRITTO':
+        return { ...base, background: currentTheme.primaryLight, color: currentTheme.primary };
+      case 'ORALE':
+        return { ...base, background: currentTheme.infoLight || '#e0f2ff', color: currentTheme.info || '#0b6ea8' };
+      case 'PRATICO':
+        return { ...base, background: currentTheme.warningLight, color: currentTheme.warning };
+      default:
+        return { ...base, background: currentTheme.border, color: currentTheme.textSecondary };
+    }
+  };
+
   const chartData = {
     labels: voti.map(v => new Date(v.data).toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })),
     datasets: [{
@@ -60,9 +80,7 @@ const MateriaView = ({ materia, voti }) => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        display: false
-      },
+      legend: { display: false },
       tooltip: {
         backgroundColor: currentTheme.cardBackground,
         titleColor: currentTheme.text,
@@ -77,29 +95,18 @@ const MateriaView = ({ materia, voti }) => {
       y: {
         beginAtZero: true,
         max: 10,
-        ticks: {
-          stepSize: 1,
-          color: currentTheme.textSecondary
-        },
-        grid: {
-          color: currentTheme.border,
-          drawBorder: false
-        }
+        ticks: { stepSize: 1, color: currentTheme.textSecondary },
+        grid: { color: currentTheme.border, drawBorder: false }
       },
       x: {
-        grid: {
-          display: false
-        },
-        ticks: {
-          color: currentTheme.textSecondary
-        }
+        grid: { display: false },
+        ticks: { color: currentTheme.textSecondary }
       }
     }
   };
 
   return (
     <div className="animate-fade-in">
-      {/* Header */}
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '8px' }}>
           {materia}
@@ -109,7 +116,6 @@ const MateriaView = ({ materia, voti }) => {
         </p>
       </div>
 
-      {/* Stats Cards */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -141,7 +147,9 @@ const MateriaView = ({ materia, voti }) => {
               </p>
             </div>
             {trend !== null && (
-              trend ? <TrendingUp size={40} color={currentTheme.success} /> : <TrendingDown size={40} color={currentTheme.danger} />
+              trend
+                ? <TrendingUp size={40} color={currentTheme.success} />
+                : <TrendingDown size={40} color={currentTheme.danger} />
             )}
           </div>
         </Card>
@@ -161,7 +169,6 @@ const MateriaView = ({ materia, voti }) => {
         </Card>
       </div>
 
-      {/* Chart */}
       <Card style={{ marginBottom: '32px' }}>
         <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '24px' }}>
           Andamento nel tempo
@@ -171,7 +178,6 @@ const MateriaView = ({ materia, voti }) => {
         </div>
       </Card>
 
-      {/* View Mode Toggle */}
       <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
         <Button
           variant={viewMode === 'grid' ? 'primary' : 'secondary'}
@@ -191,34 +197,53 @@ const MateriaView = ({ materia, voti }) => {
         </Button>
       </div>
 
-      {/* Voti Display */}
       {viewMode === 'grid' ? (
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
           gap: '16px'
         }}>
-          {voti.map((voto, idx) => (
-            <Card key={idx} hoverable style={{ textAlign: 'center' }}>
-              <div style={{
-                fontSize: '48px',
-                fontWeight: '700',
-                color: getVotoColor(voto.voto),
-                marginBottom: '12px'
-              }}>
-                {voto.voto}
-              </div>
-              <p style={{ color: currentTheme.textSecondary, fontSize: '14px' }}>
-                {new Date(voto.data).toLocaleDateString('it-IT')}
-              </p>
-            </Card>
-          ))}
+          {voti.map((voto, idx) => {
+            const tip = normalizeTipologia(voto.tipologia);
+            return (
+              <Card key={idx} hoverable style={{ textAlign: 'center' }}>
+                <div style={{
+                  fontSize: '48px',
+                  fontWeight: '700',
+                  color: getVotoColor(voto.voto),
+                  marginBottom: '12px'
+                }}>
+                  {voto.voto}
+                </div>
+                <div style={{ marginBottom: '8px' }}>
+                  <span style={getTipologiaBadgeStyle(tip)}>
+                    {tip}
+                  </span>
+                </div>
+                <p style={{ color: currentTheme.textSecondary, fontSize: '14px' }}>
+                  {new Date(voto.data).toLocaleDateString('it-IT')}
+                </p>
+              </Card>
+            );
+          })}
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {voti.map((voto, idx) => (
-            <StudentVotoCard key={idx} voto={voto} detailed />
-          ))}
+          {voti.map((voto, idx) => {
+            const tip = normalizeTipologia(voto.tipologia);
+            return (
+              <StudentVotoCard
+                key={idx}
+                voto={voto}
+                detailed
+                renderTipologia={() => (
+                  <span style={getTipologiaBadgeStyle(tip)}>
+                    {tip}
+                  </span>
+                )}
+              />
+            );
+          })}
         </div>
       )}
     </div>

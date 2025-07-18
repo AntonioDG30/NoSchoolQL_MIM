@@ -1,5 +1,5 @@
 import { useApp } from '../../context/AppContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Badge from '../../components/ui/registro/Badge_Registro';
@@ -15,13 +15,10 @@ import {
 import ApiService from '../../services/ApiService';
 import useApiCall from '../../hooks/useApiCall';
 
-
 const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
   const { currentTheme, user } = useApp();
   const [studente, setStudente] = useState(null);
   const navigate = useNavigate();
-
-  
   const execute = useApiCall();
 
   useEffect(() => {
@@ -33,10 +30,21 @@ const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
         console.error('Errore nel recupero dello studente:', err);
       }
     };
-
     fetchStudente();
-  }, [user]);
+  }, [user, execute]);
 
+  // --- ORDINAMENTO MATERIE (alfabetico case-insensitive) ---
+  const materieOrdinate = useMemo(() => {
+    if (!Array.isArray(materie)) return [];
+    return [...materie].sort((a, b) => {
+      const sa = (a || '').toString().toLocaleLowerCase('it-IT');
+      const sb = (b || '').toString().toLocaleLowerCase('it-IT');
+      if (sa < sb) return -1;
+      if (sa > sb) return 1;
+      // Se uguali (case-insensitive), mantieni un ordinamento deterministico confrontando originale
+      return (a || '').localeCompare(b || ''); 
+    });
+  }, [materie]);
 
   const sidebarItemStyle = (isActive) => ({
     padding: '12px 16px',
@@ -55,7 +63,6 @@ const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
     localStorage.clear();
     navigate('/login', { replace: true });
   };
-
 
   return (
     <>
@@ -90,7 +97,7 @@ const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
           Materie
         </p>
         
-        {materie.map((materia, idx) => (
+        {materieOrdinate.map((materia, idx) => (
           <div
             key={idx}
             style={sidebarItemStyle(materiaSelezionata === materia)}
@@ -126,4 +133,4 @@ const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
   );
 };
 
-export default StudenteSidebar; 
+export default StudenteSidebar;

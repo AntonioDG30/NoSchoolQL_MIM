@@ -144,7 +144,7 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
             <Input label="Data fine" icon={Calendar} type="date" value={filtri.fine} onChange={e => setFiltri({...filtri, fine: e.target.value})} />
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <Button icon={Filter} variant="primary" onClick={applicaFiltri}>Applica filtri</Button>
+            <Button icon={Filter} variant="secondary" onClick={applicaFiltri}>Applica filtri</Button>
             <Button icon={RotateCw} variant="ghost" onClick={resetFiltri}>Reset</Button>
           </div>
         </div>

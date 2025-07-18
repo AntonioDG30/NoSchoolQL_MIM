@@ -1,9 +1,7 @@
 import { useApp } from '../../context/AppContext';
-import { Bar, Line, Doughnut } from 'react-chartjs-2';
-
+import { Bar, Line } from 'react-chartjs-2';
 
 import Card from '../../components/ui/registro/Card_Registro';
-
 
 import { 
   BookOpen, 
@@ -14,9 +12,33 @@ import {
 
 import StudentVotoCard from './StudentVotoCard';
 
-
 const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzioneVoti }) => {
   const { currentTheme } = useApp();
+
+  // Helpers tipologia
+  const normalizeTipologia = (t) => (t || '').toUpperCase();
+
+  const getTipologiaBadgeStyle = (tipologia) => {
+    const base = {
+      display: 'inline-block',
+      padding: '2px 8px',
+      borderRadius: '999px',
+      fontSize: '10px',
+      fontWeight: 600,
+      letterSpacing: '0.5px',
+      textTransform: 'uppercase'
+    };
+    switch (tipologia) {
+      case 'SCRITTO':
+        return { ...base, background: currentTheme.primaryLight, color: currentTheme.primary };
+      case 'ORALE':
+        return { ...base, background: currentTheme.infoLight || '#e0f2ff', color: currentTheme.info || '#0b6ea8' };
+      case 'PRATICO':
+        return { ...base, background: currentTheme.warningLight, color: currentTheme.warning };
+      default:
+        return { ...base, background: currentTheme.border, color: currentTheme.textSecondary };
+    }
+  };
 
   // Stats cards data
   const stats = [
@@ -52,14 +74,12 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
     }
   ];
 
-  // Chart configuration
+  // Chart options condivise
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        display: false
-      },
+      legend: { display: false },
       tooltip: {
         backgroundColor: currentTheme.cardBackground,
         titleColor: currentTheme.text,
@@ -73,21 +93,12 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
     scales: {
       y: {
         beginAtZero: true,
-        grid: {
-          color: currentTheme.border,
-          drawBorder: false
-        },
-        ticks: {
-          color: currentTheme.textSecondary
-        }
+        grid: { color: currentTheme.border, drawBorder: false },
+        ticks: { color: currentTheme.textSecondary }
       },
       x: {
-        grid: {
-          display: false
-        },
-        ticks: {
-          color: currentTheme.textSecondary
-        }
+        grid: { display: false },
+        ticks: { color: currentTheme.textSecondary }
       }
     }
   };
@@ -134,10 +145,66 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
       borderRadius: 4
     }]
   };
+  // (doughnutData definito se in futuro aggiungi il grafico a ciambella)
+
+  // Medie ordinate
+  const medieOrdinate = [...mediePerMateria]
+    .map(m => ({ ...m, mediaNum: parseFloat(m.media) }))
+    .sort((a, b) => b.mediaNum - a.mediaNum);
+
+  const barMedieData = {
+    labels: medieOrdinate.map(m => m.materia),
+    datasets: [{
+      label: 'Media',
+      data: medieOrdinate.map(m => m.mediaNum),
+      backgroundColor: medieOrdinate.map(m => {
+        const max = Math.max(...medieOrdinate.map(x => x.mediaNum));
+        const min = Math.min(...medieOrdinate.map(x => x.mediaNum));
+        if (m.mediaNum === max) return currentTheme.success;
+        if (m.mediaNum === min) return currentTheme.danger;
+        return currentTheme.primary;
+      }),
+      borderRadius: 8,
+      barThickness: 20
+    }]
+  };
+
+  const barMedieOptions = {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: currentTheme.cardBackground,
+        titleColor: currentTheme.text,
+        bodyColor: currentTheme.textSecondary,
+        borderColor: currentTheme.border,
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8,
+        callbacks: {
+          label: ctx => ` Media: ${ctx.parsed.x.toFixed(2)}`
+        }
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        suggestedMax: 10,
+        grid: { color: currentTheme.border, drawBorder: false },
+        ticks: { color: currentTheme.textSecondary }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { color: currentTheme.textSecondary }
+      }
+    }
+  };
 
   return (
     <div className="animate-fade-in">
-      {/* Welcome Section */}
+      {/* Header */}
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '8px' }}>
           Dashboard Studente
@@ -147,7 +214,7 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
         </p>
       </div>
 
-      {/* Stats Grid */}
+      {/* Stats */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
@@ -181,24 +248,22 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
         ))}
       </div>
 
-      {/* Charts Section */}
+      {/* Charts */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
         gap: '24px',
         marginBottom: '32px'
       }}>
-        {/* Andamento Voti */}
         <Card>
           <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '24px' }}>
             Andamento Voti
           </h3>
-          <div style={{ height: '300px' }}>
-            <Line data={lineChartData} options={chartOptions} />
-          </div>
+            <div style={{ height: '300px' }}>
+              <Line data={lineChartData} options={chartOptions} />
+            </div>
         </Card>
 
-        {/* Distribuzione Voti */}
         <Card>
           <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '24px' }}>
             Distribuzione Voti
@@ -209,7 +274,7 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
         </Card>
       </div>
 
-      {/* Medie per Materia */}
+      {/* Medie + Ultimi Voti */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -220,34 +285,30 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
             Medie per Materia
           </h3>
           <div style={{ height: '300px' }}>
-            <Doughnut data={doughnutData} options={{
-              ...chartOptions,
-              plugins: {
-                ...chartOptions.plugins,
-                legend: {
-                  position: 'right',
-                  labels: {
-                    color: currentTheme.text,
-                    padding: 12,
-                    font: {
-                      size: 14
-                    }
-                  }
-                }
-              }
-            }} />
+            <Bar data={barMedieData} options={barMedieOptions} />
           </div>
         </Card>
 
-        {/* Recent Grades */}
         <Card>
           <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '24px' }}>
             Ultimi Voti
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {voti.slice(-5).reverse().map((voto, idx) => (
-              <StudentVotoCard key={idx} voto={voto} />
-            ))}
+            {voti.slice(-5).reverse().map((voto, idx) => {
+              const tip = normalizeTipologia(voto.tipologia || voto.tipo);
+              return (
+                <StudentVotoCard
+                  key={idx}
+                  voto={voto}
+                  detailed
+                  renderTipologia={() => (
+                    <span style={getTipologiaBadgeStyle(tip)}>
+                      {tip}
+                    </span>
+                  )}
+                />
+              );
+            })}
           </div>
         </Card>
       </div>

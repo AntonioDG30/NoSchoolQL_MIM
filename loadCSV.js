@@ -1,5 +1,3 @@
-// importa_in_mongodb.js
-
 const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
@@ -18,49 +16,89 @@ const COLLECTIONS = {
   voti: 'voti.csv'
 };
 
-// Conversioni numeriche e date specifiche per ciascun file
-function convertTypes(row, file) {
-  if (file === 'classi.csv') {
-    ['annocorso', 'num_studenti', 'num_maschi', 'num_femmine', 'num_italiani', 'num_stranieri'].forEach(key => {
-      if (row[key]) row[key] = Number(row[key]);
-    });
-  }
+const BATCH_SIZE = 5000;        // regola in base a performance
+const LOG_EVERY = 100000;       // progress logging
+const PARSE_DATE_FIELDS = { voti: ['data'] };
+const NUMERIC_FIELDS = {
+  classi: ['annocorso','num_studenti','num_maschi','num_femmine','num_italiani','num_stranieri'],
+  voti: ['voto']
+};
 
-  if (file === 'voti.csv') {
-    if (row.voto) row.voto = Number(row.voto);
-    if (row.data) row.data = new Date(row.data);
-  }
-
+function convertRow(row, collName) {
+  // numerici
+  (NUMERIC_FIELDS[collName] || []).forEach(f => {
+    if (row[f] !== undefined && row[f] !== '') row[f] = Number(row[f]);
+  });
+  // date
+  (PARSE_DATE_FIELDS[collName] || []).forEach(f => {
+    if (row[f]) row[f] = new Date(row[f]);
+  });
   return row;
 }
 
-async function importCSVToMongo(client, collectionName, csvFilePath, fileName) {
+async function importCollection(client, collName, fileName) {
+  const filePath = path.join(DATASET_DIR, fileName);
+  const db = client.db(DB_NAME);
+  const collection = db.collection(collName);
+
+  console.log(`➡️  Inizio import ${collName} da ${fileName}`);
+  await collection.deleteMany({});
+
   return new Promise((resolve, reject) => {
-    const data = [];
-    fs.createReadStream(csvFilePath)
-      .pipe(csv())
-      .on('data', (row) => {
-        data.push(convertTypes(row, fileName));
-      })
-      .on('end', async () => {
-        try {
-          const db = client.db(DB_NAME);
-          const collection = db.collection(collectionName);
-          await collection.deleteMany({});
-          await collection.insertMany(data);
-          console.log(`✅ ${collectionName} importata con ${data.length} documenti.`);
+    const buffer = [];
+    let count = 0;
+    let inserting = false;
+    let streamEnded = false;
+
+    const stream = fs.createReadStream(filePath)
+      .pipe(csv({ separator: ',', skipLines: 0 }));
+
+    async function flush() {
+      if (buffer.length === 0) return;
+      const docs = buffer.splice(0, buffer.length);
+      inserting = true;
+      try {
+        await collection.insertMany(docs, { ordered: false });
+        inserting = false;
+        if (streamEnded && buffer.length === 0) {
+          console.log(`✅ ${collName} importata (${count} doc).`);
           resolve();
-        } catch (err) {
-          reject(err);
+        } else {
+          if (stream.isPaused()) stream.resume();
         }
-      })
-      .on('error', reject);
+      } catch (err) {
+        reject(err);
+      }
+    }
+
+    stream.on('data', async row => {
+      convertRow(row, collName);
+      buffer.push(row);
+      count++;
+      if (count % LOG_EVERY === 0) {
+        console.log(`... ${collName} ${count} righe`);
+      }
+      if (buffer.length >= BATCH_SIZE && !inserting) {
+        stream.pause();
+        flush();
+      }
+    });
+
+    stream.on('end', async () => {
+      streamEnded = true;
+      if (!inserting) {
+        flush();
+      }
+    });
+
+    stream.on('error', reject);
   });
 }
 
 async function creaIndici(client) {
   const db = client.db(DB_NAME);
 
+  // crea indici dopo
   await db.collection('anagrafica').createIndex({ codicescuola: 1 });
 
   await db.collection('studenti').createIndex({ id_studente: 1 }, { unique: true });
@@ -69,10 +107,11 @@ async function creaIndici(client) {
   await db.collection('classi').createIndex({ id_classe: 1 }, { unique: true });
   await db.collection('classi').createIndex({ codicescuola: 1 });
   await db.collection('classi').createIndex({ indirizzo: 1 });
+  await db.collection('classi').createIndex({ indirizzo_norm: 1 });
   await db.collection('classi').createIndex({ annocorso: 1 });
 
   await db.collection('docenti').createIndex({ id_docente: 1 }, { unique: true });
-  await db.collection('docenti').createIndex({ codicescuola: 1 });
+  await db.collection('docenti').createIndex({ materia: 1 });
 
   await db.collection('assegnazioni_docenti').createIndex({ id_docente: 1 });
   await db.collection('assegnazioni_docenti').createIndex({ id_classe: 1 });
@@ -82,20 +121,27 @@ async function creaIndici(client) {
   await db.collection('voti').createIndex({ id_studente: 1 });
   await db.collection('voti').createIndex({ id_docente: 1 });
   await db.collection('voti').createIndex({ materia: 1 });
+  await db.collection('voti').createIndex({ tipologia: 1 });
+  await db.collection('voti').createIndex({ data: 1 });
+  await db.collection('voti').createIndex({ materia: 1, tipologia: 1 });
 
-  console.log('✅ Indici creati con successo.');
+  console.log('✅ Indici creati.');
 }
 
 async function main() {
-  const client = new MongoClient(MONGO_URI);
+  const client = new MongoClient(MONGO_URI, {
+    maxPoolSize: 10
+  });
 
   try {
     await client.connect();
-    console.log('🔌 Connessione a MongoDB riuscita.');
+    console.log('🔌 Connesso a MongoDB.');
 
-    for (const [collectionName, csvFile] of Object.entries(COLLECTIONS)) {
-      const filePath = path.join(DATASET_DIR, csvFile);
-      await importCSVToMongo(client, collectionName, filePath, csvFile);
+    // Ordine: carica prima tabelle piccole, poi grandi
+    for (const [coll, file] of Object.entries(COLLECTIONS)) {
+      await importCollection(client, coll, file);
+      // opzionale: forza GC Node (non sempre necessario)
+      global.gc && global.gc();
     }
 
     await creaIndici(client);
@@ -103,7 +149,7 @@ async function main() {
     console.error('❌ Errore:', err);
   } finally {
     await client.close();
-    console.log('🔒 Connessione a MongoDB chiusa.');
+    console.log('🔒 Connessione chiusa.');
   }
 }
 

@@ -1,5 +1,5 @@
 import { useApp } from '../../context/AppContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Badge from '../../components/ui/registro/Badge_Registro';
@@ -14,13 +14,10 @@ import {
 import ApiService from '../../services/ApiService';
 import useApiCall from '../../hooks/useApiCall';
 
-
 const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
   const { currentTheme, user } = useApp();
   const [docente, setDocente] = useState(null);
   const navigate = useNavigate();
-
-  
   const execute = useApiCall();
 
   useEffect(() => {
@@ -34,8 +31,36 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
     };
 
     fetchDocente();
-  }, [user]);
+  }, [user, execute]);
 
+  // --- ORDINAMENTO CLASSI ---
+  const classiOrdinate = useMemo(() => {
+    if (!Array.isArray(classi)) return [];
+
+    const parseClasse = (c) => {
+      if (typeof c !== 'string') return { anno: Number.MAX_SAFE_INTEGER, lettera: 'Z', raw: c };
+      const match = c.match(/^(\d+)\s*([A-Za-z])/); // es: "1A", "2 B"
+      if (!match) {
+        return { anno: Number.MAX_SAFE_INTEGER, lettera: 'Z', raw: c }; // va in fondo
+      }
+      return {
+        anno: parseInt(match[1], 10),
+        lettera: match[2].toUpperCase(),
+        raw: c
+      };
+    };
+
+    return [...classi].sort((a, b) => {
+      const ca = parseClasse(a);
+      const cb = parseClasse(b);
+
+      if (ca.anno !== cb.anno) return ca.anno - cb.anno;
+      if (ca.lettera < cb.lettera) return -1;
+      if (ca.lettera > cb.lettera) return 1;
+      // Se completamente uguali, mantiene ordine stabile (JS sort non garantisce, ma differenza 0 va bene)
+      return 0;
+    });
+  }, [classi]);
 
   const sidebarItemStyle = (isActive) => ({
     padding: '12px 16px',
@@ -64,7 +89,7 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
           </h3>
           <div style={{ display: 'flex', gap: '8px' }}>
             <Badge variant="primary" size="sm" icon={BookOpen}>
-              {classi.length} classi
+              {classiOrdinate.length} classi
             </Badge>
           </div>
         </div>
@@ -82,7 +107,7 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
           Le tue classi
         </p>
         
-        {classi.map((classe, idx) => (
+        {classiOrdinate.map((classe, idx) => (
           <div
             key={idx}
             style={sidebarItemStyle(classeSelezionata === classe)}

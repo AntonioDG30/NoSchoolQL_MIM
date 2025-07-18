@@ -92,16 +92,16 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
       new Date(v.data).toLocaleDateString(),
       v.materia,
       v.voto,
-      v.tipo
+      v.tipologia
     ]);
 
     autoTable(doc, {
-      head: [["Data", "Materia", "Voto", "Tipo"]],
+      head: [["Data", "Materia", "Voto", "Tipologia"]],
       body: rows,
       startY: 30,
       styles: { fontSize: 12 },
       headStyles: {
-        fillColor: currentTheme.primary  // stringa esadecimale
+        fillColor: currentTheme.primary  
       }
     });
 
