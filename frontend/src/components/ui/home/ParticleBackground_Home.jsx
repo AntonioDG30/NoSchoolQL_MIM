@@ -1,5 +1,4 @@
-import { useTheme } from '../../../context/ThemeContext';
-
+import { useTheme } from '../../../context/AppContext';
 
 const ParticleBackground = () => {
   const [theme] = useTheme();

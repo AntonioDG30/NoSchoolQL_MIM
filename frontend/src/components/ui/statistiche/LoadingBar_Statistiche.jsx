@@ -1,5 +1,5 @@
 
-import { useTheme } from '../../../context/ThemeContext';
+import { useTheme } from '../../../context/AppContext';
 
 const LoadingBar = () => {
   const [theme] = useTheme();

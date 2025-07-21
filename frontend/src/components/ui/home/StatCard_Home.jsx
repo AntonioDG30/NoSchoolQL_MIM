@@ -1,4 +1,4 @@
-import { useTheme } from '../../../context/ThemeContext';
+import { useTheme } from '../../../context/AppContext';
 
 const StatCard = ({ icon: Icon, value, label, color }) => {
   const [theme] = useTheme();

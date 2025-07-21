@@ -27,7 +27,6 @@ router.get('/docente/classe/:id_classe/materia/:materia/media', authMiddleware, 
 router.post('/docente/voto', authMiddleware, RegistroController.inserisciVoto);
 router.put('/docente/voto', authMiddleware, RegistroController.modificaVoto);
 router.delete('/docente/voto', authMiddleware, RegistroController.eliminaVoto);
-router.post('/docente/classe/voto', authMiddleware, RegistroController.inserisciVotoPerClasse);
 router.post('/docente/classe/voti', authMiddleware, RegistroController.inserisciVotiTuttaClasse);
 
 module.exports = router;

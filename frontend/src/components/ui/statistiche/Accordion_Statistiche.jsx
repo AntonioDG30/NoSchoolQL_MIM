@@ -1,4 +1,5 @@
-import { useTheme } from '../../../context/ThemeContext';
+import { useTheme } from '../../../context/AppContext';
+
 import React, { useState, useEffect, useRef } from 'react';
 import Card from './Card_Statistiche';
 import { ChevronDown } from 'lucide-react';

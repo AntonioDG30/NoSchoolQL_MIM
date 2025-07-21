@@ -1,4 +1,4 @@
-import { useTheme } from '../../../context/ThemeContext';
+import { useTheme } from '../../../context/AppContext';
 import React, { useState } from 'react';
 import Card from './Card_Home';
 import Button from './Button_Home';

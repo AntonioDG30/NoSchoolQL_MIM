@@ -59,7 +59,7 @@ ChartJS.register(
 
 import themes from '../theme/themes';
 import '../theme/globalStyles';
-import { ThemeProvider, useTheme } from '../context/ThemeContext';
+import { AppProvider, useTheme } from '../context/AppContext';
 import Card from '../components/ui/statistiche/Card_Statistiche';
 import Accordion from '../components/ui/statistiche/Accordion_Statistiche';
 import StatsCard from '../components/ui/statistiche/StatsCard_Statistiche';
@@ -1178,8 +1178,8 @@ function getVotoColor(voto, theme) {
 // ==================== EXPORT ====================
 export default function Statistiche() {
   return (
-    <ThemeProvider>
+    <AppProvider>
       <StatisticheContent />
-    </ThemeProvider>
+    </AppProvider>
   );
 }

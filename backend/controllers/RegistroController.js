@@ -72,13 +72,14 @@ module.exports = {
   async inserisciVoto(req, res) {
     const userId = req.userId;
     const userType = req.userType;
-    const { id_studente, materia, voto, data } = req.body;
+    const { id_studente, materia, voto, tipo, data } = req.body;
 
     if (userType !== 'docente') {
       return res.status(403).json({ message: 'Accesso negato' });
     }
 
-    if (!id_studente || !materia || typeof voto !== 'number' || !data) {
+    if (!id_studente || !materia || typeof voto !== 'number' || !tipo || !data) {
+      console.error('Dati mancanti:', { id_studente, materia, voto, tipo, data });
       return res.status(400).json({ message: 'Dati incompleti o errati' });
     }
 
@@ -92,6 +93,7 @@ module.exports = {
         id_docente: userId,
         materia,
         voto: Number(voto),
+        tipologia: tipo,
         data: new Date(data)
       };
 
@@ -106,31 +108,34 @@ module.exports = {
   async modificaVoto(req, res) {
     const userId = req.userId;
     const userType = req.userType;
-    const { id_voto, voto } = req.body;
+    const { id_voto, tipologia, voto } = req.body;
 
-    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
+    if (userType !== 'docente')
+      return res.status(403).json({ message: 'Accesso negato' });
 
-    if (!id_voto || typeof voto !== 'number') {
+    if (!id_voto || typeof voto !== 'number' || Number.isNaN(voto))
       return res.status(400).json({ message: 'Dati mancanti o invalidi' });
-    }
 
     try {
       const { votiCollection } = getCollections();
 
+      const update = { voto };
+      if (tipologia !== undefined) update.tipologia = tipologia;
+
       const result = await votiCollection.updateOne(
         { id_voto, id_docente: userId },
-        { $set: { voto } }
+        { $set: update }
       );
 
-      if (result.matchedCount === 0) {
+      if (result.matchedCount === 0)
         return res.status(404).json({ message: 'Voto non trovato o non autorizzato' });
-      }
 
       return res.json({ message: 'Voto modificato' });
     } catch (err) {
       return res.status(500).json({ message: 'Errore interno', error: err.message });
     }
   },
+
 
   async eliminaVoto(req, res) {
     const userId = req.userId;
@@ -240,38 +245,6 @@ module.exports = {
     }
   },
 
-  async inserisciVotoPerClasse(req, res) {
-    const userId = req.userId;
-    const userType = req.userType;
-    const { id_classe, materia, voto } = req.body;
-
-    if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
-
-    if (!id_classe || !materia || typeof voto !== 'number') {
-      return res.status(400).json({ message: 'Dati incompleti o errati' });
-    }
-
-    try {
-      const { studentiCollection, votiCollection } = getCollections();
-
-      const studenti = await studentiCollection.find({ id_classe }).toArray();
-
-      const operazioni = studenti.map(studente => ({
-        id_voto: `VOT${Date.now()}${Math.floor(Math.random() * 1000)}`,
-        id_studente: studente.id_studente,
-        id_docente: userId,
-        materia,
-        voto: Number(voto)
-      }));
-
-      await votiCollection.insertMany(operazioni);
-
-      res.json({ message: 'Voti inseriti per tutta la classe', inseriti: operazioni.length });
-    } catch (err) {
-      res.status(500).json({ message: 'Errore interno', error: err.message });
-    }
-  },
-
   async getMaterieDocente(req, res) {
     const userId = req.userId;
     const userType = req.userType;
@@ -292,10 +265,10 @@ module.exports = {
   async inserisciVotiTuttaClasse(req, res) {
     const userId = req.userId;
     const userType = req.userType;
-    const { id_classe, materia, voti } = req.body;
+    const { id_classe, materia, tipo, voti } = req.body;
 
     if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
-    if (!id_classe || !materia || !Array.isArray(voti)) {
+    if (!id_classe || !materia || !tipo || !Array.isArray(voti)) {
       return res.status(400).json({ message: 'Dati incompleti o errati' });
     }
 
@@ -306,6 +279,7 @@ module.exports = {
         id_docente: userId,
         id_studente: v.id_studente,
         materia: v.materia || materia,
+        tipologia: v.tipo || tipo,
         voto: Number(v.voto),
         data: new Date()
       }));

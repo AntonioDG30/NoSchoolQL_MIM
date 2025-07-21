@@ -1,4 +1,4 @@
-import { useTheme } from '../../../context/ThemeContext';
+import { useTheme } from '../../../context/AppContext';
 import themes from '../../../theme/themes';
 
 const Skeleton = ({ width = '60px', height = '32px' }) => {

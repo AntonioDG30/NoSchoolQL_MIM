@@ -28,7 +28,7 @@ import {
 
 import themes from '../theme/themes';
 import '../theme/globalStyles';
-import { ThemeProvider, useTheme } from '../context/ThemeContext';
+import { AppProvider, useTheme } from '../context/AppContext';
 import ParticleBackground from '../components/ui/home/ParticleBackground_Home';
 import FeatureCard from '../components/ui/home/FeatureCard_Home';
 import StatCard from '../components/ui/home/StatCard_Home';
@@ -303,8 +303,8 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <ThemeProvider>
+    <AppProvider>
       <HomeContent />
-    </ThemeProvider>
+    </AppProvider>
   );
 }

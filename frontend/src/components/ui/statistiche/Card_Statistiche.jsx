@@ -1,4 +1,4 @@
-import { useTheme } from '../../../context/ThemeContext';
+import { useTheme } from '../../../context/AppContext';
 import React, { useState } from 'react';
 
 const Card = ({ children, className = '', style = {}, hoverable = false, onClick }) => {

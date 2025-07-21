@@ -90,7 +90,7 @@ export default function BulkVotoForm({ classeId, studenti, materie, onClose, onS
             onChange={e => setFormData({ ...formData, data: e.target.value })}
           />
           <Select
-            label="Tipo voto"
+            label="Tipo"
             value={formData.tipo}
             onChange={e => setFormData({ ...formData, tipo: e.target.value })}
           >

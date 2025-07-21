@@ -1,4 +1,4 @@
-import { useTheme } from '../../../context/ThemeContext';
+import { useTheme } from '../../../context/AppContext';
 import React, { useState } from 'react';
 
 const Button = ({ children, variant = 'primary', size = 'md', icon: Icon, onClick, style = {}, className = '', ...props }) => {
