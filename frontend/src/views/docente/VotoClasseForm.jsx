@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { useApp } from '../../../context/AppContext';
-import Card from '../../../components/ui/registro/Card_Registro';
-import Select from '../../../components/ui/registro/Select_Registro';
-import Input from '../../../components/ui/registro/Input_Registro';
-import Button from '../../../components/ui/registro/Button_Registro';
+import { useApp } from '../../context/AppContext';
+import Card from '../../components/ui/registro/Card_Registro';
+import Select from '../../components/ui/registro/Select_Registro';
+import Input from '../../components/ui/registro/Input_Registro';
+import Button from '../../components/ui/registro/Button_Registro';
 import { CheckCircle, RotateCw } from 'lucide-react';
 
-export default function BulkVotoForm({ classeId, studenti, materie, onClose, onSuccess }) {
+export default function VotoClasseForm({ classeId, studenti, materie, onClose, onSuccess }) {
   const { user, currentTheme, setLoading, setError: setGlobalError } = useApp();
 
   const [formData, setFormData] = useState({

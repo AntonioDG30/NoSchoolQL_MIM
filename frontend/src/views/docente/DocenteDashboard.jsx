@@ -16,7 +16,7 @@ import Button from '../../components/ui/registro/Button_Registro';
 import Select from '../../components/ui/registro/Select_Registro';
 import Alert from '../../components/ui/registro/Alert_Registro';
 import StudentCard from '../../views/docente/StudentCard';
-import BulkVotoForm from '../../components/ui/registro/BulkVotoForm';
+import VotoClasseForm from './VotoClasseForm';
 
 
 const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
@@ -148,7 +148,7 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
 
       {/* Bulk Form */}
       {bulkOpen && (
-        <BulkVotoForm
+        <VotoClasseForm
           classeId={classeSelezionata}
           studenti={studentiClasse.map(i => i.studente)}
           materie={materie}
