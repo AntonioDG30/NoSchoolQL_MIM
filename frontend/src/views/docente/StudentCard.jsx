@@ -1,7 +1,5 @@
 import { useApp } from '../../context/AppContext';
 import { useState, useEffect } from 'react';
-import ApiService from '../../services/ApiService';
-import useApiCall from '../../hooks/useApiCall';
 
 import Card from '../../components/ui/registro/Card_Registro';
 import Button from '../../components/ui/registro/Button_Registro';
@@ -22,12 +20,11 @@ import {
 } from 'lucide-react';
 
 const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bulkTime }) => {
-  const { currentTheme, user } = useApp();
+  const { currentTheme, user, setLoading, setError } = useApp();
   const [voti, setVoti] = useState([]);
   const [media, setMedia] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLocalLoading] = useState(false);
   const [showVotoForm, setShowVotoForm] = useState(false);
-  const execute = useApiCall();
 
   // ricarica voti ad apertura o dopo bulk/in caso di override
   useEffect(() => {
@@ -45,23 +42,47 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
   }, [voti]);
 
   const loadVoti = async () => {
-    setLoading(true);
+    setLocalLoading(true);
     try {
-      const data = await execute(() =>
-        ApiService.getVotiStudenteDocente(user, studente.id_studente)
+      const response = await fetch(
+        `http://localhost:3000/api/registro/docente/studente/${studente.id_studente}/voti`,
+        {
+          headers: {
+            Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+          }
+        }
       );
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
       setVoti(data.voti);
     } catch (err) {
       console.error('Errore caricamento voti:', err);
+      setError(err.message);
+    } finally {
+      setLocalLoading(false);
     }
-    setLoading(false);
   };
 
   const calcolaMedia = async () => {
     try {
-      const data = await execute(() =>
-        ApiService.getMediaStudente(user, studente.id_studente)
+      const response = await fetch(
+        `http://localhost:3000/api/registro/docente/studente/${studente.id_studente}/media`,
+        {
+          headers: {
+            Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+          }
+        }
       );
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
       setMedia(data.media);
     } catch (err) {
       console.error('Errore calcolo media:', err);
@@ -69,17 +90,33 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
   };
 
   const handleAddVoto = async votoData => {
+    setLoading(true);
+    setError(null);
+    
     try {
-      await execute(() =>
-        ApiService.inserisciVoto(user, {
+      const response = await fetch('http://localhost:3000/api/registro/docente/voto', {
+        method: 'POST',
+        headers: {
+          Authorization: `${user.tipo.toUpperCase()}:${user.id}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
           ...votoData,
           id_studente: studente.id_studente
         })
-      );
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       await loadVoti();
       setShowVotoForm(false);
     } catch (err) {
       console.error('Errore inserimento voto:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 

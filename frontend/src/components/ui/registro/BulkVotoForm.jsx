@@ -1,7 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../../../context/AppContext';
-import useApiCall from '../../../hooks/useApiCall';
-import ApiService from '../../../services/ApiService';
 import Card from '../../../components/ui/registro/Card_Registro';
 import Select from '../../../components/ui/registro/Select_Registro';
 import Input from '../../../components/ui/registro/Input_Registro';
@@ -9,8 +7,7 @@ import Button from '../../../components/ui/registro/Button_Registro';
 import { CheckCircle, RotateCw } from 'lucide-react';
 
 export default function BulkVotoForm({ classeId, studenti, materie, onClose, onSuccess }) {
-  const { user, currentTheme } = useApp();
-  const execute = useApiCall();
+  const { user, currentTheme, setLoading, setError: setGlobalError } = useApp();
 
   const [formData, setFormData] = useState({
     materia: '',
@@ -57,11 +54,29 @@ export default function BulkVotoForm({ classeId, studenti, materie, onClose, onS
       voti: validi.map(v => ({ ...v, voto: Number(v.voto) }))
     };
 
+    setLoading(true);
+    setGlobalError(null);
+    
     try {
-      await execute(() => ApiService.inserisciVotiClasse(user, payload));
+      const response = await fetch('http://localhost:3000/api/registro/docente/classe/voti', {
+        method: 'POST',
+        headers: {
+          Authorization: `${user.tipo.toUpperCase()}:${user.id}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       onSuccess();
     } catch (err) {
       setError(err.message);
+      setGlobalError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -137,14 +152,24 @@ export default function BulkVotoForm({ classeId, studenti, materie, onClose, onS
                 <span style={{ fontSize: 14, color: currentTheme.text }}>
                   {s.nome} {s.cognome}
                 </span>
-                <Input
-                  label="Voto"
+                <input
                   type="number"
                   min="1"
                   max="10"
                   step="0.5"
                   value={votoObj.voto}
                   onChange={e => handleVotoChange(s.id_studente, e.target.value)}
+                  style={{
+                    width: '80px',
+                    padding: '8px 12px',
+                    fontSize: '14px',
+                    border: `1px solid ${currentTheme.border}`,
+                    borderRadius: '8px',
+                    background: currentTheme.background,
+                    color: currentTheme.text,
+                    textAlign: 'center'
+                  }}
+                  placeholder="Voto"
                 />
               </div>
             );
@@ -158,7 +183,7 @@ export default function BulkVotoForm({ classeId, studenti, materie, onClose, onS
           gap: 12,
           marginTop: 24
         }}>
-          <Button icon={CheckCircle} variant="primary" onClick={handleSubmit}>
+          <Button icon={CheckCircle} variant="primary" type="submit">
             Conferma voti
           </Button>
           <Button icon={RotateCw} variant="secondary" onClick={onClose}>

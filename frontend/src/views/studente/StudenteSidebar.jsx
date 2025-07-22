@@ -12,26 +12,38 @@ import {
   School
 } from 'lucide-react';
 
-import ApiService from '../../services/ApiService';
-import useApiCall from '../../hooks/useApiCall';
-
 const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
-  const { currentTheme, user } = useApp();
+  const { currentTheme, user, setLoading, setError } = useApp();
   const [studente, setStudente] = useState(null);
   const navigate = useNavigate();
-  const execute = useApiCall();
 
   useEffect(() => {
     const fetchStudente = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const data = await execute(() => ApiService.getInfoStudente(user));
+        const response = await fetch('http://localhost:3000/api/registro/studente/info', {
+          headers: {
+            Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
         setStudente(data);
       } catch (err) {
         console.error('Errore nel recupero dello studente:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
+    
     fetchStudente();
-  }, [user, execute]);
+  }, [user, setLoading, setError]);
 
   // --- ORDINAMENTO MATERIE (alfabetico case-insensitive) ---
   const materieOrdinate = useMemo(() => {

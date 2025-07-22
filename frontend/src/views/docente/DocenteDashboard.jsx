@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
-import useApiCall from '../../hooks/useApiCall';
-import ApiService from '../../services/ApiService';
 
 import { 
   BookOpen,
@@ -22,9 +20,8 @@ import BulkVotoForm from '../../components/ui/registro/BulkVotoForm';
 
 
 const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
-  const { currentTheme, user } = useApp();
+  const { currentTheme, user, setLoading, setError } = useApp();
   const [bulkTime, setBulkTime] = useState(0);
-  const execute = useApiCall();
 
   // stati filtri
   const [materiaSelezionata, setMateriaSelezionata] = useState('');
@@ -39,29 +36,65 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     );
 
+  // Reset filtri quando cambia la classe
+  useEffect(() => {
+    if (classeSelezionata) {
+      // Reset tutti gli stati relativi ai filtri
+      setStudentiFiltrati([]);
+      setMateriaSelezionata('');
+      setFiltri({ inizio: '', fine: '' });
+      setAlertVisibile(false);
+      setExpandedStudents([]);
+      // Reset anche il bulkTime per forzare refresh delle card
+      setBulkTime(0);
+    }
+  }, [classeSelezionata]);
+
   // stato bulk
   const [bulkOpen, setBulkOpen] = useState(false);
 
   // applica filtri data e materia
   const applicaFiltri = async () => {
     if (!filtri.inizio || !filtri.fine) return;
+    
+    setLoading(true);
+    setError(null);
+    
     try {
       const risultati = [];
+      
       for (const item of studentiClasse) {
         const { studente } = item;
-        const res = await execute(() =>
-          ApiService.getVotiDocenteFiltrati(user, studente.id_studente, filtri.inizio, filtri.fine)
+        
+        const response = await fetch(
+          `http://localhost:3000/api/registro/docente/studente/${studente.id_studente}/voti-filtro?startDate=${filtri.inizio}&endDate=${filtri.fine}`,
+          {
+            headers: {
+              Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+            }
+          }
         );
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const res = await response.json();
         const votiFiltrati = materiaSelezionata
           ? res.voti.filter(v => v.materia === materiaSelezionata)
           : res.voti;
+        
         risultati.push({ studente, voti: votiFiltrati });
       }
+      
       setStudentiFiltrati(risultati);
       const nessun = risultati.every(i => i.voti.length === 0);
       setAlertVisibile(nessun);
     } catch (err) {
       console.error('Errore durante il filtro:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 

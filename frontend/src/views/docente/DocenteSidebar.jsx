@@ -11,27 +11,38 @@ import {
   LogOut
 } from 'lucide-react';
 
-import ApiService from '../../services/ApiService';
-import useApiCall from '../../hooks/useApiCall';
-
 const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
-  const { currentTheme, user } = useApp();
+  const { currentTheme, user, setLoading, setError } = useApp();
   const [docente, setDocente] = useState(null);
   const navigate = useNavigate();
-  const execute = useApiCall();
 
   useEffect(() => {
     const fetchDocente = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const data = await execute(() => ApiService.getInfoDocente(user));
+        const response = await fetch('http://localhost:3000/api/registro/docente/info', {
+          headers: {
+            Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
         setDocente(data);
       } catch (err) {
         console.error('Errore nel recupero del docente:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchDocente();
-  }, [user, execute]);
+  }, [user, setLoading, setError]);
 
   // --- ORDINAMENTO CLASSI ---
   const classiOrdinate = useMemo(() => {

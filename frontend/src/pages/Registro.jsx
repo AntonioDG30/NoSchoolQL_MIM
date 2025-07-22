@@ -63,8 +63,6 @@ ChartJS.register(
 import themes from '../theme/themes';
 import '../theme/globalStyles';
 import { AppProvider, useApp } from '../context/AppContext';
-import ApiService from '../services/ApiService';
-import useApiCall from '../hooks/useApiCall';
 import Button from '../components/ui/registro/Button_Registro';
 import Card from '../components/ui/registro/Card_Registro';
 import Input from '../components/ui/registro/Input_Registro';
@@ -102,7 +100,8 @@ const RegistroApp = () => {
     setSidebarOpen,
     loading,
     error,
-    setError
+    setError,
+    setLoading
   } = useApp();
   
   const [classeSelezionata, setClasseSelezionata] = useState(null);
@@ -111,7 +110,6 @@ const RegistroApp = () => {
   const [materieDocente, setMaterieDocente] = useState([]);
   const [studentiClasse, setStudentiClasse] = useState([]);
   const [materieStudente, setMaterieStudente] = useState([]);
-  const execute = useApiCall();
 
   useEffect(() => {
     const tipo = localStorage.getItem('tipo');
@@ -140,10 +138,26 @@ const RegistroApp = () => {
   }, [classeSelezionata]);
 
   const loadDocenteData = async () => {
+    setLoading(true);
+    setError(null);
+    
     try {
+      const headers = {
+        Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+      };
+
+      const [classiRes, materieRes] = await Promise.all([
+        fetch('http://localhost:3000/api/registro/docente/classi', { headers }),
+        fetch('http://localhost:3000/api/registro/docente/materie', { headers })
+      ]);
+
+      if (!classiRes.ok || !materieRes.ok) {
+        throw new Error('Errore nel caricamento dei dati docente');
+      }
+
       const [classiData, materieData] = await Promise.all([
-        execute(() => ApiService.getClassiDocente(user)),
-        execute(() => ApiService.getMaterieDocente(user))
+        classiRes.json(),
+        materieRes.json()
       ]);
       
       const classiUniche = [...new Set(classiData.classi.map(c => c.nome_classe))];
@@ -151,26 +165,61 @@ const RegistroApp = () => {
       setMaterieDocente(materieData.materie);
     } catch (error) {
       console.error('Errore caricamento dati docente:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const loadStudenteData = async () => {
+    setLoading(true);
+    setError(null);
+    
     try {
-      const votiData = await execute(() => ApiService.getVotiStudente(user));
+      const response = await fetch('http://localhost:3000/api/registro/studente/voti', {
+        headers: {
+          Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Errore nel caricamento dei dati studente');
+      }
+
+      const votiData = await response.json();
       const materieUniche = [...new Set(votiData.voti.map(v => v.materia))];
       setMaterieStudente(materieUniche);
     } catch (error) {
       console.error('Errore caricamento dati studente:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const loadStudentiClasse = async () => {
+    setLoading(true);
+    setError(null);
+    
     try {
-      const data = await execute(() => ApiService.getClassiDocente(user));
+      const response = await fetch('http://localhost:3000/api/registro/docente/classi', {
+        headers: {
+          Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Errore nel caricamento degli studenti');
+      }
+
+      const data = await response.json();
       const studentiFiltered = data.classi.filter(c => c.nome_classe === classeSelezionata);
       setStudentiClasse(studentiFiltered);
     } catch (error) {
       console.error('Errore caricamento studenti classe:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -259,7 +308,7 @@ const RegistroApp = () => {
 
         <Content>
           {loading && <LoadingSpinner />}
-          {error && <Alert type="error" onClose={() => useApp().setError(null)}>{error}</Alert>}
+          {error && <Alert type="error" onClose={() => setError(null)}>{error}</Alert>}
           
           {user.tipo === 'docente' ? (
             <DocenteDashboard

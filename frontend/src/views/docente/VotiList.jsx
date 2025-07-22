@@ -1,7 +1,5 @@
 import { useApp } from '../../context/AppContext';
 import { useState } from 'react';
-import ApiService from '../../services/ApiService';
-import useApiCall from '../../hooks/useApiCall';
 
 import Alert from '../../components/ui/registro/Alert_Registro';
 
@@ -17,9 +15,8 @@ import { Edit2, Trash2, X, Check } from 'lucide-react';
  *  - onUpdate: function da chiamare dopo modifica/eliminazione per ricaricare i dati
  */
 const VotiList = ({ voti, onUpdate }) => {
-  const { currentTheme, user } = useApp();
+  const { currentTheme, user, setLoading, setError } = useApp();
   const [editingVotoId, setEditingVotoId] = useState(null);
-  const execute = useApiCall();
 
   /*********************************
    * Helpers
@@ -74,28 +71,64 @@ const VotiList = ({ voti, onUpdate }) => {
       // Potresti aggiungere un toast/alert
       return;
     }
+    
+    setLoading(true);
+    setError(null);
+    
     try {
-      await execute(() =>
-        ApiService.modificaVoto(user, {
+      const response = await fetch('http://localhost:3000/api/registro/docente/voto', {
+        method: 'PUT',
+        headers: {
+          Authorization: `${user.tipo.toUpperCase()}:${user.id}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
           id_voto: votoOriginale.id_voto,
           voto: nuovoVoto,
           tipologia: nuovaTipologia
         })
-      );
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       onUpdate?.();
       setEditingVotoId(null);
     } catch (error) {
       console.error('Errore modifica voto:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async (voto) => {
     if (!window.confirm('Sei sicuro di voler eliminare questo voto?')) return;
+    
+    setLoading(true);
+    setError(null);
+    
     try {
-      await execute(() => ApiService.eliminaVoto(user, voto.id_voto));
+      const response = await fetch('http://localhost:3000/api/registro/docente/voto', {
+        method: 'DELETE',
+        headers: {
+          Authorization: `${user.tipo.toUpperCase()}:${user.id}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_voto: voto.id_voto })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       onUpdate?.();
     } catch (error) {
       console.error('Errore eliminazione voto:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
