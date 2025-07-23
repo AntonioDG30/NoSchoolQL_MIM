@@ -1,111 +1,200 @@
+/**
+ * COMPONENTE FORM VOTI CLASSE
+ * 
+ * Permetto al docente di inserire voti per tutti gli studenti
+ * di una classe contemporaneamente. Utile per verifiche scritte
+ * o interrogazioni programmate dove tutti gli studenti ricevono
+ * un voto nella stessa data.
+ * 
+ * Il form mostra la lista degli studenti ordinati alfabeticamente
+ * con un campo input per ogni voto. I campi vuoti vengono ignorati.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
 import Card from '../../components/ui/registro/Card_Registro';
 import Select from '../../components/ui/registro/Select_Registro';
 import Input from '../../components/ui/registro/Input_Registro';
 import Button from '../../components/ui/registro/Button_Registro';
-import { CheckCircle, RotateCw } from 'lucide-react';
+import { CheckCircle, RotateCcw } from 'lucide-react';
 
-export default function VotoClasseForm({ classeId, studenti, materie, onClose, onSuccess }) {
-  const { user, currentTheme, setLoading, setError: setGlobalError } = useApp();
+/**
+ * Form per inserimento voti multipli.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {string} props.classeId - ID della classe
+ * @param {Array} props.studenti - Lista studenti della classe
+ * @param {Array} props.materie - Materie del docente
+ * @param {Function} props.onClose - Callback chiusura form
+ * @param {Function} props.onSuccess - Callback successo
+ */
+export default function FormVotiClasse({ 
+  classeId: idClasse, 
+  studenti, 
+  materie, 
+  onClose: allaChiusura, 
+  onSuccess: alSuccesso 
+}) {
+  // ===========================
+  // HOOKS E STATO
+  // ===========================
+  
+  const { 
+    utente, 
+    temaCorrente, 
+    impostaCaricamento, 
+    impostaErrore: impostaErroreGlobale  
+  } = useApp();
 
-  const [formData, setFormData] = useState({
+  // Dati generali del form
+  const [datiForm, impostaDatiForm] = useState({
     materia: '',
     data: new Date().toISOString().slice(0,10),
     tipo: 'scritto'
   });
-  const [voti, setVoti] = useState(
+  
+  // Array dei voti per ogni studente
+  const [voti, impostaVoti] = useState(
     studenti.map(s => ({ id_studente: s.id_studente, voto: '' }))
   );
-  const [error, setError] = useState(null);
+  
+  // Errore locale
+  const [errore, impostaErrore] = useState(null);
 
+  // ===========================
+  // ORDINAMENTO STUDENTI
+  // ===========================
+  
+  /**
+   * Ordino gli studenti alfabeticamente per cognome.
+   * Uso useMemo per evitare ricalcoli inutili.
+   */
   const studentiOrdinati = useMemo(() => {
     return [...studenti].sort((a, b) =>
       a.cognome.localeCompare(b.cognome)
     );
   }, [studenti]);
 
-  const handleVotoChange = (id, value) => {
-    setVoti(prev =>
-      prev.map(v => (v.id_studente === id ? { ...v, voto: value } : v))
+  // ===========================
+  // GESTIONE VOTI
+  // ===========================
+  
+  /**
+   * Aggiorno il voto di uno studente specifico.
+   */
+  const gestisciCambioVoto = (idStudente, valore) => {
+    impostaVoti(precedenti =>
+      precedenti.map(v => 
+        v.id_studente === idStudente 
+          ? { ...v, voto: valore } 
+          : v
+      )
     );
   };
 
-  const handleSubmit = async e => {
+  // ===========================
+  // INVIO FORM
+  // ===========================
+  
+  /**
+   * Invio i voti al backend.
+   * Filtro solo gli studenti con voto inserito.
+   */
+  const gestisciInvio = async e => {
     e.preventDefault();
-    const { materia, data, tipo } = formData;
+    
+    // Validazione campi obbligatori
+    const { materia, data, tipo } = datiForm;
     if (!materia || !data || !tipo) {
-      setError('Compila tutti i campi');
+      impostaErrore('Compila tutti i campi');
       return;
     }
 
-    const validi = voti.filter(v => v.voto !== '');
-    if (validi.length === 0) {
-      onSuccess();
+    // Filtro solo i voti validi (non vuoti)
+    const votiValidi = voti.filter(v => v.voto !== '');
+    
+    // Se nessun voto inserito, chiudo semplicemente
+    if (votiValidi.length === 0) {
+      alSuccesso();
       return;
     }
 
+    // Preparo il payload
     const payload = {
-      id_classe: classeId,
+      id_classe: idClasse,
       materia,
       data,
       tipo,
-      voti: validi.map(v => ({ ...v, voto: Number(v.voto) }))
+      voti: votiValidi.map(v => ({ 
+        ...v, 
+        voto: Number(v.voto) 
+      }))
     };
 
-    setLoading(true);
-    setGlobalError(null);
+    impostaCaricamento(true);
+    impostaErroreGlobale(null);
     
     try {
-      const response = await fetch('http://localhost:3000/api/registro/docente/classe/voti', {
+      const risposta = await fetch('http://localhost:3000/api/registro/docente/classe/voti', {
         method: 'POST',
         headers: {
-          Authorization: `${user.tipo.toUpperCase()}:${user.id}`,
+          Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!risposta.ok) {
+        throw new Error(`HTTP error! status: ${risposta.status}`);
       }
 
-      onSuccess();
+      alSuccesso();
     } catch (err) {
-      setError(err.message);
-      setGlobalError(err.message);
+      impostaErrore(err.message);
+      impostaErroreGlobale(err.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
   return (
-    <Card style={{ margin: '0 0 24px', background: currentTheme.backgroundTertiary }}>
-      <form onSubmit={handleSubmit}>
+    <Card style={{ margin: '0 0 24px', background: temaCorrente.backgroundTertiary }}>
+      <form onSubmit={gestisciInvio}>
+        {/* ===========================
+            CAMPI GENERALI
+            =========================== */}
+        
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr',
           gap: 16,
           marginBottom: 16
         }}>
+          {/* Selezione materia */}
           <Select
             label="Materia"
-            value={formData.materia}
-            onChange={e => setFormData({ ...formData, materia: e.target.value })}
+            value={datiForm.materia}
+            onChange={e => impostaDatiForm({ ...datiForm, materia: e.target.value })}
           >
             <option value="">Seleziona materia</option>
             {materie.map((m, i) => <option key={i} value={m}>{m}</option>)}
           </Select>
+          
+          {/* Data voto */}
           <Input
             label="Data"
             type="date"
-            value={formData.data}
-            onChange={e => setFormData({ ...formData, data: e.target.value })}
+            value={datiForm.data}
+            onChange={e => impostaDatiForm({ ...datiForm, data: e.target.value })}
           />
+          
+          {/* Tipo voto */}
           <Select
             label="Tipo"
-            value={formData.tipo}
-            onChange={e => setFormData({ ...formData, tipo: e.target.value })}
+            value={datiForm.tipo}
+            onChange={e => impostaDatiForm({ ...datiForm, tipo: e.target.value })}
           >
             <option value="scritto">Scritto</option>
             <option value="orale">Orale</option>
@@ -113,57 +202,66 @@ export default function VotoClasseForm({ classeId, studenti, materie, onClose, o
           </Select>
         </div>
 
-        {error && (
+        {/* Messaggio errore */}
+        {errore && (
           <p style={{
-            color: currentTheme.danger,
+            color: temaCorrente.danger,
             marginBottom: 16,
             fontWeight: 500
           }}>
-            {error}
+            {errore}
           </p>
         )}
 
+        {/* ===========================
+            LISTA STUDENTI
+            =========================== */}
+        
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: 12
         }}>
-          {studentiOrdinati.map(s => {
-            const votoObj = voti.find(v => v.id_studente === s.id_studente) || {};
+          {studentiOrdinati.map(studente => {
+            const oggettoVoto = voti.find(v => v.id_studente === studente.id_studente) || {};
+            
             return (
               <div
-                key={s.id_studente}
+                key={studente.id_studente}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   padding: '12px 16px',
-                  background: currentTheme.backgroundSecondary,
+                  background: temaCorrente.backgroundSecondary,
                   borderRadius: 8,
                   transition: 'background 0.2s',
                   cursor: 'default'
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = currentTheme.backgroundTertiary}
-                onMouseLeave={e => e.currentTarget.style.background = currentTheme.backgroundSecondary}
+                onMouseEnter={e => e.currentTarget.style.background = temaCorrente.backgroundTertiary}
+                onMouseLeave={e => e.currentTarget.style.background = temaCorrente.backgroundSecondary}
               >
-                <span style={{ fontSize: 14, color: currentTheme.text }}>
-                  {s.nome} {s.cognome}
+                {/* Nome studente */}
+                <span style={{ fontSize: 14, color: temaCorrente.text }}>
+                  {studente.nome} {studente.cognome}
                 </span>
+                
+                {/* Input voto */}
                 <input
                   type="number"
                   min="1"
                   max="10"
                   step="0.5"
-                  value={votoObj.voto}
-                  onChange={e => handleVotoChange(s.id_studente, e.target.value)}
+                  value={oggettoVoto.voto}
+                  onChange={e => gestisciCambioVoto(studente.id_studente, e.target.value)}
                   style={{
                     width: '80px',
                     padding: '8px 12px',
                     fontSize: '14px',
-                    border: `1px solid ${currentTheme.border}`,
+                    border: `1px solid ${temaCorrente.border}`,
                     borderRadius: '8px',
-                    background: currentTheme.background,
-                    color: currentTheme.text,
+                    background: temaCorrente.background,
+                    color: temaCorrente.text,
                     textAlign: 'center'
                   }}
                   placeholder="Voto"
@@ -173,6 +271,10 @@ export default function VotoClasseForm({ classeId, studenti, materie, onClose, o
           })}
         </div>
 
+        {/* ===========================
+            PULSANTI AZIONE
+            =========================== */}
+        
         <div style={{
           display: 'flex',
           justifyContent: 'flex-end',
@@ -182,7 +284,7 @@ export default function VotoClasseForm({ classeId, studenti, materie, onClose, o
           <Button icon={CheckCircle} variant="primary" type="submit">
             Conferma voti
           </Button>
-          <Button icon={RotateCw} variant="secondary" onClick={onClose}>
+          <Button icon={RotateCcw} variant="secondary" onClick={allaChiusura}>
             Annulla
           </Button>
         </div>

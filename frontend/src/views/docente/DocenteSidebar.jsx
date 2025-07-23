@@ -1,3 +1,18 @@
+/**
+ * COMPONENTE SIDEBAR DOCENTE
+ * 
+ * Gestisco la sidebar del docente con:
+ * - Informazioni personali del docente
+ * - Lista delle classi assegnate
+ * - Selezione classe attiva
+ * - Pulsante logout
+ * 
+ * Le classi sono ordinate numericamente e alfabeticamente
+ * per facilitare la navigazione.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import { useApp } from '../../context/AppContext';
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,67 +26,143 @@ import {
   LogOut
 } from 'lucide-react';
 
-const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
-  const { currentTheme, user, setLoading, setError } = useApp();
-  const [docente, setDocente] = useState(null);
+/**
+ * Sidebar navigazione docente.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {Array} props.classi - Lista classi del docente
+ * @param {string} props.classeSelezionata - Classe attualmente selezionata
+ * @param {Function} props.onSelectClasse - Callback selezione classe
+ */
+const SidebarDocente = ({ 
+  classi, 
+  classeSelezionata, 
+  onSelectClasse: allaSelezioneclasse 
+}) => {
+  // ===========================
+  // HOOKS E STATO
+  // ===========================
+  
+  const { 
+    temaCorrente,
+    utente,
+    impostaCaricamento,
+    impostaErrore
+  } = useApp();
+    
+  const [docente, impostaDocente] = useState(null);
   const navigate = useNavigate();
 
+  // ===========================
+  // CARICAMENTO DATI DOCENTE
+  // ===========================
+  
+  /**
+   * Recupero le informazioni del docente dal backend.
+   */
   useEffect(() => {
-    const fetchDocente = async () => {
-      setLoading(true);
-      setError(null);
+    const recuperaDocente = async () => {
+      impostaCaricamento(true);
+      impostaErrore(null);
+      
       try {
-        const response = await fetch('http://localhost:3000/api/registro/docente/info', {
+        const risposta = await fetch('http://localhost:3000/api/registro/docente/info', {
           headers: {
-            Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+            Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`
           }
         });
         
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        if (!risposta.ok) {
+          throw new Error(`HTTP error! status: ${risposta.status}`);
         }
         
-        const data = await response.json();
-        setDocente(data);
+        const dati = await risposta.json();
+        impostaDocente(dati);
       } catch (err) {
         console.error('Errore nel recupero del docente:', err);
-        setError(err.message);
+        impostaErrore(err.message);
       } finally {
-        setLoading(false);
+        impostaCaricamento(false);
       }
     };
 
-    fetchDocente();
-  }, [user, setLoading, setError]);
+    recuperaDocente();
+  }, [utente, impostaCaricamento, impostaErrore]);
 
+  // ===========================
+  // ORDINAMENTO CLASSI
+  // ===========================
+  
+  /**
+   * Ordino le classi per anno e sezione.
+   * Es: 1A, 1B, 2A, 2B, ecc.
+   */
   const classiOrdinate = useMemo(() => {
     if (!Array.isArray(classi)) return [];
 
-    const parseClasse = (c) => {
-      if (typeof c !== 'string') return { anno: Number.MAX_SAFE_INTEGER, lettera: 'Z', raw: c };
-      const match = c.match(/^(\d+)\s*([A-Za-z])/); 
-      if (!match) {
-        return { anno: Number.MAX_SAFE_INTEGER, lettera: 'Z', raw: c }; 
+    /**
+     * Estraggo anno e lettera dalla stringa classe.
+     * Gestisco anche formati non standard.
+     */
+    const analizzaClasse = (classe) => {
+      if (typeof classe !== 'string') {
+        return { 
+          anno: Number.MAX_SAFE_INTEGER, 
+          lettera: 'Z', 
+          originale: classe 
+        };
       }
+      
+      const match = classe.match(/^(\d+)\s*([A-Za-z])/); 
+      if (!match) {
+        return { 
+          anno: Number.MAX_SAFE_INTEGER, 
+          lettera: 'Z', 
+          originale: classe 
+        }; 
+      }
+      
       return {
         anno: parseInt(match[1], 10),
         lettera: match[2].toUpperCase(),
-        raw: c
+        originale: classe
       };
     };
 
     return [...classi].sort((a, b) => {
-      const ca = parseClasse(a);
-      const cb = parseClasse(b);
+      const classeA = analizzaClasse(a);
+      const classeB = analizzaClasse(b);
 
-      if (ca.anno !== cb.anno) return ca.anno - cb.anno;
-      if (ca.lettera < cb.lettera) return -1;
-      if (ca.lettera > cb.lettera) return 1;
+      // Ordino prima per anno
+      if (classeA.anno !== classeB.anno) {
+        return classeA.anno - classeB.anno;
+      }
+      
+      // Poi per lettera
+      if (classeA.lettera < classeB.lettera) return -1;
+      if (classeA.lettera > classeB.lettera) return 1;
       return 0;
     });
   }, [classi]);
 
-  const sidebarItemStyle = (isActive) => ({
+  // ===========================
+  // GESTIONE LOGOUT
+  // ===========================
+  
+  /**
+   * Eseguo il logout pulendo localStorage e
+   * reindirizzando alla pagina di login.
+   */
+  const gestisciLogout = () => {
+    localStorage.clear();
+    navigate('/login', { replace: true });
+  };
+
+  // ===========================
+  // STILI
+  // ===========================
+  
+  const stileElementoSidebar = (attivo) => ({
     padding: '12px 16px',
     margin: '4px 12px',
     borderRadius: '12px',
@@ -80,17 +171,16 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
     alignItems: 'center',
     gap: '12px',
     transition: 'all 0.2s ease',
-    background: isActive ? currentTheme.primary : 'transparent',
-    color: isActive ? 'white' : currentTheme.text
+    background: attivo ? temaCorrente.primary : 'transparent',
+    color: attivo ? 'white' : temaCorrente.text
   });
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/login', { replace: true });
-  };
 
   return (
     <>
+      {/* ===========================
+          INFO DOCENTE
+          =========================== */}
+      
       <div style={{ padding: '24px' }}>
         <div style={{ marginBottom: '24px' }}>
           <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>
@@ -104,12 +194,16 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
         </div>
       </div>
 
+      {/* ===========================
+          LISTA CLASSI
+          =========================== */}
+      
       <div style={{ flex: 1, overflowY: 'auto' }}>
         <p style={{ 
           padding: '0 24px 12px',
           fontSize: '12px',
           fontWeight: '600',
-          color: currentTheme.textTertiary,
+          color: temaCorrente.textTertiary,
           textTransform: 'uppercase',
           letterSpacing: '0.5px'
         }}>
@@ -119,11 +213,11 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
         {classiOrdinate.map((classe, idx) => (
           <div
             key={idx}
-            style={sidebarItemStyle(classeSelezionata === classe)}
-            onClick={() => onSelectClasse(classe)}
+            style={stileElementoSidebar(classeSelezionata === classe)}
+            onClick={() => allaSelezioneclasse(classe)}
             onMouseEnter={e => {
               if (classeSelezionata !== classe) {
-                e.currentTarget.style.background = currentTheme.backgroundSecondary;
+                e.currentTarget.style.background = temaCorrente.backgroundSecondary;
               }
             }}
             onMouseLeave={e => {
@@ -138,11 +232,18 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
         ))}
       </div>
 
-      <div style={{ padding: '24px', borderTop: `1px solid ${currentTheme.border}` }}>
+      {/* ===========================
+          PULSANTE LOGOUT
+          =========================== */}
+      
+      <div style={{ 
+        padding: '24px', 
+        borderTop: `1px solid ${temaCorrente.border}` 
+      }}>
         <Button
           variant="ghost"
           icon={LogOut}
-          onClick={handleLogout}
+          onClick={gestisciLogout}
           style={{ width: '100%', justifyContent: 'flex-start' }}
         >
           Logout
@@ -152,4 +253,4 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
   );
 };
 
-export default DocenteSidebar;
+export default SidebarDocente;

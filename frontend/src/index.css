@@ -1,26 +1,55 @@
+/**
+ * STILI CSS DI BASE
+ * 
+ * Questi sono gli stili CSS di base forniti da Vite.
+ * Definisco stili generali per l'applicazione che vengono
+ * applicati prima dei componenti React.
+ * 
+ * Nota: La maggior parte degli stili dell'applicazione
+ * sono gestiti tramite CSS-in-JS nei componenti e in globalStyles.js
+ * 
+ * @author Antonio Di Giorgio
+ */
+
+/* ===========================
+   VARIABILI ROOT
+   =========================== */
+
 :root {
+  /* Font di sistema per migliore leggibilità */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
+  /* Supporto automatico tema chiaro/scuro */
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
+  /* Ottimizzazioni rendering testo */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===========================
+   STILI LINK
+   =========================== */
+
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
+
+/* ===========================
+   STILI BODY
+   =========================== */
 
 body {
   margin: 0;
@@ -30,10 +59,18 @@ body {
   min-height: 100vh;
 }
 
+/* ===========================
+   STILI HEADING
+   =========================== */
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
+/* ===========================
+   STILI PULSANTI
+   =========================== */
 
 button {
   border-radius: 8px;
@@ -46,22 +83,30 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+/* ===========================
+   MEDIA QUERY TEMA CHIARO
+   =========================== */
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
+  
   a:hover {
     color: #747bff;
   }
+  
   button {
     background-color: #f9f9f9;
   }

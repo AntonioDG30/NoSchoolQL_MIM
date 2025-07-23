@@ -1,3 +1,16 @@
+/**
+ * COMPONENTE LOGIN
+ * 
+ * Gestisco la pagina di autenticazione del registro elettronico.
+ * Gli utenti possono accedere inserendo il loro ID (studente o docente).
+ * 
+ * Il sistema tenta prima l'autenticazione come studente, poi come
+ * docente. In caso di successo, salvo le credenziali in localStorage
+ * e reindirizzo alla dashboard appropriata.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GraduationCap, School, LogOut } from 'lucide-react';
@@ -7,33 +20,59 @@ import Card from '../components/ui/registro/Card_Registro';
 import Input from '../components/ui/registro/Input_Registro';
 import Button from '../components/ui/registro/Button_Registro';
 
-function LoginContent() {
+/**
+ * Contenuto interno del componente Login.
+ * Separato per poter utilizzare gli hooks del context.
+ */
+function ContenutoLogin() {
+  // ===========================
+  // HOOKS E STATO
+  // ===========================
+  
   const navigate = useNavigate();
-  const { setUser, setCurrentView, currentTheme } = useApp();
+  const { impostaUtente, impostaVistaCorrente, temaCorrente } = useApp();
 
-  const [id, setId] = useState('');
-  const [errore, setErrore] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  // Stati locali per il form
+  const [id, impostaId] = useState('');
+  const [errore, impostaErrore] = useState('');
+  const [inCaricamento, impostaInCaricamento] = useState(false);
 
-  const handleLogin = async () => {
-    setErrore('');
+  // ===========================
+  // GESTIONE LOGIN
+  // ===========================
+  
+  /**
+   * Gestisco il processo di login tentando prima come studente,
+   * poi come docente. Se uno dei due ha successo, salvo i dati
+   * e reindirizzo alla dashboard.
+   */
+  const gestisciLogin = async () => {
+    // Reset errore precedente
+    impostaErrore('');
+    
+    // Validazione input
     if (!id) {
-      setErrore('Inserisci un ID');
+      impostaErrore('Inserisci un ID');
       return;
     }
 
-    setIsLoading(true);
+    impostaInCaricamento(true);
 
+    // ===========================
+    // TENTATIVO LOGIN STUDENTE
+    // ===========================
+    
     try {
-      const resStudente = await fetch('http://localhost:3000/api/registro/studente/voti', {
+      const rispostaStudente = await fetch('http://localhost:3000/api/registro/studente/voti', {
         headers: { Authorization: `STUDENTE:${id}` }
       });
 
-      if (resStudente.ok) {
+      if (rispostaStudente.ok) {
+        // Login studente riuscito
         localStorage.setItem('id', id);
         localStorage.setItem('tipo', 'studente');
-        setUser({ id, tipo: 'studente' });
-        setCurrentView('dashboard');
+        impostaUtente({ id, tipo: 'studente' });
+        impostaVistaCorrente('dashboard');
         navigate('/registro');
         return;
       }
@@ -41,16 +80,21 @@ function LoginContent() {
       console.log('Errore login studente:', err);
     }
 
+    // ===========================
+    // TENTATIVO LOGIN DOCENTE
+    // ===========================
+    
     try {
-      const resDocente = await fetch('http://localhost:3000/api/registro/docente/classi', {
+      const rispostaDocente = await fetch('http://localhost:3000/api/registro/docente/classi', {
         headers: { Authorization: `DOCENTE:${id}` }
       });
 
-      if (resDocente.ok) {
+      if (rispostaDocente.ok) {
+        // Login docente riuscito
         localStorage.setItem('id', id);
         localStorage.setItem('tipo', 'docente');
-        setUser({ id, tipo: 'docente' });
-        setCurrentView('dashboard');
+        impostaUtente({ id, tipo: 'docente' });
+        impostaVistaCorrente('dashboard');
         navigate('/registro');
         return;
       }
@@ -58,77 +102,93 @@ function LoginContent() {
       console.log('Errore login docente:', err);
     }
 
-    setErrore('ID non valido. Riprova.');
-    setIsLoading(false);
+    // Se arriviamo qui, nessun login è riuscito
+    impostaErrore('ID non valido. Riprova.');
+    impostaInCaricamento(false);
   };
 
-  const handleBackHome = () => {
+  /**
+   * Reindirizzo alla home page.
+   */
+  const tornaAllaHome = () => {
     navigate('/');
   };
 
-  const containerStyle = {
+  // ===========================
+  // STILI
+  // ===========================
+  
+  const stileContenitore = {
     minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: `linear-gradient(135deg, ${currentTheme.primary} 0%, ${currentTheme.primaryHover} 100%)`,
+    background: `linear-gradient(135deg, ${temaCorrente.primary} 0%, ${temaCorrente.primaryHover} 100%)`,
     padding: '20px'
   };
 
-  const formStyle = {
+  const stileForm = {
     width: '100%',
     maxWidth: '440px'
   };
 
-  const logoStyle = {
+  const stileLogo = {
     textAlign: 'center',
     marginBottom: '32px'
   };
 
-  const titleStyle = {
+  const stileTitolo = {
     fontSize: '32px',
     fontWeight: '700',
     color: 'white',
     marginBottom: '8px'
   };
 
-  const subtitleStyle = {
+  const stileSottotitolo = {
     fontSize: '18px',
     color: 'rgba(255, 255, 255, 0.8)'
   };
 
   return (
-    <div style={containerStyle}>
-      <div style={formStyle}>
-        <div style={logoStyle} className="animate-fade-in">
+    <div style={stileContenitore}>
+      <div style={stileForm}>
+        {/* ===========================
+            HEADER LOGIN
+            =========================== */}
+        
+        <div style={stileLogo} className="animate-fade-in">
           <GraduationCap size={64} color="white" style={{ marginBottom: '16px' }} />
-          <h1 style={titleStyle}>Registro Elettronico</h1>
-          <p style={subtitleStyle}>Accedi con il tuo ID</p>
+          <h1 style={stileTitolo}>Registro Elettronico</h1>
+          <p style={stileSottotitolo}>Accedi con il tuo ID</p>
         </div>
 
+        {/* ===========================
+            FORM LOGIN
+            =========================== */}
+        
         <Card style={{ padding: '40px' }} className="animate-slide-in">
           <Input
             label="ID Utente"
             icon={School}
             type="text"
-            placeholder="es. STU0001 o DOC0001"
+            placeholder="es. STU000001 o DOC00001"
             value={id}
-            onChange={(e) => setId(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
+            onChange={(e) => impostaId(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && gestisciLogin()}
             error={errore}
           />
 
           <Button
-            onClick={handleLogin}
-            disabled={isLoading}
+            onClick={gestisciLogin}
+            disabled={inCaricamento}
             style={{ width: '100%', marginTop: '16px' }}
             size="lg"
           >
-            {isLoading ? 'Accesso in corso...' : 'Accedi'}
+            {inCaricamento ? 'Accesso in corso...' : 'Accedi'}
           </Button>
 
           <Button
-            onClick={handleBackHome}
+            onClick={tornaAllaHome}
             variant="danger"
             icon={LogOut}
             style={{ width: '100%', marginTop: '16px' }}
@@ -142,10 +202,14 @@ function LoginContent() {
   );
 }
 
-export default function LoginView() {
+/**
+ * Componente principale con Provider.
+ * Wrappa il contenuto con AppProvider per fornire il context.
+ */
+export default function VistaLogin() {
   return (
     <AppProvider>
-      <LoginContent />
+      <ContenutoLogin />
     </AppProvider>
   );
 }

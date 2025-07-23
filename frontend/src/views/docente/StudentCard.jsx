@@ -1,3 +1,19 @@
+/**
+ * COMPONENTE CARD STUDENTE
+ * 
+ * Visualizzo le informazioni di uno studente con:
+ * - Avatar con iniziali
+ * - Nome, cognome e ID
+ * - Media voti (calcolabile on demand)
+ * - Lista voti espandibile
+ * - Azioni: inserisci voto, calcola media, genera report PDF
+ * 
+ * La card è espandibile per mostrare i dettagli dei voti
+ * e il form di inserimento nuovo voto.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import { useApp } from '../../context/AppContext';
 import { useState, useEffect } from 'react';
 
@@ -19,131 +35,215 @@ import {
   FileText
 } from 'lucide-react';
 
-const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bulkTime }) => {
-  const { currentTheme, user, setLoading, setError } = useApp();
-  const [voti, setVoti] = useState([]);
-  const [media, setMedia] = useState(null);
-  const [loading, setLocalLoading] = useState(false);
-  const [showVotoForm, setShowVotoForm] = useState(false);
+/**
+ * Card espandibile per visualizzare dati studente.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {Object} props.studente - Dati dello studente
+ * @param {boolean} props.isExpanded - Stato espanso/collassato
+ * @param {Function} props.onToggle - Callback toggle espansione
+ * @param {Array} props.materie - Materie disponibili
+ * @param {Array} props.votiOverride - Voti filtrati (opzionale)
+ * @param {number} props.bulkTime - Timestamp aggiornamento multiplo
+ */
+const CardStudente = ({ 
+  studente, 
+  isExpanded: espanso, 
+  onToggle: alToggle, 
+  materie, 
+  votiOverride: votiSovrascrittura, 
+  bulkTime: timestampAggiornamento 
+}) => {
+  // ===========================
+  // HOOKS E STATO
+  // ===========================
+  
+  const { 
+    temaCorrente, 
+    utente, 
+    impostaCaricamento, 
+    impostaErrore 
+  } = useApp();
+  
+  const [voti, impostaVoti] = useState([]);
+  const [media, impostaMedia] = useState(null);
+  const [caricamentoLocale, impostaCaricamentoLocale] = useState(false);
+  const [mostraFormVoto, impostaMostraFormVoto] = useState(false);
 
+  // ===========================
+  // CARICAMENTO VOTI
+  // ===========================
+  
+  /**
+   * Carico i voti quando la card viene espansa.
+   * Se sono presenti voti filtrati, uso quelli.
+   */
   useEffect(() => {
-    if (!isExpanded) return;
-    if (Array.isArray(votiOverride) && votiOverride !== null) {
-      setVoti(votiOverride);
+    if (!espanso) return;
+    
+    if (Array.isArray(votiSovrascrittura) && votiSovrascrittura !== null) {
+      impostaVoti(votiSovrascrittura);
     } else {
-      loadVoti();
+      caricaVoti();
     }
-  }, [isExpanded, votiOverride, bulkTime]);
+  }, [espanso, votiSovrascrittura, timestampAggiornamento]);
 
+  /**
+   * Ricalcolo la media quando cambiano i voti.
+   */
   useEffect(() => {
     if (media !== null) calcolaMedia();
   }, [voti]);
 
-  const loadVoti = async () => {
-    setLocalLoading(true);
+  /**
+   * Carico i voti dello studente dal backend.
+   */
+  const caricaVoti = async () => {
+    impostaCaricamentoLocale(true);
     try {
-      const response = await fetch(
+      const risposta = await fetch(
         `http://localhost:3000/api/registro/docente/studente/${studente.id_studente}/voti`,
         {
           headers: {
-            Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+            Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`
           }
         }
       );
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!risposta.ok) {
+        throw new Error(`HTTP error! status: ${risposta.status}`);
       }
       
-      const data = await response.json();
-      setVoti(data.voti);
+      const dati = await risposta.json();
+      impostaVoti(dati.voti);
     } catch (err) {
       console.error('Errore caricamento voti:', err);
-      setError(err.message);
+      impostaErrore(err.message);
     } finally {
-      setLocalLoading(false);
+      impostaCaricamentoLocale(false);
     }
   };
 
+  // ===========================
+  // CALCOLO MEDIA
+  // ===========================
+  
+  /**
+   * Calcolo la media dei voti dello studente.
+   */
   const calcolaMedia = async () => {
     try {
-      const response = await fetch(
+      const risposta = await fetch(
         `http://localhost:3000/api/registro/docente/studente/${studente.id_studente}/media`,
         {
           headers: {
-            Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+            Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`
           }
         }
       );
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!risposta.ok) {
+        throw new Error(`HTTP error! status: ${risposta.status}`);
       }
       
-      const data = await response.json();
-      setMedia(data.media);
+      const dati = await risposta.json();
+      impostaMedia(dati.media);
     } catch (err) {
       console.error('Errore calcolo media:', err);
     }
   };
 
-  const handleAddVoto = async votoData => {
-    setLoading(true);
-    setError(null);
+  // ===========================
+  // GESTIONE VOTI
+  // ===========================
+  
+  /**
+   * Aggiungo un nuovo voto per lo studente.
+   */
+  const gestisciAggiuntaVoto = async datiVoto => {
+    impostaCaricamento(true);
+    impostaErrore(null);
     
     try {
-      const response = await fetch('http://localhost:3000/api/registro/docente/voto', {
+      const risposta = await fetch('http://localhost:3000/api/registro/docente/voto', {
         method: 'POST',
         headers: {
-          Authorization: `${user.tipo.toUpperCase()}:${user.id}`,
+          Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          ...votoData,
+          ...datiVoto,
           id_studente: studente.id_studente
         })
       });
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!risposta.ok) {
+        throw new Error(`HTTP error! status: ${risposta.status}`);
       }
       
-      await loadVoti();
-      setShowVotoForm(false);
+      // Ricarico i voti e chiudo il form
+      await caricaVoti();
+      impostaMostraFormVoto(false);
     } catch (err) {
       console.error('Errore inserimento voto:', err);
-      setError(err.message);
+      impostaErrore(err.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
-  const handleReport = () => {
+  // ===========================
+  // GENERAZIONE REPORT
+  // ===========================
+  
+  /**
+   * Genero un report PDF con i voti dello studente.
+   */
+  const gestisciReport = () => {
     const doc = new jsPDF();
+    
+    // Titolo
     doc.setFontSize(16);
     doc.text(`Report voti: ${studente.nome} ${studente.cognome}`, 14, 20);
 
-    const rows = voti.map(v => [
+    // Preparo i dati per la tabella
+    const righe = voti.map(v => [
       new Date(v.data).toLocaleDateString(),
       v.materia,
       v.voto,
       v.tipologia
     ]);
 
+    // Genero la tabella
     autoTable(doc, {
       head: [["Data", "Materia", "Voto", "Tipologia"]],
-      body: rows,
+      body: righe,
       startY: 30,
       styles: { fontSize: 12 },
       headStyles: {
-        fillColor: currentTheme.primary  
+        fillColor: temaCorrente.primary  
       }
     });
 
+    // Salvo il PDF
     doc.save(`Report_${studente.id_studente}.pdf`);
   };
 
-  const headerStyle = {
+  // ===========================
+  // FUNZIONI UTILITY
+  // ===========================
+  
+  /**
+   * Estraggo le iniziali per l'avatar.
+   */
+  const ottieniIniziali = (nome, cognome) =>
+    `${nome.charAt(0)}${cognome.charAt(0)}`.toUpperCase();
+
+  // ===========================
+  // STILI
+  // ===========================
+  
+  const stileHeader = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -151,17 +251,19 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
     cursor: 'pointer',
     padding: '4px'
   };
-  const studentInfoStyle = {
+  
+  const stileInfoStudente = {
     display: 'flex',
     alignItems: 'center',
     gap: '16px',
     flex: 1
   };
-  const avatarStyle = {
+  
+  const stileAvatar = {
     width: '48px',
     height: '48px',
     borderRadius: '12px',
-    background: `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.primaryHover})`,
+    background: `linear-gradient(135deg, ${temaCorrente.primary}, ${temaCorrente.primaryHover})`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -169,69 +271,101 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
     fontWeight: '600',
     fontSize: '18px'
   };
-  const getInitials = (nome, cognome) =>
-    `${nome.charAt(0)}${cognome.charAt(0)}`.toUpperCase();
 
   return (
     <Card style={{ padding: '20px' }}>
-      <div style={headerStyle} onClick={onToggle}>
-        <div style={studentInfoStyle}>
-          <div style={avatarStyle}>
-            {getInitials(studente.nome, studente.cognome)}
+      {/* ===========================
+          HEADER CARD
+          =========================== */}
+      
+      <div style={stileHeader} onClick={alToggle}>
+        <div style={stileInfoStudente}>
+          {/* Avatar con iniziali */}
+          <div style={stileAvatar}>
+            {ottieniIniziali(studente.nome, studente.cognome)}
           </div>
+          
+          {/* Info studente */}
           <div>
             <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '4px' }}>
               {studente.nome} {studente.cognome}
             </h3>
-            <p style={{ color: currentTheme.textSecondary, fontSize: '14px' }}>
+            <p style={{ color: temaCorrente.textSecondary, fontSize: '14px' }}>
               ID: {studente.id_studente}
             </p>
           </div>
         </div>
 
+        {/* Media e chevron */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {media && (
             <Badge variant="success" size="lg">
               Media: {media}
             </Badge>
           )}
-          <div style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }}>
-            <ChevronDown size={24} color={currentTheme.textSecondary} />
+          <div style={{ 
+            transform: espanso ? 'rotate(180deg)' : 'rotate(0)', 
+            transition: 'transform 0.3s' 
+          }}>
+            <ChevronDown size={24} color={temaCorrente.textSecondary} />
           </div>
         </div>
       </div>
 
-      {isExpanded && (
+      {/* ===========================
+          CONTENUTO ESPANDIBILE
+          =========================== */}
+      
+      {espanso && (
         <div style={{ marginTop: '24px' }} className="animate-expand">
-          {loading ? (
+          {caricamentoLocale ? (
             <LoadingSpinner />
           ) : (
             <>
+              {/* Barra azioni */}
               <div style={{
-                display: 'flex', gap: '12px',
-                marginBottom: '24px', paddingBottom: '24px',
-                borderBottom: `1px solid ${currentTheme.border}`
+                display: 'flex', 
+                gap: '12px',
+                marginBottom: '24px', 
+                paddingBottom: '24px',
+                borderBottom: `1px solid ${temaCorrente.border}`
               }}>
-                <Button icon={Plus} size="sm" onClick={() => setShowVotoForm(true)}>
+                <Button 
+                  icon={Plus} 
+                  size="sm" 
+                  onClick={() => impostaMostraFormVoto(true)}
+                >
                   Inserisci voto
                 </Button>
-                <Button icon={Activity} variant="secondary" size="sm" onClick={calcolaMedia}>
+                <Button 
+                  icon={Activity} 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={calcolaMedia}
+                >
                   Calcola media
                 </Button>
-                <Button icon={FileText} variant="secondary" size="sm" onClick={handleReport}>
+                <Button 
+                  icon={FileText} 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={gestisciReport}
+                >
                   Report
                 </Button>
               </div>
 
-              {showVotoForm && (
+              {/* Form inserimento voto */}
+              {mostraFormVoto && (
                 <VotoForm
                   materie={materie}
-                  onSubmit={handleAddVoto}
-                  onCancel={() => setShowVotoForm(false)}
+                  onSubmit={gestisciAggiuntaVoto}
+                  onCancel={() => impostaMostraFormVoto(false)}
                 />
               )}
 
-              <VotiList voti={voti} onUpdate={loadVoti} />
+              {/* Lista voti */}
+              <VotiList voti={voti} onUpdate={caricaVoti} />
             </>
           )}
         </div>
@@ -240,4 +374,4 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
   );
 };
 
-export default StudentCard;
+export default CardStudente;

@@ -1,18 +1,58 @@
+/**
+ * COMPONENTE MODAL
+ * 
+ * Creo una finestra modale per il registro elettronico.
+ * La modale supporta diverse dimensioni e include:
+ * - Overlay semi-trasparente che chiude al click
+ * - Header con titolo e pulsante chiusura
+ * - Body scrollabile per contenuti lunghi
+ * - Animazioni di ingresso/uscita
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import { useApp } from '../../../context/AppContext';
+import { X } from 'lucide-react';
 
-const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
-  const { currentTheme } = useApp();
+/**
+ * Finestra modale per il registro.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {boolean} props.isOpen - Stato aperto/chiuso
+ * @param {Function} props.onClose - Callback chiusura
+ * @param {string} props.title - Titolo della modale
+ * @param {React.ReactNode} props.children - Contenuto
+ * @param {string} props.size - Dimensione: 'sm' | 'md' | 'lg' | 'xl'
+ */
+const Modale = ({ 
+  isOpen: aperta, 
+  onClose: allaChiusura, 
+  title: titolo, 
+  children, 
+  size: dimensione = "md" 
+}) => {
+  // Recupero il tema corrente
+  const { temaCorrente } = useApp();
   
-  if (!isOpen) return null;
+  // Se la modale non è aperta, non renderizzo nulla
+  if (!aperta) return null;
 
-  const sizes = {
+  // ===========================
+  // CONFIGURAZIONE DIMENSIONI
+  // ===========================
+  
+  const dimensioni = {
     sm: '400px',
     md: '600px',
     lg: '800px',
     xl: '1000px'
   };
 
-  const overlayStyle = {
+  // ===========================
+  // STILI
+  // ===========================
+  
+  const stileOverlay = {
     position: 'fixed',
     top: 0,
     left: 0,
@@ -26,57 +66,76 @@ const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
     padding: '20px'
   };
 
-  const modalStyle = {
-    background: currentTheme.cardBackground,
+  const stileModale = {
+    background: temaCorrente.cardBackground,
     borderRadius: '20px',
     width: '100%',
-    maxWidth: sizes[size],
+    maxWidth: dimensioni[dimensione],
     maxHeight: '90vh',
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    boxShadow: currentTheme.shadowXl
+    boxShadow: temaCorrente.shadowXl
   };
 
-  const headerStyle = {
+  const stileHeader = {
     padding: '24px',
-    borderBottom: `1px solid ${currentTheme.border}`,
+    borderBottom: `1px solid ${temaCorrente.border}`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
   };
 
-  const bodyStyle = {
+  const stileBody = {
     padding: '24px',
     overflowY: 'auto',
     flex: 1
   };
 
   return (
-    <div style={overlayStyle} onClick={onClose} className="animate-fade-in">
-      <div style={modalStyle} onClick={e => e.stopPropagation()} className="animate-slide-in">
-        <div style={headerStyle}>
-          <h2 style={{ fontSize: '20px', fontWeight: '600', color: currentTheme.text }}>
-            {title}
+    // Overlay che chiude la modale al click
+    <div 
+      style={stileOverlay} 
+      onClick={allaChiusura} 
+      className="animate-fade-in"
+    >
+      {/* Contenuto modale - stopPropagation previene chiusura al click interno */}
+      <div 
+        style={stileModale} 
+        onClick={e => e.stopPropagation()} 
+        className="animate-slide-in"
+      >
+        {/* Header con titolo e pulsante chiusura */}
+        <div style={stileHeader}>
+          <h2 style={{ 
+            fontSize: '20px', 
+            fontWeight: '600', 
+            color: temaCorrente.text 
+          }}>
+            {titolo}
           </h2>
+          
+          {/* Pulsante chiusura */}
           <button
-            onClick={onClose}
+            onClick={allaChiusura}
             style={{
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: currentTheme.textSecondary,
+              color: temaCorrente.textSecondary,
               padding: '8px',
               borderRadius: '8px',
               transition: 'background 0.2s ease'
             }}
-            onMouseEnter={e => e.target.style.background = currentTheme.backgroundSecondary}
+            onMouseEnter={e => e.target.style.background = temaCorrente.backgroundSecondary}
             onMouseLeave={e => e.target.style.background = 'none'}
           >
             <X size={24} />
           </button>
         </div>
-        <div style={bodyStyle}>
+        
+        {/* Body con contenuto */}
+        <div style={stileBody}>
           {children}
         </div>
       </div>
@@ -84,4 +143,4 @@ const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
   );
 };
 
-export default Modal;
+export default Modale;

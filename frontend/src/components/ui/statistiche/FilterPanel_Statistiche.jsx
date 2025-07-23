@@ -1,3 +1,16 @@
+/**
+ * COMPONENTE PANNELLO FILTRI AVANZATI
+ * 
+ * Gestisco il sistema di filtri per le statistiche con opzioni
+ * geografiche, scolastiche e demografiche. Il pannello è collassabile
+ * per ottimizzare lo spazio e mostra il numero di filtri attivi.
+ * 
+ * I filtri sono gerarchici: selezionando un'area geografica si resettano
+ * automaticamente i filtri più specifici (regione, provincia, comune).
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../../context/AppContext';
 import { 
@@ -15,10 +28,26 @@ import {
 import Card from './Card_Statistiche';
 import Button from './Button_Statistiche';
 
-const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
-  const [theme] = useTheme();
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [filterOptions, setFilterOptions] = useState({
+/**
+ * Pannello filtri con opzioni avanzate per le statistiche.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {Object} props.filters - Oggetto contenente i filtri attivi
+ * @param {Function} props.onFiltersChange - Callback per aggiornare i filtri
+ * @param {Function} props.onReset - Callback per resettare tutti i filtri
+ */
+const PannelloFiltri = ({ filters: filtriAttivi, onFiltersChange: alCambioFiltri, onReset: alReset }) => {
+  // ===========================
+  // HOOKS E STATO
+  // ===========================
+  
+  const [tema] = useTheme();
+  
+  // Controllo se il pannello è espanso o collassato
+  const [espanso, impostaEspanso] = useState(false);
+  
+  // Opzioni disponibili per ogni filtro (caricate dal backend)
+  const [opzioniFiltri, impostaOpzioniFiltri] = useState({
     areeGeografiche: [],
     regioni: [],
     province: [],
@@ -29,132 +58,190 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
     sesso: [],
     cittadinanza: []
   });
-  const [loading, setLoading] = useState(true);
+  
+  // Stato di caricamento delle opzioni
+  const [caricamento, impostaCaricamento] = useState(true);
 
+  // ===========================
+  // CARICAMENTO OPZIONI FILTRI
+  // ===========================
+  
+  /**
+   * All'avvio, recupero tutte le opzioni disponibili per i filtri
+   * dal backend. Questo permette di popolare dinamicamente i menu
+   * a tendina con i valori effettivamente presenti nel database.
+   */
   useEffect(() => {
-    const fetchFilterOptions = async () => {
+    const recuperaOpzioniFiltri = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/statistiche/filtri/opzioni');
-        const data = await response.json();
-        setFilterOptions(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Errore caricamento opzioni filtri:', error);
-        setLoading(false);
+        const risposta = await fetch('http://localhost:3000/api/statistiche/filtri/opzioni');
+        const dati = await risposta.json();
+        impostaOpzioniFiltri(dati);
+        impostaCaricamento(false);
+      } catch (errore) {
+        console.error('Errore caricamento opzioni filtri:', errore);
+        impostaCaricamento(false);
       }
     };
 
-    fetchFilterOptions();
+    recuperaOpzioniFiltri();
   }, []);
 
-  const handleFilterChange = (key, value) => {
-    const newFilters = { ...filters };
+  // ===========================
+  // GESTIONE CAMBIO FILTRI
+  // ===========================
+  
+  /**
+   * Gestisco il cambio di un filtro con logica gerarchica.
+   * Quando cambio un filtro geografico di livello superiore,
+   * resetto automaticamente quelli di livello inferiore.
+   * 
+   * @param {string} chiave - Nome del filtro
+   * @param {string} valore - Nuovo valore del filtro
+   */
+  const gestisciCambioFiltro = (chiave, valore) => {
+    // Creo una copia dei filtri attuali
+    const nuoviFiltri = { ...filtriAttivi };
     
-    if (value === '' || value === null) {
-      delete newFilters[key];
+    // Se il valore è vuoto o null, rimuovo il filtro
+    if (valore === '' || valore === null) {
+      delete nuoviFiltri[chiave];
     } else {
-      newFilters[key] = value;
+      nuoviFiltri[chiave] = valore;
     }
 
-    if (key === 'areageografica') {
-      delete newFilters.regione;
-      delete newFilters.provincia;
-      delete newFilters.comune;
-    } else if (key === 'regione') {
-      delete newFilters.provincia;
-      delete newFilters.comune;
-    } else if (key === 'provincia') {
-      delete newFilters.comune;
+    // ===========================
+    // GESTIONE GERARCHIA GEOGRAFICA
+    // ===========================
+    
+    /**
+     * Implemento la gerarchia dei filtri geografici:
+     * Area geografica > Regione > Provincia > Comune
+     * 
+     * Quando seleziono un livello superiore, resetto quelli inferiori.
+     */
+    if (chiave === 'areageografica') {
+      delete nuoviFiltri.regione;
+      delete nuoviFiltri.provincia;
+      delete nuoviFiltri.comune;
+    } else if (chiave === 'regione') {
+      delete nuoviFiltri.provincia;
+      delete nuoviFiltri.comune;
+    } else if (chiave === 'provincia') {
+      delete nuoviFiltri.comune;
     }
 
-    onFiltersChange(newFilters);
+    // Notifico il cambio al componente padre
+    alCambioFiltri(nuoviFiltri);
   };
 
-  const activeFiltersCount = Object.keys(filters).length;
+  // Calcolo il numero di filtri attivi per mostrarlo nel badge
+  const numeroFiltriAttivi = Object.keys(filtriAttivi).length;
 
-  const selectStyle = {
+  // ===========================
+  // STILI COMUNI
+  // ===========================
+  
+  const stileSelect = {
     width: '100%',
     padding: '8px 12px',
     borderRadius: '8px',
-    border: `1px solid ${theme.border}`,
-    backgroundColor: theme.backgroundSecondary,
-    color: theme.text,
+    border: `1px solid ${tema.border}`,
+    backgroundColor: tema.backgroundSecondary,
+    color: tema.text,
     fontSize: '14px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     outline: 'none'
   };
 
-  const sectionStyle = {
+  const stileSezione = {
     marginBottom: '24px'
   };
 
-  const labelStyle = {
+  const stileEtichetta = {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
     marginBottom: '8px',
     fontSize: '14px',
     fontWeight: '500',
-    color: theme.textSecondary
+    color: tema.textSecondary
   };
 
   return (
     <Card style={{ marginBottom: '32px', position: 'sticky', top: '24px', zIndex: 10 }}>
+      {/* ===========================
+          HEADER DEL PANNELLO
+          =========================== */}
+      
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: isExpanded ? '24px' : '0'
+        marginBottom: espanso ? '24px' : '0'
       }}>
+        {/* Titolo con icona e badge contatore */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Filter size={24} style={{ color: theme.primary }} />
+          <Filter size={24} style={{ color: tema.primary }} />
           <h3 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>
             Filtri Avanzati
           </h3>
-          {activeFiltersCount > 0 && (
+          {/* Badge che mostra il numero di filtri attivi */}
+          {numeroFiltriAttivi > 0 && (
             <span style={{
-              backgroundColor: theme.primary,
+              backgroundColor: tema.primary,
               color: 'white',
               padding: '4px 8px',
               borderRadius: '12px',
               fontSize: '12px',
               fontWeight: 'bold'
             }}>
-              {activeFiltersCount}
+              {numeroFiltriAttivi}
             </span>
           )}
         </div>
         
+        {/* Pulsanti di controllo */}
         <div style={{ display: 'flex', gap: '8px' }}>
-          {activeFiltersCount > 0 && (
+          {/* Pulsante reset (visibile solo con filtri attivi) */}
+          {numeroFiltriAttivi > 0 && (
             <Button
               variant="ghost"
               size="sm"
               icon={RotateCcw}
-              onClick={onReset}
+              onClick={alReset}
             >
               Reset
             </Button>
           )}
+          {/* Pulsante espandi/collassa */}
           <Button
             variant="ghost"
             size="sm"
-            icon={isExpanded ? ChevronUp : ChevronDown}
-            onClick={() => setIsExpanded(!isExpanded)}
+            icon={espanso ? ChevronUp : ChevronDown}
+            onClick={() => impostaEspanso(!espanso)}
           >
-            {isExpanded ? 'Nascondi' : 'Mostra'}
+            {espanso ? 'Nascondi' : 'Mostra'}
           </Button>
         </div>
       </div>
 
-      {isExpanded && (
+      {/* ===========================
+          CONTENUTO DEL PANNELLO
+          =========================== */}
+      
+      {espanso && (
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
           gap: '24px'
         }}>
-          <div style={sectionStyle}>
+          {/* ===========================
+              FILTRI GEOGRAFICI
+              =========================== */}
+          
+          <div style={stileSezione}>
             <h4 style={{ 
               fontSize: '16px', 
               fontWeight: '600', 
@@ -163,75 +250,79 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
               alignItems: 'center',
               gap: '8px'
             }}>
-              <MapPin size={18} style={{ color: theme.primary }} />
+              <MapPin size={18} style={{ color: tema.primary }} />
               Filtri Geografici
             </h4>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {/* Area Geografica */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   <Globe2 size={16} />
                   Area Geografica
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.areageografica || ''}
-                  onChange={(e) => handleFilterChange('areageografica', e.target.value)}
-                  disabled={loading}
+                  style={stileSelect}
+                  value={filtriAttivi.areageografica || ''}
+                  onChange={(e) => gestisciCambioFiltro('areageografica', e.target.value)}
+                  disabled={caricamento}
                 >
                   <option value="">Tutte le aree</option>
-                  {filterOptions.areeGeografiche.map(area => (
+                  {opzioniFiltri.areeGeografiche.map(area => (
                     <option key={area} value={area}>{area}</option>
                   ))}
                 </select>
               </div>
 
+              {/* Regione */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   Regione
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.regione || ''}
-                  onChange={(e) => handleFilterChange('regione', e.target.value)}
-                  disabled={loading}
+                  style={stileSelect}
+                  value={filtriAttivi.regione || ''}
+                  onChange={(e) => gestisciCambioFiltro('regione', e.target.value)}
+                  disabled={caricamento}
                 >
                   <option value="">Tutte le regioni</option>
-                  {filterOptions.regioni.map(regione => (
+                  {opzioniFiltri.regioni.map(regione => (
                     <option key={regione} value={regione}>{regione}</option>
                   ))}
                 </select>
               </div>
 
+              {/* Provincia - disabilitata se non c'è una regione selezionata */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   Provincia
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.provincia || ''}
-                  onChange={(e) => handleFilterChange('provincia', e.target.value)}
-                  disabled={loading || !filters.regione}
+                  style={stileSelect}
+                  value={filtriAttivi.provincia || ''}
+                  onChange={(e) => gestisciCambioFiltro('provincia', e.target.value)}
+                  disabled={caricamento || !filtriAttivi.regione}
                 >
                   <option value="">Tutte le province</option>
-                  {filterOptions.province.map(provincia => (
+                  {opzioniFiltri.province.map(provincia => (
                     <option key={provincia} value={provincia}>{provincia}</option>
                   ))}
                 </select>
               </div>
 
+              {/* Comune - disabilitato se non c'è una provincia selezionata */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   Comune
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.comune || ''}
-                  onChange={(e) => handleFilterChange('comune', e.target.value)}
-                  disabled={loading || !filters.provincia}
+                  style={stileSelect}
+                  value={filtriAttivi.comune || ''}
+                  onChange={(e) => gestisciCambioFiltro('comune', e.target.value)}
+                  disabled={caricamento || !filtriAttivi.provincia}
                 >
                   <option value="">Tutti i comuni</option>
-                  {filterOptions.comuni.map(comune => (
+                  {opzioniFiltri.comuni.map(comune => (
                     <option key={comune} value={comune}>{comune}</option>
                   ))}
                 </select>
@@ -239,7 +330,11 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
             </div>
           </div>
 
-          <div style={sectionStyle}>
+          {/* ===========================
+              FILTRI SCOLASTICI
+              =========================== */}
+          
+          <div style={stileSezione}>
             <h4 style={{ 
               fontSize: '16px', 
               fontWeight: '600', 
@@ -248,58 +343,61 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
               alignItems: 'center',
               gap: '8px'
             }}>
-              <School size={18} style={{ color: theme.primary }} />
+              <School size={18} style={{ color: tema.primary }} />
               Filtri Scolastici
             </h4>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {/* Indirizzo di Studio */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   Indirizzo di Studio
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.indirizzo || ''}
-                  onChange={(e) => handleFilterChange('indirizzo', e.target.value)}
-                  disabled={loading}
+                  style={stileSelect}
+                  value={filtriAttivi.indirizzo || ''}
+                  onChange={(e) => gestisciCambioFiltro('indirizzo', e.target.value)}
+                  disabled={caricamento}
                 >
                   <option value="">Tutti gli indirizzi</option>
-                  {filterOptions.indirizzi.map(indirizzo => (
+                  {opzioniFiltri.indirizzi.map(indirizzo => (
                     <option key={indirizzo} value={indirizzo}>{indirizzo}</option>
                   ))}
                 </select>
               </div>
 
+              {/* Anno di Corso */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   Anno di Corso
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.annocorso || ''}
-                  onChange={(e) => handleFilterChange('annocorso', e.target.value)}
-                  disabled={loading}
+                  style={stileSelect}
+                  value={filtriAttivi.annocorso || ''}
+                  onChange={(e) => gestisciCambioFiltro('annocorso', e.target.value)}
+                  disabled={caricamento}
                 >
                   <option value="">Tutti gli anni</option>
-                  {filterOptions.anniCorso.map(anno => (
+                  {opzioniFiltri.anniCorso.map(anno => (
                     <option key={anno} value={anno}>{anno}° Anno</option>
                   ))}
                 </select>
               </div>
 
+              {/* Quadrimestre */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   <Calendar size={16} />
                   Quadrimestre
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.quadrimestre || ''}
-                  onChange={(e) => handleFilterChange('quadrimestre', e.target.value)}
-                  disabled={loading}
+                  style={stileSelect}
+                  value={filtriAttivi.quadrimestre || ''}
+                  onChange={(e) => gestisciCambioFiltro('quadrimestre', e.target.value)}
+                  disabled={caricamento}
                 >
                   <option value="">Entrambi i quadrimestri</option>
-                  {filterOptions.quadrimestri.map(quad => (
+                  {opzioniFiltri.quadrimestri.map(quad => (
                     <option key={quad.value} value={quad.value}>{quad.label}</option>
                   ))}
                 </select>
@@ -307,7 +405,11 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
             </div>
           </div>
 
-          <div style={sectionStyle}>
+          {/* ===========================
+              FILTRI DEMOGRAFICI
+              =========================== */}
+          
+          <div style={stileSezione}>
             <h4 style={{ 
               fontSize: '16px', 
               fontWeight: '600', 
@@ -316,40 +418,42 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
               alignItems: 'center',
               gap: '8px'
             }}>
-              <Users size={18} style={{ color: theme.primary }} />
+              <Users size={18} style={{ color: tema.primary }} />
               Filtri Demografici
             </h4>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {/* Sesso */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   Sesso
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.sesso || ''}
-                  onChange={(e) => handleFilterChange('sesso', e.target.value)}
-                  disabled={loading}
+                  style={stileSelect}
+                  value={filtriAttivi.sesso || ''}
+                  onChange={(e) => gestisciCambioFiltro('sesso', e.target.value)}
+                  disabled={caricamento}
                 >
                   <option value="">Tutti</option>
-                  {filterOptions.sesso.map(s => (
+                  {opzioniFiltri.sesso.map(s => (
                     <option key={s.value} value={s.value}>{s.label}</option>
                   ))}
                 </select>
               </div>
 
+              {/* Cittadinanza */}
               <div>
-                <label style={labelStyle}>
+                <label style={stileEtichetta}>
                   Cittadinanza
                 </label>
                 <select
-                  style={selectStyle}
-                  value={filters.cittadinanza || ''}
-                  onChange={(e) => handleFilterChange('cittadinanza', e.target.value)}
-                  disabled={loading}
+                  style={stileSelect}
+                  value={filtriAttivi.cittadinanza || ''}
+                  onChange={(e) => gestisciCambioFiltro('cittadinanza', e.target.value)}
+                  disabled={caricamento}
                 >
                   <option value="">Tutte</option>
-                  {filterOptions.cittadinanza.map(c => (
+                  {opzioniFiltri.cittadinanza.map(c => (
                     <option key={c.value} value={c.value}>{c.label}</option>
                   ))}
                 </select>
@@ -359,22 +463,27 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
         </div>
       )}
 
-      {activeFiltersCount > 0 && isExpanded && (
+      {/* ===========================
+          RIEPILOGO FILTRI ATTIVI
+          =========================== */}
+      
+      {numeroFiltriAttivi > 0 && espanso && (
         <div style={{
           marginTop: '24px',
           paddingTop: '24px',
-          borderTop: `1px solid ${theme.border}`
+          borderTop: `1px solid ${tema.border}`
         }}>
-          <p style={{ fontSize: '14px', color: theme.textSecondary, marginBottom: '12px' }}>
+          <p style={{ fontSize: '14px', color: tema.textSecondary, marginBottom: '12px' }}>
             Filtri attivi:
           </p>
+          {/* Lista dei filtri attivi come tag */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {Object.entries(filters).map(([key, value]) => (
+            {Object.entries(filtriAttivi).map(([chiave, valore]) => (
               <div
-                key={key}
+                key={chiave}
                 style={{
-                  backgroundColor: theme.primaryLight,
-                  color: theme.primary,
+                  backgroundColor: tema.primaryLight,
+                  color: tema.primary,
                   padding: '6px 12px',
                   borderRadius: '16px',
                   fontSize: '13px',
@@ -383,11 +492,12 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
                   gap: '6px'
                 }}
               >
-                <span>{key}: {value}</span>
+                <span>{chiave}: {valore}</span>
+                {/* X per rimuovere il singolo filtro */}
                 <X
                   size={14}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => handleFilterChange(key, '')}
+                  onClick={() => gestisciCambioFiltro(chiave, '')}
                 />
               </div>
             ))}
@@ -398,4 +508,4 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
   );
 };
 
-export default FilterPanel;
+export default PannelloFiltri;

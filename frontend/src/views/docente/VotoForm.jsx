@@ -1,3 +1,15 @@
+/**
+ * COMPONENTE FORM VOTO
+ * 
+ * Gestisco l'inserimento o modifica di un singolo voto.
+ * Il form include campi per materia, voto, data e tipologia.
+ * 
+ * Supporto sia la creazione di nuovi voti che la modifica
+ * di voti esistenti attraverso il parametro votoEdit.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import { useApp } from '../../context/AppContext';
 import { useState } from 'react';
 
@@ -6,42 +18,86 @@ import Button from '../../components/ui/registro/Button_Registro';
 import Select from '../../components/ui/registro/Select_Registro';
 import Input from '../../components/ui/registro/Input_Registro';
 
-import { 
-  Save
-} from 'lucide-react';
+import { Save } from 'lucide-react';
 
-const VotoForm = ({ materie, onSubmit, onCancel, votoEdit = null }) => {
-  const { currentTheme } = useApp();
-  const [formData, setFormData] = useState({
-    materia: votoEdit?.materia || '',
-    voto: votoEdit?.voto || '',
-    data: votoEdit?.data ? new Date(votoEdit.data).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-    tipo: votoEdit?.tipo || 'scritto'
+/**
+ * Form per inserimento/modifica voto.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {Array} props.materie - Lista materie disponibili
+ * @param {Function} props.onSubmit - Callback invio form
+ * @param {Function} props.onCancel - Callback annullamento
+ * @param {Object} props.votoEdit - Voto da modificare (opzionale)
+ */
+const FormVoto = ({ 
+  materie, 
+  onSubmit: allInvio, 
+  onCancel: allAnnullamento, 
+  votoEdit: votoModifica = null 
+}) => {
+  // Recupero il tema corrente
+  const { temaCorrente } = useApp();
+  
+  // ===========================
+  // STATO FORM
+  // ===========================
+  
+  /**
+   * Inizializzo il form con i dati del voto da modificare
+   * o con valori di default per un nuovo voto.
+   */
+  const [datiForm, impostaDatiForm] = useState({
+    materia: votoModifica?.materia || '',
+    voto: votoModifica?.voto || '',
+    data: votoModifica?.data 
+      ? new Date(votoModifica.data).toISOString().split('T')[0] 
+      : new Date().toISOString().split('T')[0],
+    tipo: votoModifica?.tipo || 'scritto'
   });
 
-  const handleSubmit = (e) => {
+  // ===========================
+  // GESTIONE INVIO
+  // ===========================
+  
+  /**
+   * Valido e invio i dati del form.
+   */
+  const gestisciInvio = (e) => {
     e.preventDefault();
-    if (!formData.materia || !formData.voto || !formData.data) {
+    
+    // Validazione campi obbligatori
+    if (!datiForm.materia || !datiForm.voto || !datiForm.data) {
       alert('Compila tutti i campi');
       return;
     }
-    onSubmit({
-      ...formData,
-      voto: Number(formData.voto)
+    
+    // Invio dati con voto convertito a numero
+    allInvio({
+      ...datiForm,
+      voto: Number(datiForm.voto)
     });
   };
 
   return (
     <Card style={{ 
       marginBottom: '24px',
-      background: currentTheme.backgroundTertiary 
+      background: temaCorrente.backgroundTertiary 
     }}>
-      <form onSubmit={handleSubmit}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+      <form onSubmit={gestisciInvio}>
+        {/* ===========================
+            CAMPI FORM
+            =========================== */}
+        
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+          gap: '16px' 
+        }}>
+          {/* Selezione materia */}
           <Select
             label="Materia"
-            value={formData.materia}
-            onChange={(e) => setFormData({...formData, materia: e.target.value})}
+            value={datiForm.materia}
+            onChange={(e) => impostaDatiForm({...datiForm, materia: e.target.value})}
             required
           >
             <option value="">Seleziona materia</option>
@@ -50,29 +106,32 @@ const VotoForm = ({ materie, onSubmit, onCancel, votoEdit = null }) => {
             ))}
           </Select>
 
+          {/* Input voto */}
           <Input
             label="Voto"
             type="number"
             min="1"
             max="10"
             step="0.5"
-            value={formData.voto}
-            onChange={(e) => setFormData({...formData, voto: e.target.value})}
+            value={datiForm.voto}
+            onChange={(e) => impostaDatiForm({...datiForm, voto: e.target.value})}
             required
           />
 
+          {/* Data voto */}
           <Input
             label="Data"
             type="date"
-            value={formData.data}
-            onChange={(e) => setFormData({...formData, data: e.target.value})}
+            value={datiForm.data}
+            onChange={(e) => impostaDatiForm({...datiForm, data: e.target.value})}
             required
           />
 
+          {/* Tipo voto */}
           <Select
             label="Tipo"
-            value={formData.tipo}
-            onChange={(e) => setFormData({...formData, tipo: e.target.value})}
+            value={datiForm.tipo}
+            onChange={(e) => impostaDatiForm({...datiForm, tipo: e.target.value})}
           >
             <option value="scritto">Scritto</option>
             <option value="orale">Orale</option>
@@ -80,11 +139,20 @@ const VotoForm = ({ materie, onSubmit, onCancel, votoEdit = null }) => {
           </Select>
         </div>
 
+        {/* ===========================
+            PULSANTI AZIONE
+            =========================== */}
+        
         <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
           <Button type="submit" icon={Save} size="sm">
-            {votoEdit ? 'Modifica' : 'Salva'}
+            {votoModifica ? 'Modifica' : 'Salva'}
           </Button>
-          <Button type="button" variant="secondary" size="sm" onClick={onCancel}>
+          <Button 
+            type="button" 
+            variant="secondary" 
+            size="sm" 
+            onClick={allAnnullamento}
+          >
             Annulla
           </Button>
         </div>
@@ -93,4 +161,4 @@ const VotoForm = ({ materie, onSubmit, onCancel, votoEdit = null }) => {
   );
 };
 
-export default VotoForm;
+export default FormVoto;

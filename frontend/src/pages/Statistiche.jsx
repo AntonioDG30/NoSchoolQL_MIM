@@ -1,3 +1,22 @@
+/**
+ * COMPONENTE PAGINA STATISTICHE
+ * 
+ * Questa è la pagina principale delle statistiche avanzate del sistema scolastico.
+ * Visualizzo una dashboard completa con:
+ * - KPI principali (studenti, docenti, classi, voti, media)
+ * - Grafici interattivi con Chart.js
+ * - Confronti geografici e per indirizzo
+ * - Analisi temporali e outlier
+ * - Sistema di filtri avanzati
+ * - Esportazione dati in CSV
+ * 
+ * La pagina è completamente responsive e supporta tema chiaro/scuro.
+ * Tutti i dati sono caricati dinamicamente dal backend con gestione
+ * degli stati di caricamento ed errore.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Bar, Doughnut, Line, Radar, Scatter } from 'react-chartjs-2';
 import {
@@ -43,6 +62,7 @@ import {
   MapPin
 } from 'lucide-react';
 
+// Registro i componenti Chart.js necessari
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -57,9 +77,12 @@ ChartJS.register(
   Filler
 );
 
+// Import di temi e stili
 import themes from '../theme/themes';
 import '../theme/globalStyles';
 import { AppProvider, useTheme } from '../context/AppContext';
+
+// Import dei componenti UI
 import Card from '../components/ui/statistiche/Card_Statistiche';
 import Accordion from '../components/ui/statistiche/Accordion_Statistiche';
 import StatsCard from '../components/ui/statistiche/StatsCard_Statistiche';
@@ -68,12 +91,26 @@ import LoadingBar from '../components/ui/statistiche/LoadingBar_Statistiche';
 import Button from '../components/ui/statistiche/Button_Statistiche';
 import FilterPanel from '../components/ui/statistiche/FilterPanel_Statistiche';
 
-function StatisticheContent() {
-  const [theme, toggleTheme, isDark] = useTheme();
-  const [dati, setDati] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({});
-  const [expandedPanels, setExpandedPanels] = useState({
+/**
+ * Componente interno con la logica delle statistiche.
+ * Separato per poter utilizzare gli hooks del context.
+ */
+function ContenutoStatistiche() {
+  // ===========================
+  // HOOKS E STATO
+  // ===========================
+  
+  const [tema, alternaTema, temaScuro] = useTheme();
+  
+  // Stato per tutti i dati delle statistiche
+  const [dati, impostaDati] = useState({});
+  
+  // Stati di caricamento e filtri
+  const [caricamento, impostaCaricamento] = useState(true);
+  const [filtri, impostaFiltri] = useState({});
+  
+  // Stato per i pannelli espansi/collassati
+  const [pannelliEspansi, impostaPannelliEspansi] = useState({
     cittadinanza: true,
     numeroVotiMateria: true,
     mediaVotiMateria: false,
@@ -86,93 +123,148 @@ function StatisticheContent() {
     trendTemporale: false,
     outliers: false
   });
-  const [viewMode, setViewMode] = useState('grid');
+  
+  // Modalità visualizzazione (griglia o lista)
+  const [modalitaVisualizzazione, impostaModalitaVisualizzazione] = useState('grid');
 
-  const baseUrl = "http://localhost:3000/api/statistiche";
+  // URL base per le API
+  const urlBase = "http://localhost:3000/api/statistiche";
 
-  const buildQueryString = (filters) => {
-    const params = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value !== null && value !== undefined && value !== '') {
-        params.append(key, value);
+  // ===========================
+  // FUNZIONI UTILITY
+  // ===========================
+  
+  /**
+   * Costruisco la query string dai filtri attivi.
+   * 
+   * @param {Object} filtri - Oggetto con i filtri
+   * @returns {string} Query string formattata
+   */
+  const costruisciQueryString = (filtri) => {
+    const parametri = new URLSearchParams();
+    Object.entries(filtri).forEach(([chiave, valore]) => {
+      if (valore !== null && valore !== undefined && valore !== '') {
+        parametri.append(chiave, valore);
       }
     });
-    return params.toString() ? `?${params.toString()}` : '';
+    return parametri.toString() ? `?${parametri.toString()}` : '';
   };
 
-  const fetchData = async (endpoint, key) => {
+  /**
+   * Recupero i dati da un endpoint specifico.
+   * 
+   * @param {string} endpoint - Endpoint API
+   * @param {string} chiave - Chiave per salvare i dati nello stato
+   */
+  const recuperaDati = async (endpoint, chiave) => {
     try {
-      const queryString = buildQueryString(filters);
-      const res = await fetch(`${baseUrl}${endpoint}${queryString}`);
-      const json = await res.json();
-      setDati(prev => ({ ...prev, [key]: json }));
-    } catch (err) {
-      console.error(`Errore nel caricamento di ${key}:`, err);
+      const queryString = costruisciQueryString(filtri);
+      const risposta = await fetch(`${urlBase}${endpoint}${queryString}`);
+      const json = await risposta.json();
+      impostaDati(precedente => ({ ...precedente, [chiave]: json }));
+    } catch (errore) {
+      console.error(`Errore nel caricamento di ${chiave}:`, errore);
     }
   };
 
-  const togglePanel = (key) => {
-    setExpandedPanels(prev => ({ ...prev, [key]: !prev[key] }));
+  /**
+   * Alterna lo stato espanso/collassato di un pannello.
+   * 
+   * @param {string} chiave - Chiave del pannello
+   */
+  const alternaPannello = (chiave) => {
+    impostaPannelliEspansi(precedente => ({ 
+      ...precedente, 
+      [chiave]: !precedente[chiave] 
+    }));
   };
 
+  // ===========================
+  // CARICAMENTO DATI
+  // ===========================
+  
+  /**
+   * Carico tutti i dati quando i filtri cambiano.
+   * Uso Promise.all per parallelizzare le richieste.
+   */
   useEffect(() => {
-    const loadAllData = async () => {
-      setLoading(true);
+    const caricaTuttiIDati = async () => {
+      impostaCaricamento(true);
       await Promise.all([
-        fetchData("/generali", "generali"),
-        fetchData("/studenti/italiani-vs-stranieri", "cittadinanza"),
-        fetchData("/voti/numero-per-materia", "numeroVotiMateria"),
-        fetchData("/voti/media-per-materia", "mediaVotiMateria"),
-        fetchData("/classi/numero-per-annocorso", "classiPerAnno"),
-        fetchData("/studenti/numero-per-annocorso", "studentiPerAnno"),
-        fetchData("/voti/distribuzione", "distribuzioneVoti"),
-        fetchData("/confronti/area-geografica", "confrontoAree"),
-        fetchData("/confronti/regione", "confrontoRegioni"),
-        fetchData("/confronti/indirizzo", "confrontoIndirizzi"),
-        fetchData("/trend/temporale", "trendTemporale"),
-        fetchData("/analisi/outlier", "outliers")
+        recuperaDati("/generali", "generali"),
+        recuperaDati("/studenti/italiani-vs-stranieri", "cittadinanza"),
+        recuperaDati("/voti/numero-per-materia", "numeroVotiMateria"),
+        recuperaDati("/voti/media-per-materia", "mediaVotiMateria"),
+        recuperaDati("/classi/numero-per-annocorso", "classiPerAnno"),
+        recuperaDati("/studenti/numero-per-annocorso", "studentiPerAnno"),
+        recuperaDati("/voti/distribuzione", "distribuzioneVoti"),
+        recuperaDati("/confronti/area-geografica", "confrontoAree"),
+        recuperaDati("/confronti/regione", "confrontoRegioni"),
+        recuperaDati("/confronti/indirizzo", "confrontoIndirizzi"),
+        recuperaDati("/trend/temporale", "trendTemporale"),
+        recuperaDati("/analisi/outlier", "outliers")
       ]);
-      setLoading(false);
+      impostaCaricamento(false);
     };
     
-    loadAllData();
-  }, [filters]);
+    caricaTuttiIDati();
+  }, [filtri]);
 
-  const handleFiltersChange = (newFilters) => {
-    setFilters(newFilters);
+  // ===========================
+  // GESTIONE FILTRI
+  // ===========================
+  
+  const gestisciCambioFiltri = (nuoviFiltri) => {
+    impostaFiltri(nuoviFiltri);
   };
 
-  const handleResetFilters = () => {
-    setFilters({});
+  const resettaFiltri = () => {
+    impostaFiltri({});
   };
 
-  const exportToCSV = () => {
-    const csvData = [];
-    csvData.push(['Statistiche Generali']);
-    csvData.push(['Tipo', 'Valore']);
-    csvData.push(['Studenti', dati.generali?.studenti || 0]);
-    csvData.push(['Docenti', dati.generali?.docenti || 0]);
-    csvData.push(['Classi', dati.generali?.classi || 0]);
-    csvData.push(['Voti', dati.generali?.voti || 0]);
-    csvData.push(['Media Voti', dati.generali?.media_voti || 0]);
+  // ===========================
+  // ESPORTAZIONE DATI
+  // ===========================
+  
+  /**
+   * Esporto le statistiche generali in formato CSV.
+   * Creo un blob con i dati e forzo il download.
+   */
+  const esportaInCSV = () => {
+    const datiCSV = [];
+    datiCSV.push(['Statistiche Generali']);
+    datiCSV.push(['Tipo', 'Valore']);
+    datiCSV.push(['Studenti', dati.generali?.studenti || 0]);
+    datiCSV.push(['Docenti', dati.generali?.docenti || 0]);
+    datiCSV.push(['Classi', dati.generali?.classi || 0]);
+    datiCSV.push(['Voti', dati.generali?.voti || 0]);
+    datiCSV.push(['Media Voti', dati.generali?.media_voti || 0]);
     
-    const csvContent = csvData.map(row => row.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const contenutoCSV = datiCSV.map(riga => riga.join(',')).join('\n');
+    const blob = new Blob([contenutoCSV], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.setAttribute('href', url);
-    a.setAttribute('download', 'statistiche_registro.csv');
-    a.click();
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'statistiche_registro.csv');
+    link.click();
   };
 
-  const chartOptions = useMemo(() => ({
+  // ===========================
+  // CONFIGURAZIONE GRAFICI
+  // ===========================
+  
+  /**
+   * Configurazione comune per tutti i grafici Chart.js.
+   * Uso useMemo per evitare ricalcoli inutili.
+   */
+  const opzioniGrafici = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'bottom',
         labels: {
-          color: theme.text,
+          color: tema.text,
           padding: 16,
           font: {
             size: 12,
@@ -181,10 +273,10 @@ function StatisticheContent() {
         }
       },
       tooltip: {
-        backgroundColor: theme.cardBackground,
-        titleColor: theme.text,
-        bodyColor: theme.textSecondary,
-        borderColor: theme.border,
+        backgroundColor: tema.cardBackground,
+        titleColor: tema.text,
+        bodyColor: tema.textSecondary,
+        borderColor: tema.border,
         borderWidth: 1,
         padding: 12,
         cornerRadius: 8,
@@ -194,89 +286,103 @@ function StatisticheContent() {
     scales: {
       x: {
         ticks: { 
-          color: theme.textSecondary,
+          color: tema.textSecondary,
           font: { size: 11 }
         },
         grid: { 
-          color: theme.border,
+          color: tema.border,
           drawBorder: false
         }
       },
       y: {
         ticks: { 
-          color: theme.textSecondary,
+          color: tema.textSecondary,
           font: { size: 11 }
         },
         grid: { 
-          color: theme.border,
+          color: tema.border,
           drawBorder: false
         }
       }
     }
-  }), [theme]);
+  }), [tema]);
 
-  const statsData = [
+  // ===========================
+  // DATI STATISTICHE PRINCIPALI
+  // ===========================
+  
+  const datiStatistiche = [
     { 
       icon: School, 
       title: 'Studenti', 
       value: dati.generali?.studenti, 
-      color: theme.success
+      color: tema.success
     },
     { 
       icon: Users, 
       title: 'Docenti', 
       value: dati.generali?.docenti, 
-      color: theme.info
+      color: tema.info
     },
     { 
       icon: BookOpen, 
       title: 'Classi', 
       value: dati.generali?.classi, 
-      color: theme.warning
+      color: tema.warning
     },
     { 
       icon: Award, 
       title: 'Voti', 
       value: dati.generali?.voti, 
-      color: theme.secondary
+      color: tema.secondary
     },
     { 
       icon: TrendingUp, 
       title: 'Media Voti', 
       value: dati.generali?.media_voti, 
-      color: theme.danger
+      color: tema.danger
     }
   ];
 
-  const containerStyle = {
+  // ===========================
+  // STILI COMUNI
+  // ===========================
+  
+  const stileContenitore = {
     minHeight: '100vh',
-    backgroundColor: theme.background,
-    color: theme.text,
+    backgroundColor: tema.background,
+    color: tema.text,
     transition: 'all 0.3s ease',
     padding: '24px'
   };
 
-  const headerStyle = {
-    backgroundColor: theme.headerBackground,
+  const stileHeader = {
+    backgroundColor: tema.headerBackground,
     backdropFilter: 'blur(10px)',
     borderRadius: '16px',
     padding: '32px',
     marginBottom: '32px',
-    border: `1px solid ${theme.border}`,
-    boxShadow: theme.shadowMd
+    border: `1px solid ${tema.border}`,
+    boxShadow: tema.shadowMd
   };
 
-  const gridStyle = {
+  const stileGriglia = {
     display: 'grid',
-    gridTemplateColumns: viewMode === 'grid' ? 'repeat(auto-fit, minmax(350px, 1fr))' : '1fr',
+    gridTemplateColumns: modalitaVisualizzazione === 'grid' 
+      ? 'repeat(auto-fit, minmax(350px, 1fr))' 
+      : '1fr',
     gap: '24px',
     marginBottom: '32px'
   };
 
   return (
-    <div style={containerStyle}>
+    <div style={stileContenitore}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={headerStyle} className="animate-fadeIn glass">
+        {/* ===========================
+            HEADER PRINCIPALE
+            =========================== */}
+        
+        <div style={stileHeader} className="animate-fadeIn glass">
           <div style={{ 
             display: 'flex', 
             justifyContent: 'space-between', 
@@ -284,56 +390,68 @@ function StatisticheContent() {
             flexWrap: 'wrap',
             gap: '20px'
           }}>
+            {/* Titolo e descrizione */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <Activity size={40} style={{ color: theme.primary }} />
+              <Activity size={40} style={{ color: tema.primary }} />
               <div>
                 <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '4px' }}>
                   Statistiche Avanzate
                 </h1>
-                <p style={{ color: theme.textSecondary }}>
+                <p style={{ color: tema.textSecondary }}>
                   Analisi completa con filtri geografici e temporali
                 </p>
               </div>
             </div>
             
+            {/* Controlli header */}
             <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              {/* Pulsante esporta CSV */}
               <Button
                 variant="secondary"
                 size="sm"
                 icon={Download}
-                onClick={exportToCSV}
+                onClick={esportaInCSV}
               >
                 Esporta CSV
               </Button>
               
-              <div style={{ display: 'flex', gap: '4px', backgroundColor: theme.backgroundTertiary, borderRadius: '8px', padding: '4px' }}>
+              {/* Toggle modalità visualizzazione */}
+              <div style={{ 
+                display: 'flex', 
+                gap: '4px', 
+                backgroundColor: tema.backgroundTertiary, 
+                borderRadius: '8px', 
+                padding: '4px' 
+              }}>
                 <Button
-                  variant={viewMode === 'grid' ? 'primary' : 'ghost'}
+                  variant={modalitaVisualizzazione === 'grid' ? 'primary' : 'ghost'}
                   size="sm"
                   icon={Grid3x3}
-                  onClick={() => setViewMode('grid')}
+                  onClick={() => impostaModalitaVisualizzazione('grid')}
                 >
                   Griglia
                 </Button>
                 <Button
-                  variant={viewMode === 'list' ? 'primary' : 'ghost'}
+                  variant={modalitaVisualizzazione === 'list' ? 'primary' : 'ghost'}
                   size="sm"
                   icon={List}
-                  onClick={() => setViewMode('list')}
+                  onClick={() => impostaModalitaVisualizzazione('list')}
                 >
                   Lista
                 </Button>
               </div>
               
+              {/* Toggle tema */}
               <Button
                 variant="secondary"
                 size="sm"
-                icon={isDark ? Sun : Moon}
-                onClick={toggleTheme}
+                icon={temaScuro ? Sun : Moon}
+                onClick={alternaTema}
               >
-                {isDark ? 'Light' : 'Dark'}
+                {temaScuro ? 'Light' : 'Dark'}
               </Button>
               
+              {/* Link home */}
               <Button
                 variant="primary"
                 size="sm"
@@ -346,25 +464,38 @@ function StatisticheContent() {
           </div>
         </div>
 
+        {/* ===========================
+            PANNELLO FILTRI
+            =========================== */}
+        
         <FilterPanel 
-          filters={filters}
-          onFiltersChange={handleFiltersChange}
-          onReset={handleResetFilters}
+          filters={filtri}
+          onFiltersChange={gestisciCambioFiltri}
+          onReset={resettaFiltri}
         />
 
-        {loading && <LoadingBar />}
+        {/* Barra di caricamento */}
+        {caricamento && <LoadingBar />}
 
+        {/* ===========================
+            KPI PRINCIPALI
+            =========================== */}
+        
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '16px',
           marginBottom: '32px'
         }}>
-          {statsData.map((stat, index) => (
-            <StatsCard key={stat.title} {...stat} delay={index} />
+          {datiStatistiche.map((stat, indice) => (
+            <StatsCard key={stat.title} {...stat} delay={indice} />
           ))}
         </div>
 
+        {/* ===========================
+            CONFRONTI GEOGRAFICI
+            =========================== */}
+        
         <div style={{ marginBottom: '48px' }}>
           <h2 style={{ 
             fontSize: '24px', 
@@ -374,16 +505,17 @@ function StatisticheContent() {
             alignItems: 'center',
             gap: '12px'
           }}>
-            <Map size={28} style={{ color: theme.primary }} />
+            <Map size={28} style={{ color: tema.primary }} />
             Confronti Geografici
           </h2>
 
-          <div style={gridStyle}>
+          <div style={stileGriglia}>
+            {/* Performance per Area Geografica */}
             <Accordion
               title="Performance per Area Geografica"
               icon={Globe}
-              expanded={expandedPanels.confrontoAree}
-              onToggle={() => togglePanel('confrontoAree')}
+              expanded={pannelliEspansi.confrontoAree}
+              onToggle={() => alternaPannello('confrontoAree')}
               delay={0}
             >
               <div style={{ height: '300px' }}>
@@ -397,15 +529,15 @@ function StatisticheContent() {
                           data: dati.confrontoAree.map(item => parseFloat(item.media_voti)),
                           backgroundColor: dati.confrontoAree.map(item => {
                             const media = parseFloat(item.media_voti);
-                            if (media >= 7) return theme.success;
-                            if (media >= 6) return theme.info;
-                            return theme.danger;
+                            if (media >= 7) return tema.success;
+                            if (media >= 6) return tema.info;
+                            return tema.danger;
                           }),
                           borderColor: dati.confrontoAree.map(item => {
                             const media = parseFloat(item.media_voti);
-                            if (media >= 7) return theme.successHover;
-                            if (media >= 6) return theme.infoHover;
-                            return theme.dangerHover;
+                            if (media >= 7) return tema.successHover;
+                            if (media >= 6) return tema.infoHover;
+                            return tema.dangerHover;
                           }),
                           borderWidth: 2,
                           borderRadius: 8
@@ -413,23 +545,11 @@ function StatisticheContent() {
                       ]
                     }}
                     options={{
-                      ...chartOptions,
-                      plugins: {
-                        ...chartOptions.plugins,
-                        datalabels: {
-                          anchor: 'end',
-                          align: 'top',
-                          formatter: (value) => value.toFixed(2),
-                          color: theme.text,
-                          font: {
-                            weight: 'bold'
-                          }
-                        }
-                      },
+                      ...opzioniGrafici,
                       scales: {
-                        ...chartOptions.scales,
+                        ...opzioniGrafici.scales,
                         y: {
-                          ...chartOptions.scales.y,
+                          ...opzioniGrafici.scales.y,
                           beginAtZero: true,
                           max: 10
                         }
@@ -441,11 +561,12 @@ function StatisticheContent() {
                 )}
               </div>
               
+              {/* Tabella dettagli aree */}
               {dati.confrontoAree && (
                 <div style={{ marginTop: '20px' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
-                      <tr style={{ borderBottom: `2px solid ${theme.border}` }}>
+                      <tr style={{ borderBottom: `2px solid ${tema.border}` }}>
                         <th style={{ textAlign: 'left', padding: '8px' }}>Area</th>
                         <th style={{ textAlign: 'right', padding: '8px' }}>Media</th>
                         <th style={{ textAlign: 'right', padding: '8px' }}>Studenti</th>
@@ -454,7 +575,7 @@ function StatisticheContent() {
                     </thead>
                     <tbody>
                       {dati.confrontoAree.map((area, idx) => (
-                        <tr key={idx} style={{ borderBottom: `1px solid ${theme.border}` }}>
+                        <tr key={idx} style={{ borderBottom: `1px solid ${tema.border}` }}>
                           <td style={{ padding: '8px' }}>{area.area}</td>
                           <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold' }}>
                             {area.media_voti}
@@ -473,11 +594,12 @@ function StatisticheContent() {
               )}
             </Accordion>
 
+            {/* Performance per Regione */}
             <Accordion
               title="Performance per Regione"
               icon={Flag}
-              expanded={expandedPanels.confrontoRegioni}
-              onToggle={() => togglePanel('confrontoRegioni')}
+              expanded={pannelliEspansi.confrontoRegioni}
+              onToggle={() => alternaPannello('confrontoRegioni')}
               delay={1}
             >
               <div style={{ height: '600px' }}>
@@ -489,20 +611,20 @@ function StatisticheContent() {
                         {
                           label: 'Media Voti',
                           data: dati.confrontoRegioni.slice(0, 15).map(item => parseFloat(item.media_voti)),
-                          backgroundColor: theme.primary,
-                          borderColor: theme.primaryHover,
+                          backgroundColor: tema.primary,
+                          borderColor: tema.primaryHover,
                           borderWidth: 2,
                           borderRadius: 8
                         }
                       ]
                     }}
                     options={{
-                      ...chartOptions,
+                      ...opzioniGrafici,
                       indexAxis: 'y',
                       scales: {
-                        ...chartOptions.scales,
+                        ...opzioniGrafici.scales,
                         x: {
-                          ...chartOptions.scales.x,
+                          ...opzioniGrafici.scales.x,
                           beginAtZero: false,
                           min: 5,
                           max: 7
@@ -516,16 +638,18 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
+            {/* Performance per Indirizzo di Studio */}
             <Accordion
               title="Performance per Indirizzo di Studio"
               icon={School}
-              expanded={expandedPanels.confrontoIndirizzi}
-              onToggle={() => togglePanel('confrontoIndirizzi')}
+              expanded={pannelliEspansi.confrontoIndirizzi}
+              onToggle={() => alternaPannello('confrontoIndirizzi')}
               delay={2}
             >
               <div style={{ height: '600px', marginLeft: '-20px', marginRight: '-20px' }}>
                 {dati.confrontoIndirizzi ? (
                   (() => {
+                    // Prendo i top 10 indirizzi per media
                     const top10 = [...dati.confrontoIndirizzi]
                       .sort((a, b) => parseFloat(b.media_voti) - parseFloat(a.media_voti))
                       .slice(0, 10);
@@ -537,19 +661,19 @@ function StatisticheContent() {
                           datasets: [{
                             label: 'Media Voti',
                             data: top10.map(item => parseFloat(item.media_voti)),
-                            backgroundColor: theme.primary,
-                            borderColor: theme.primaryHover,
+                            backgroundColor: tema.primary,
+                            borderColor: tema.primaryHover,
                             borderWidth: 2,
                             borderRadius: 8
                           }]
                         }}
                         options={{
-                          ...chartOptions,
-                          indexAxis: 'y',       
+                          ...opzioniGrafici,
+                          indexAxis: 'y',
                           scales: {
-                            ...chartOptions.scales,
+                            ...opzioniGrafici.scales,
                             x: {
-                              ...chartOptions.scales.x,
+                              ...opzioniGrafici.scales.x,
                               beginAtZero: false,
                               min: 5,
                               max: 8
@@ -567,6 +691,10 @@ function StatisticheContent() {
           </div>
         </div>
 
+        {/* ===========================
+            ANALISI TEMPORALI E OUTLIER
+            =========================== */}
+        
         <div style={{ marginBottom: '48px' }}>
           <h2 style={{ 
             fontSize: '24px', 
@@ -576,16 +704,17 @@ function StatisticheContent() {
             alignItems: 'center',
             gap: '12px'
           }}>
-            <Activity size={28} style={{ color: theme.primary }} />
+            <Activity size={28} style={{ color: tema.primary }} />
             Analisi Temporali e Outlier
           </h2>
 
-          <div style={gridStyle}>
+          <div style={stileGriglia}>
+            {/* Andamento Temporale */}
             <Accordion
               title="Andamento Temporale (Quadrimestri)"
               icon={Calendar}
-              expanded={expandedPanels.trendTemporale}
-              onToggle={() => togglePanel('trendTemporale')}
+              expanded={pannelliEspansi.trendTemporale}
+              onToggle={() => alternaPannello('trendTemporale')}
               delay={0}
             >
               <div style={{ height: '300px' }}>
@@ -600,19 +729,19 @@ function StatisticheContent() {
                             parseFloat(dati.trendTemporale.primoQuadrimestre.media),
                             parseFloat(dati.trendTemporale.secondoQuadrimestre.media)
                           ],
-                          backgroundColor: [theme.info, theme.success],
-                          borderColor: [theme.infoHover, theme.successHover],
+                          backgroundColor: [tema.info, tema.success],
+                          borderColor: [tema.infoHover, tema.successHover],
                           borderWidth: 2,
                           borderRadius: 8
                         }
                       ]
                     }}
                     options={{
-                      ...chartOptions,
+                      ...opzioniGrafici,
                       scales: {
-                        ...chartOptions.scales,
+                        ...opzioniGrafici.scales,
                         y: {
-                          ...chartOptions.scales.y,
+                          ...opzioniGrafici.scales.y,
                           beginAtZero: true,
                           max: 10
                         }
@@ -624,6 +753,7 @@ function StatisticheContent() {
                 )}
               </div>
 
+              {/* Dettagli quadrimestri */}
               {dati.trendTemporale && (
                 <div style={{ 
                   marginTop: '20px', 
@@ -633,31 +763,31 @@ function StatisticheContent() {
                 }}>
                   <div style={{
                     padding: '16px',
-                    backgroundColor: theme.backgroundTertiary,
+                    backgroundColor: tema.backgroundTertiary,
                     borderRadius: '8px'
                   }}>
-                    <h4 style={{ fontSize: '14px', color: theme.textSecondary, marginBottom: '8px' }}>
+                    <h4 style={{ fontSize: '14px', color: tema.textSecondary, marginBottom: '8px' }}>
                       Primo Quadrimestre
                     </h4>
-                    <p style={{ fontSize: '24px', fontWeight: 'bold', color: theme.info }}>
+                    <p style={{ fontSize: '24px', fontWeight: 'bold', color: tema.info }}>
                       {dati.trendTemporale.primoQuadrimestre.media}
                     </p>
-                    <p style={{ fontSize: '12px', color: theme.textSecondary }}>
+                    <p style={{ fontSize: '12px', color: tema.textSecondary }}>
                       {dati.trendTemporale.primoQuadrimestre.numeroVoti.toLocaleString()} voti
                     </p>
                   </div>
                   <div style={{
                     padding: '16px',
-                    backgroundColor: theme.backgroundTertiary,
+                    backgroundColor: tema.backgroundTertiary,
                     borderRadius: '8px'
                   }}>
-                    <h4 style={{ fontSize: '14px', color: theme.textSecondary, marginBottom: '8px' }}>
+                    <h4 style={{ fontSize: '14px', color: tema.textSecondary, marginBottom: '8px' }}>
                       Secondo Quadrimestre
                     </h4>
-                    <p style={{ fontSize: '24px', fontWeight: 'bold', color: theme.success }}>
+                    <p style={{ fontSize: '24px', fontWeight: 'bold', color: tema.success }}>
                       {dati.trendTemporale.secondoQuadrimestre.media}
                     </p>
-                    <p style={{ fontSize: '12px', color: theme.textSecondary }}>
+                    <p style={{ fontSize: '12px', color: tema.textSecondary }}>
                       {dati.trendTemporale.secondoQuadrimestre.numeroVoti.toLocaleString()} voti
                     </p>
                   </div>
@@ -665,48 +795,51 @@ function StatisticheContent() {
               )}
             </Accordion>
 
+            {/* Classi Outlier */}
             <Accordion
               title="Classi con Performance Anomale"
               icon={AlertTriangle}
-              expanded={expandedPanels.outliers}
-              onToggle={() => togglePanel('outliers')}
+              expanded={pannelliEspansi.outliers}
+              onToggle={() => alternaPannello('outliers')}
               delay={1}
             >
               {dati.outliers && (
                 <div>
+                  {/* Media generale */}
                   <div style={{ 
                     padding: '16px',
-                    backgroundColor: theme.backgroundTertiary,
+                    backgroundColor: tema.backgroundTertiary,
                     borderRadius: '8px',
                     marginBottom: '20px'
                   }}>
-                    <p style={{ fontSize: '14px', color: theme.textSecondary }}>
+                    <p style={{ fontSize: '14px', color: tema.textSecondary }}>
                       Media generale di istituto
                     </p>
-                    <p style={{ fontSize: '28px', fontWeight: 'bold', color: theme.primary }}>
+                    <p style={{ fontSize: '28px', fontWeight: 'bold', color: tema.primary }}>
                       {dati.outliers.media_generale}
                     </p>
                   </div>
 
+                  {/* Lista outlier */}
                   <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     {dati.outliers.outliers.length > 0 ? (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         {dati.outliers.outliers.map((outlier, idx) => (
                           <div key={idx} style={{
                             padding: '16px',
-                            backgroundColor: theme.backgroundSecondary,
+                            backgroundColor: tema.backgroundSecondary,
                             borderRadius: '8px',
-                            border: `1px solid ${outlier.tipo === 'sopra_media' ? theme.success : theme.danger}`
+                            border: `1px solid ${outlier.tipo === 'sopra_media' ? tema.success : tema.danger}`
                           }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                               <div>
                                 <h4 style={{ fontSize: '16px', fontWeight: '600' }}>
                                   {outlier.classe}
                                 </h4>
-                                <p style={{ fontSize: '14px', color: theme.textSecondary }}>
+                                <p style={{ fontSize: '14px', color: tema.textSecondary }}>
                                   {outlier.indirizzo}
                                 </p>
-                                <p style={{ fontSize: '12px', color: theme.textSecondary, marginTop: '4px' }}>
+                                <p style={{ fontSize: '12px', color: tema.textSecondary, marginTop: '4px' }}>
                                   {outlier.numero_studenti} studenti • {outlier.numero_voti} voti
                                 </p>
                               </div>
@@ -714,13 +847,13 @@ function StatisticheContent() {
                                 <p style={{ 
                                   fontSize: '20px', 
                                   fontWeight: 'bold',
-                                  color: outlier.tipo === 'sopra_media' ? theme.success : theme.danger
+                                  color: outlier.tipo === 'sopra_media' ? tema.success : tema.danger
                                 }}>
                                   {outlier.media_classe}
                                 </p>
                                 <p style={{ 
                                   fontSize: '14px',
-                                  color: outlier.tipo === 'sopra_media' ? theme.success : theme.danger
+                                  color: outlier.tipo === 'sopra_media' ? tema.success : tema.danger
                                 }}>
                                   {outlier.tipo === 'sopra_media' ? '+' : ''}{outlier.scostamento}
                                 </p>
@@ -730,7 +863,7 @@ function StatisticheContent() {
                         ))}
                       </div>
                     ) : (
-                      <p style={{ textAlign: 'center', color: theme.textSecondary }}>
+                      <p style={{ textAlign: 'center', color: tema.textSecondary }}>
                         Nessuna classe con performance anomala rilevata
                       </p>
                     )}
@@ -741,6 +874,10 @@ function StatisticheContent() {
           </div>
         </div>
 
+        {/* ===========================
+            STATISTICHE DETTAGLIATE
+            =========================== */}
+        
         <div style={{ marginBottom: '48px' }}>
           <h2 style={{ 
             fontSize: '24px', 
@@ -750,16 +887,17 @@ function StatisticheContent() {
             alignItems: 'center',
             gap: '12px'
           }}>
-            <PieChart size={28} style={{ color: theme.primary }} />
+            <PieChart size={28} style={{ color: tema.primary }} />
             Statistiche Dettagliate
           </h2>
 
-          <div style={gridStyle}>
+          <div style={stileGriglia}>
+            {/* Distribuzione Studenti per Cittadinanza */}
             <Accordion
               title="Distribuzione Studenti"
               icon={Globe}
-              expanded={expandedPanels.cittadinanza}
-              onToggle={() => togglePanel('cittadinanza')}
+              expanded={pannelliEspansi.cittadinanza}
+              onToggle={() => alternaPannello('cittadinanza')}
               delay={0}
             >
               <div style={{ height: '300px' }}>
@@ -769,18 +907,18 @@ function StatisticheContent() {
                       labels: ['Italiani', 'Non Italiani'],
                       datasets: [{
                         data: [dati.cittadinanza.italiani, dati.cittadinanza.stranieri],
-                        backgroundColor: [theme.info, theme.warning],
-                        borderColor: [theme.infoHover, theme.warningHover],
+                        backgroundColor: [tema.info, tema.warning],
+                        borderColor: [tema.infoHover, tema.warningHover],
                         borderWidth: 2,
                         hoverOffset: 4
                       }]
                     }}
                     options={{
-                      ...chartOptions,
+                      ...opzioniGrafici,
                       plugins: {
-                        ...chartOptions.plugins,
+                        ...opzioniGrafici.plugins,
                         legend: {
-                          ...chartOptions.plugins.legend,
+                          ...opzioniGrafici.plugins.legend,
                           position: 'bottom'
                         }
                       }
@@ -792,11 +930,12 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
+            {/* Numero Voti per Materia */}
             <Accordion
               title="Numero Voti per Materia"
               icon={BarChart3}
-              expanded={expandedPanels.numeroVotiMateria}
-              onToggle={() => togglePanel('numeroVotiMateria')}
+              expanded={pannelliEspansi.numeroVotiMateria}
+              onToggle={() => alternaPannello('numeroVotiMateria')}
               delay={1}
             >
               <div style={{ height: '300px' }}>
@@ -807,13 +946,13 @@ function StatisticheContent() {
                       datasets: [{
                         label: 'Numero voti',
                         data: dati.numeroVotiMateria.map(item => item.numero_voti),
-                        backgroundColor: theme.success,
-                        borderColor: theme.successHover,
+                        backgroundColor: tema.success,
+                        borderColor: tema.successHover,
                         borderWidth: 2,
                         borderRadius: 8
                       }]
                     }}
-                    options={chartOptions}
+                    options={opzioniGrafici}
                   />
                 ) : (
                   <Skeleton width="100%" height="100%" />
@@ -821,11 +960,12 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
+            {/* Media Voti per Materia */}
             <Accordion
               title="Media Voti per Materia"
               icon={TrendingUp}
-              expanded={expandedPanels.mediaVotiMateria}
-              onToggle={() => togglePanel('mediaVotiMateria')}
+              expanded={pannelliEspansi.mediaVotiMateria}
+              onToggle={() => alternaPannello('mediaVotiMateria')}
               delay={2}
             >
               <div style={{ height: '300px' }}>
@@ -836,18 +976,18 @@ function StatisticheContent() {
                       datasets: [{
                         label: 'Media',
                         data: dati.mediaVotiMateria.map(item => parseFloat(item.media.toFixed(2))),
-                        backgroundColor: theme.primary,
-                        borderColor: theme.primaryHover,
+                        backgroundColor: tema.primary,
+                        borderColor: tema.primaryHover,
                         borderWidth: 2,
                         borderRadius: 8
                       }]
                     }}
                     options={{
-                      ...chartOptions,
+                      ...opzioniGrafici,
                       scales: {
-                        ...chartOptions.scales,
+                        ...opzioniGrafici.scales,
                         y: {
-                          ...chartOptions.scales.y,
+                          ...opzioniGrafici.scales.y,
                           beginAtZero: true,
                           max: 10
                         }
@@ -860,11 +1000,12 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
+            {/* Classi per Anno di Corso */}
             <Accordion
               title="Classi per Anno di Corso"
               icon={School}
-              expanded={expandedPanels.classiPerAnno}
-              onToggle={() => togglePanel('classiPerAnno')}
+              expanded={pannelliEspansi.classiPerAnno}
+              onToggle={() => alternaPannello('classiPerAnno')}
               delay={3}
             >
               <div style={{ height: '300px' }}>
@@ -875,11 +1016,11 @@ function StatisticheContent() {
                       datasets: [{
                         label: 'Numero classi',
                         data: dati.classiPerAnno.map(item => item.numero_classi),
-                        borderColor: theme.secondary,
-                        backgroundColor: `${theme.secondary}20`,
+                        borderColor: tema.secondary,
+                        backgroundColor: `${tema.secondary}20`,
                         borderWidth: 3,
-                        pointBackgroundColor: theme.secondary,
-                        pointBorderColor: theme.cardBackground,
+                        pointBackgroundColor: tema.secondary,
+                        pointBorderColor: tema.cardBackground,
                         pointBorderWidth: 2,
                         pointRadius: 6,
                         pointHoverRadius: 8,
@@ -887,7 +1028,7 @@ function StatisticheContent() {
                         fill: true
                       }]
                     }}
-                    options={chartOptions}
+                    options={opzioniGrafici}
                   />
                 ) : (
                   <Skeleton width="100%" height="100%" />
@@ -895,11 +1036,12 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
+            {/* Studenti per Anno di Corso */}
             <Accordion
               title="Studenti per Anno di Corso"
               icon={Users}
-              expanded={expandedPanels.studentiPerAnno}
-              onToggle={() => togglePanel('studentiPerAnno')}
+              expanded={pannelliEspansi.studentiPerAnno}
+              onToggle={() => alternaPannello('studentiPerAnno')}
               delay={4}
             >
               <div style={{ height: '300px' }}>
@@ -910,13 +1052,13 @@ function StatisticheContent() {
                       datasets: [{
                         label: 'Numero studenti',
                         data: dati.studentiPerAnno.map(item => item.numero_studenti),
-                        backgroundColor: theme.warning,
-                        borderColor: theme.warningHover,
+                        backgroundColor: tema.warning,
+                        borderColor: tema.warningHover,
                         borderWidth: 2,
                         borderRadius: 8
                       }]
                     }}
-                    options={chartOptions}
+                    options={opzioniGrafici}
                   />
                 ) : (
                   <Skeleton width="100%" height="100%" />
@@ -924,11 +1066,12 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
+            {/* Distribuzione dei Voti */}
             <Accordion
               title="Distribuzione dei Voti"
               icon={Award}
-              expanded={expandedPanels.distribuzioneVoti}
-              onToggle={() => togglePanel('distribuzioneVoti')}
+              expanded={pannelliEspansi.distribuzioneVoti}
+              onToggle={() => alternaPannello('distribuzioneVoti')}
               delay={5}
             >
               <div style={{ height: '300px' }}>
@@ -941,21 +1084,21 @@ function StatisticheContent() {
                         data: dati.distribuzioneVoti.map(item => item.count),
                         backgroundColor: dati.distribuzioneVoti.map(item => {
                           const voto = item.voto;
-                          if (voto >= 8) return theme.success;
-                          if (voto >= 6) return theme.info;
-                          return theme.danger;
+                          if (voto >= 8) return tema.success;
+                          if (voto >= 6) return tema.info;
+                          return tema.danger;
                         }),
                         borderColor: dati.distribuzioneVoti.map(item => {
                           const voto = item.voto;
-                          if (voto >= 8) return theme.successHover;
-                          if (voto >= 6) return theme.infoHover;
-                          return theme.dangerHover;
+                          if (voto >= 8) return tema.successHover;
+                          if (voto >= 6) return tema.infoHover;
+                          return tema.dangerHover;
                         }),
                         borderWidth: 2,
                         borderRadius: 8
                       }]
                     }}
-                    options={chartOptions}
+                    options={opzioniGrafici}
                   />
                 ) : (
                   <Skeleton width="100%" height="100%" />
@@ -965,6 +1108,10 @@ function StatisticheContent() {
           </div>
         </div>
 
+        {/* ===========================
+            RIEPILOGO PERFORMANCE
+            =========================== */}
+        
         <div style={{ marginTop: '48px' }}>
           <h2 style={{ 
             fontSize: '24px', 
@@ -974,7 +1121,7 @@ function StatisticheContent() {
             alignItems: 'center',
             gap: '12px'
           }}>
-            <PieChart size={28} style={{ color: theme.primary }} />
+            <PieChart size={28} style={{ color: tema.primary }} />
             Riepilogo Performance
           </h2>
 
@@ -983,37 +1130,40 @@ function StatisticheContent() {
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             gap: '24px'
           }}>
+            {/* Card Performance Generale */}
             <Card hoverable>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: '600' }}>Performance Generale</h3>
-                <Activity size={24} style={{ color: theme.primary }} />
+                <Activity size={24} style={{ color: tema.primary }} />
               </div>
               
               {dati.generali && (
                 <div>
+                  {/* Barra progresso media voti */}
                   <div style={{ marginBottom: '16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                      <span style={{ color: theme.textSecondary }}>Media Voti</span>
-                      <span style={{ fontWeight: 'bold', color: getVotoColor(dati.generali.media_voti, theme) }}>
+                      <span style={{ color: tema.textSecondary }}>Media Voti</span>
+                      <span style={{ fontWeight: 'bold', color: ottieniColoreVoto(dati.generali.media_voti, tema) }}>
                         {dati.generali.media_voti}
                       </span>
                     </div>
                     <div style={{
                       width: '100%',
                       height: '8px',
-                      backgroundColor: theme.backgroundTertiary,
+                      backgroundColor: tema.backgroundTertiary,
                       borderRadius: '4px',
                       overflow: 'hidden'
                     }}>
                       <div style={{
                         width: `${(dati.generali.media_voti / 10) * 100}%`,
                         height: '100%',
-                        backgroundColor: getVotoColor(dati.generali.media_voti, theme),
+                        backgroundColor: ottieniColoreVoto(dati.generali.media_voti, tema),
                         transition: 'width 1s ease'
                       }} />
                     </div>
                   </div>
 
+                  {/* Rapporti chiave */}
                   <div style={{ 
                     display: 'grid', 
                     gridTemplateColumns: '1fr 1fr',
@@ -1022,11 +1172,11 @@ function StatisticheContent() {
                   }}>
                     <div style={{ 
                       padding: '12px',
-                      backgroundColor: theme.backgroundTertiary,
+                      backgroundColor: tema.backgroundTertiary,
                       borderRadius: '8px',
                       textAlign: 'center'
                     }}>
-                      <p style={{ color: theme.textSecondary, fontSize: '12px', marginBottom: '4px' }}>
+                      <p style={{ color: tema.textSecondary, fontSize: '12px', marginBottom: '4px' }}>
                         Rapporto Studenti/Docenti
                       </p>
                       <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
@@ -1035,11 +1185,11 @@ function StatisticheContent() {
                     </div>
                     <div style={{ 
                       padding: '12px',
-                      backgroundColor: theme.backgroundTertiary,
+                      backgroundColor: tema.backgroundTertiary,
                       borderRadius: '8px',
                       textAlign: 'center'
                     }}>
-                      <p style={{ color: theme.textSecondary, fontSize: '12px', marginBottom: '4px' }}>
+                      <p style={{ color: tema.textSecondary, fontSize: '12px', marginBottom: '4px' }}>
                         Media Studenti/Classe
                       </p>
                       <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
@@ -1051,10 +1201,11 @@ function StatisticheContent() {
               )}
             </Card>
 
+            {/* Card Top Materie */}
             <Card hoverable>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: '600' }}>Top Materie per Media</h3>
-                <TrendingUp size={24} style={{ color: theme.success }} />
+                <TrendingUp size={24} style={{ color: tema.success }} />
               </div>
               
               {dati.mediaVotiMateria && (
@@ -1062,13 +1213,13 @@ function StatisticheContent() {
                   {dati.mediaVotiMateria
                     .sort((a, b) => b.media - a.media)
                     .slice(0, 5)
-                    .map((item, index) => (
+                    .map((item, indice) => (
                       <div key={item.materia} style={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '12px',
                         padding: '8px',
-                        backgroundColor: theme.backgroundTertiary,
+                        backgroundColor: tema.backgroundTertiary,
                         borderRadius: '8px',
                         transition: 'all 0.2s ease'
                       }}>
@@ -1076,7 +1227,7 @@ function StatisticheContent() {
                           width: '32px',
                           height: '32px',
                           borderRadius: '50%',
-                          backgroundColor: index === 0 ? theme.warning : theme.primary,
+                          backgroundColor: indice === 0 ? tema.warning : tema.primary,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -1084,13 +1235,13 @@ function StatisticheContent() {
                           fontWeight: 'bold',
                           fontSize: '14px'
                         }}>
-                          {index + 1}
+                          {indice + 1}
                         </div>
                         <div style={{ flex: 1 }}>
                           <p style={{ fontWeight: '500' }}>{item.materia}</p>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                          <p style={{ fontWeight: 'bold', color: getVotoColor(item.media, theme) }}>
+                          <p style={{ fontWeight: 'bold', color: ottieniColoreVoto(item.media, tema) }}>
                             {item.media.toFixed(2)}
                           </p>
                         </div>
@@ -1100,33 +1251,34 @@ function StatisticheContent() {
               )}
             </Card>
 
+            {/* Card Filtri Attivi */}
             <Card hoverable>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: '600' }}>Filtri Attivi</h3>
-                <MapPin size={24} style={{ color: theme.secondary }} />
+                <MapPin size={24} style={{ color: tema.secondary }} />
               </div>
               
-              {Object.keys(filters).length > 0 ? (
+              {Object.keys(filtri).length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {Object.entries(filters).map(([key, value]) => (
-                    <div key={key} style={{
+                  {Object.entries(filtri).map(([chiave, valore]) => (
+                    <div key={chiave} style={{
                       display: 'flex',
                       justifyContent: 'space-between',
                       padding: '8px',
-                      backgroundColor: theme.backgroundTertiary,
+                      backgroundColor: tema.backgroundTertiary,
                       borderRadius: '6px'
                     }}>
-                      <span style={{ color: theme.textSecondary, fontSize: '14px' }}>
-                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                      <span style={{ color: tema.textSecondary, fontSize: '14px' }}>
+                        {chiave.charAt(0).toUpperCase() + chiave.slice(1)}
                       </span>
                       <span style={{ fontWeight: '500', fontSize: '14px' }}>
-                        {value}
+                        {valore}
                       </span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p style={{ color: theme.textSecondary, textAlign: 'center', padding: '20px' }}>
+                <p style={{ color: tema.textSecondary, textAlign: 'center', padding: '20px' }}>
                   Nessun filtro attivo
                 </p>
               )}
@@ -1138,16 +1290,27 @@ function StatisticheContent() {
   );
 }
 
-function getVotoColor(voto, theme) {
-  if (voto >= 8) return theme.success;
-  if (voto >= 6) return theme.info;
-  return theme.danger;
+/**
+ * Funzione utility per ottenere il colore in base al voto.
+ * 
+ * @param {number} voto - Voto numerico
+ * @param {Object} tema - Oggetto tema
+ * @returns {string} Colore appropriato
+ */
+function ottieniColoreVoto(voto, tema) {
+  if (voto >= 8) return tema.success;
+  if (voto >= 6) return tema.info;
+  return tema.danger;
 }
 
-export default function Statistiche() {
+/**
+ * Componente principale con Provider.
+ * Wrappa il contenuto con AppProvider per fornire il context.
+ */
+export default function PaginaStatistiche() {
   return (
     <AppProvider>
-      <StatisticheContent />
+      <ContenutoStatistiche />
     </AppProvider>
   );
 }

@@ -1,29 +1,69 @@
+/**
+ * COMPONENTE LISTA VOTI
+ * 
+ * Visualizzo e gestisco la lista dei voti di uno studente.
+ * Supporto modifica inline e eliminazione dei voti con
+ * conferma. I voti sono raggruppati per materia e ordinati
+ * per data decrescente.
+ * 
+ * Ogni voto mostra: valore, tipologia (scritto/orale/pratico)
+ * e data. Al passaggio del mouse appaiono i controlli per
+ * modifica ed eliminazione.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import { useApp } from '../../context/AppContext';
 import { useState } from 'react';
 
 import Alert from '../../components/ui/registro/Alert_Registro';
-
 import { Edit2, Trash2, X, Check } from 'lucide-react';
 
-const VotiList = ({ voti, onUpdate }) => {
-  const { currentTheme, user, setLoading, setError } = useApp();
-  const [editingVotoId, setEditingVotoId] = useState(null);
+/**
+ * Lista voti con funzionalità di modifica ed eliminazione.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {Array} props.voti - Array dei voti da visualizzare
+ * @param {Function} props.onUpdate - Callback per aggiornare la lista
+ */
+const ListaVoti = ({ voti, onUpdate: alAggiornamento }) => {
+  // ===========================
+  // HOOKS E STATO
+  // ===========================
+  
+  const { temaCorrente, utente, impostaCaricamento, impostaErrore } = useApp();
+  const [idVotoInModifica, impostaIdVotoInModifica] = useState(null);
 
-
-  const getVotoColor = (v) => {
-    if (v >= 8) return currentTheme.success;
-    if (v >= 6) return currentTheme.primary;
-    return currentTheme.danger;
+  // ===========================
+  // FUNZIONI UTILITY
+  // ===========================
+  
+  /**
+   * Determino il colore del voto in base al valore.
+   * Verde per voti alti, blu per sufficienti, rosso per insufficienti.
+   */
+  const ottieniColoreVoto = (valore) => {
+    if (valore >= 8) return temaCorrente.success;
+    if (valore >= 6) return temaCorrente.primary;
+    return temaCorrente.danger;
   };
 
-  const normalizzaTipologia = (t) => {
-    if (!t) return 'N/D';
-    const up = t.toUpperCase();
-    if (['SCRITTO', 'ORALE', 'PRATICO'].includes(up)) return up;
+  /**
+   * Normalizzo la tipologia del voto per uniformità.
+   * Accetto solo SCRITTO, ORALE, PRATICO.
+   */
+  const normalizzaTipologia = (tipologia) => {
+    if (!tipologia) return 'N/D';
+    const maiuscolo = tipologia.toUpperCase();
+    if (['SCRITTO', 'ORALE', 'PRATICO'].includes(maiuscolo)) return maiuscolo;
     return 'N/D';
   };
 
-  const getTipologiaStyle = (tipologia) => {
+  /**
+   * Stili per il badge della tipologia.
+   * Ogni tipologia ha colori distintivi.
+   */
+  const ottieniStileTipologia = (tipologia) => {
     const base = {
       display: 'inline-block',
       padding: '2px 8px',
@@ -32,40 +72,48 @@ const VotiList = ({ voti, onUpdate }) => {
       fontWeight: 600,
       letterSpacing: '0.5px',
       textTransform: 'uppercase',
-      background: currentTheme.border,
-      color: currentTheme.textSecondary,
+      background: temaCorrente.border,
+      color: temaCorrente.textSecondary,
       lineHeight: 1.4
     };
 
     switch (tipologia) {
       case 'SCRITTO':
-        return { ...base, background: currentTheme.primaryLight, color: currentTheme.primary };
+        return { ...base, background: temaCorrente.primaryLight, color: temaCorrente.primary };
       case 'ORALE':
-        return { ...base, background: currentTheme.infoLight || '#e0f2ff', color: currentTheme.info || '#0b6ea8' };
+        return { ...base, background: temaCorrente.infoLight || '#e0f2ff', color: temaCorrente.info || '#0b6ea8' };
       case 'PRATICO':
-        return { ...base, background: currentTheme.warningLight, color: currentTheme.warning };
+        return { ...base, background: temaCorrente.warningLight, color: temaCorrente.warning };
       default:
         return base;
     }
   };
 
+  // ===========================
+  // GESTIONE MODIFICA
+  // ===========================
+  
+  /**
+   * Salvo le modifiche di un voto tramite API.
+   * Valido i dati prima dell'invio.
+   */
+  const gestisciSalvataggioModifica = async (votoOriginale, valoriForm) => {
+    const nuovoVoto = Number(valoriForm.voto);
+    const nuovaTipologia = valoriForm.tipologia;
 
-  const handleEditSave = async (votoOriginale, formValues) => {
-    const nuovoVoto = Number(formValues.voto);
-    const nuovaTipologia = formValues.tipologia;
-
+    // Validazione voto
     if (Number.isNaN(nuovoVoto) || nuovoVoto < 1 || nuovoVoto > 10) {
       return;
     }
     
-    setLoading(true);
-    setError(null);
+    impostaCaricamento(true);
+    impostaErrore(null);
     
     try {
-      const response = await fetch('http://localhost:3000/api/registro/docente/voto', {
+      const risposta = await fetch('http://localhost:3000/api/registro/docente/voto', {
         method: 'PUT',
         headers: {
-          Authorization: `${user.tipo.toUpperCase()}:${user.id}`,
+          Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -75,60 +123,76 @@ const VotiList = ({ voti, onUpdate }) => {
         })
       });
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!risposta.ok) {
+        throw new Error(`HTTP error! status: ${risposta.status}`);
       }
       
-      onUpdate?.();
-      setEditingVotoId(null);
-    } catch (error) {
-      console.error('Errore modifica voto:', error);
-      setError(error.message);
+      // Aggiorno la lista e chiudo il form di modifica
+      alAggiornamento?.();
+      impostaIdVotoInModifica(null);
+    } catch (errore) {
+      console.error('Errore modifica voto:', errore);
+      impostaErrore(errore.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
-  const handleDelete = async (voto) => {
+  // ===========================
+  // GESTIONE ELIMINAZIONE
+  // ===========================
+  
+  /**
+   * Elimino un voto dopo conferma dell'utente.
+   */
+  const gestisciEliminazione = async (voto) => {
     if (!window.confirm('Sei sicuro di voler eliminare questo voto?')) return;
     
-    setLoading(true);
-    setError(null);
+    impostaCaricamento(true);
+    impostaErrore(null);
     
     try {
-      const response = await fetch('http://localhost:3000/api/registro/docente/voto', {
+      const risposta = await fetch('http://localhost:3000/api/registro/docente/voto', {
         method: 'DELETE',
         headers: {
-          Authorization: `${user.tipo.toUpperCase()}:${user.id}`,
+          Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ id_voto: voto.id_voto })
       });
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!risposta.ok) {
+        throw new Error(`HTTP error! status: ${risposta.status}`);
       }
       
-      onUpdate?.();
-    } catch (error) {
-      console.error('Errore eliminazione voto:', error);
-      setError(error.message);
+      // Aggiorno la lista dopo l'eliminazione
+      alAggiornamento?.();
+    } catch (errore) {
+      console.error('Errore eliminazione voto:', errore);
+      impostaErrore(errore.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
-
+  // ===========================
+  // PREPARAZIONE DATI
+  // ===========================
+  
+  // Ordino i voti per data decrescente
   const votiOrdinati = [...voti].sort((a, b) => new Date(b.data) - new Date(a.data));
 
+  // Raggruppo i voti per materia
   const votiPerMateria = votiOrdinati.reduce((acc, voto) => {
     if (!acc[voto.materia]) acc[voto.materia] = [];
     acc[voto.materia].push(voto);
     return acc;
   }, {});
 
-
-
+  // ===========================
+  // RENDERING
+  // ===========================
+  
   if (!voti || voti.length === 0) {
     return (
       <Alert type="info">Nessun voto presente per questo studente</Alert>
@@ -139,17 +203,19 @@ const VotiList = ({ voti, onUpdate }) => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {Object.entries(votiPerMateria).map(([materia, votiMateria]) => (
         <div key={materia}>
+          {/* Header materia */}
           <h4
             style={{
               fontSize: '16px',
               fontWeight: '600',
               marginBottom: '12px',
-              color: currentTheme.textSecondary
+              color: temaCorrente.textSecondary
             }}
           >
             {materia}
           </h4>
 
+          {/* Griglia voti */}
           <div
             style={{
               display: 'grid',
@@ -158,14 +224,15 @@ const VotiList = ({ voti, onUpdate }) => {
             }}
           >
             {votiMateria.map((voto) => {
-              const inEditing = editingVotoId === voto.id_voto;
+              const inModifica = idVotoInModifica === voto.id_voto;
               const tipologia = normalizzaTipologia(voto.tipologia);
+              
               return (
                 <div
                   key={voto.id_voto}
                   style={{
-                    background: currentTheme.background,
-                    border: `2px solid ${currentTheme.border}`,
+                    background: temaCorrente.background,
+                    border: `2px solid ${temaCorrente.border}`,
                     borderRadius: '12px',
                     padding: '16px 14px 18px',
                     textAlign: 'center',
@@ -176,32 +243,36 @@ const VotiList = ({ voti, onUpdate }) => {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = currentTheme.shadowMd;
-                    const actions = e.currentTarget.querySelector('.voto-actions');
-                    if (actions) actions.style.opacity = 1;
+                    e.currentTarget.style.boxShadow = temaCorrente.shadowMd;
+                    const azioni = e.currentTarget.querySelector('.voto-actions');
+                    if (azioni) azioni.style.opacity = 1;
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = 'none';
-                    const actions = e.currentTarget.querySelector('.voto-actions');
-                    if (actions) actions.style.opacity = 0;
+                    const azioni = e.currentTarget.querySelector('.voto-actions');
+                    if (azioni) azioni.style.opacity = 0;
                   }}
                 >
-                  {/* Contenuto card */}
-                  {inEditing ? (
-                    <EditForm
+                  {/* ===========================
+                      CONTENUTO CARD
+                      =========================== */}
+                  
+                  {inModifica ? (
+                    <FormModifica
                       voto={voto}
-                      currentTheme={currentTheme}
-                      onCancel={() => setEditingVotoId(null)}
-                      onSave={(values) => handleEditSave(voto, values)}
+                      temaCorrente={temaCorrente}
+                      onCancel={() => impostaIdVotoInModifica(null)}
+                      onSave={(valori) => gestisciSalvataggioModifica(voto, valori)}
                     />
                   ) : (
                     <>
+                      {/* Valore voto */}
                       <div
                         style={{
                           fontSize: '34px',
                           fontWeight: '700',
-                          color: getVotoColor(voto.voto),
+                          color: ottieniColoreVoto(voto.voto),
                           marginBottom: '10px',
                           lineHeight: 1
                         }}
@@ -209,14 +280,16 @@ const VotiList = ({ voti, onUpdate }) => {
                         {voto.voto}
                       </div>
 
+                      {/* Tipologia */}
                       <div style={{ marginBottom: '8px' }}>
-                        <span style={getTipologiaStyle(tipologia)}>{tipologia}</span>
+                        <span style={ottieniStileTipologia(tipologia)}>{tipologia}</span>
                       </div>
 
+                      {/* Data */}
                       <div
                         style={{
                           fontSize: '12px',
-                          color: currentTheme.textTertiary
+                          color: temaCorrente.textTertiary
                         }}
                       >
                         {new Date(voto.data).toLocaleDateString('it-IT')}
@@ -224,8 +297,11 @@ const VotiList = ({ voti, onUpdate }) => {
                     </>
                   )}
 
-                  {/* Pulsanti azione */}
-                  {!inEditing && (
+                  {/* ===========================
+                      PULSANTI AZIONE
+                      =========================== */}
+                  
+                  {!inModifica && (
                     <div
                       className="voto-actions"
                       style={{
@@ -238,25 +314,28 @@ const VotiList = ({ voti, onUpdate }) => {
                         transition: 'opacity 0.2s ease'
                       }}
                     >
+                      {/* Pulsante modifica */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setEditingVotoId(voto.id_voto);
+                          impostaIdVotoInModifica(voto.id_voto);
                         }}
-                        style={buttonIconStyle(currentTheme.backgroundSecondary)}
+                        style={stilePulsanteIcona(temaCorrente.backgroundSecondary)}
                         aria-label="Modifica voto"
                       >
-                        <Edit2 size={14} color={currentTheme.textSecondary} />
+                        <Edit2 size={14} color={temaCorrente.textSecondary} />
                       </button>
+                      
+                      {/* Pulsante elimina */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDelete(voto);
+                          gestisciEliminazione(voto);
                         }}
-                        style={buttonIconStyle(currentTheme.dangerLight)}
+                        style={stilePulsanteIcona(temaCorrente.dangerLight)}
                         aria-label="Elimina voto"
                       >
-                        <Trash2 size={14} color={currentTheme.danger} />
+                        <Trash2 size={14} color={temaCorrente.danger} />
                       </button>
                     </div>
                   )}
@@ -270,20 +349,24 @@ const VotiList = ({ voti, onUpdate }) => {
   );
 };
 
-const EditForm = ({ voto, currentTheme, onCancel, onSave }) => {
-  const [valore, setValore] = useState(voto.voto);
-  const [tipologia, setTipologia] = useState(voto.tipologia?.toUpperCase() || 'SCRITTO');
+/**
+ * Form inline per la modifica del voto.
+ */
+const FormModifica = ({ voto, temaCorrente, onCancel: allAnnullamento, onSave: alSalvataggio }) => {
+  const [valore, impostaValore] = useState(voto.voto);
+  const [tipologia, impostaTipologia] = useState(voto.tipologia?.toUpperCase() || 'SCRITTO');
 
-  const submit = (e) => {
+  const inviaForm = (e) => {
     e.preventDefault();
-    onSave({ voto: valore, tipologia });
+    alSalvataggio({ voto: valore, tipologia });
   };
 
   return (
     <form
-      onSubmit={submit}
+      onSubmit={inviaForm}
       style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
     >
+      {/* Input voto */}
       <input
         name="voto"
         type="number"
@@ -291,32 +374,33 @@ const EditForm = ({ voto, currentTheme, onCancel, onSave }) => {
         max="10"
         step="0.5"
         value={valore}
-        onChange={(e) => setValore(e.target.value)}
+        onChange={(e) => impostaValore(e.target.value)}
         style={{
           width: '100%',
           padding: '8px',
-            fontSize: '22px',
+          fontSize: '22px',
           fontWeight: '700',
           textAlign: 'center',
-          border: `2px solid ${currentTheme.primary}`,
+          border: `2px solid ${temaCorrente.primary}`,
           borderRadius: '8px',
-          background: currentTheme.background,
-          color: currentTheme.textPrimary
+          background: temaCorrente.background,
+          color: temaCorrente.textPrimary
         }}
         autoFocus
       />
 
+      {/* Select tipologia */}
       <select
         name="tipologia"
         value={tipologia}
-        onChange={(e) => setTipologia(e.target.value)}
+        onChange={(e) => impostaTipologia(e.target.value)}
         style={{
           padding: '6px 8px',
           fontSize: '13px',
-          border: `2px solid ${currentTheme.primary}`,
+          border: `2px solid ${temaCorrente.primary}`,
           borderRadius: '8px',
-          background: currentTheme.background,
-          color: currentTheme.textPrimary,
+          background: temaCorrente.background,
+          color: temaCorrente.textPrimary,
           fontWeight: 600,
           textTransform: 'uppercase'
         }}
@@ -326,16 +410,17 @@ const EditForm = ({ voto, currentTheme, onCancel, onSave }) => {
         <option value="PRATICO">Pratico</option>
       </select>
 
+      {/* Pulsanti azione */}
       <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
         <button
           type="button"
-          onClick={onCancel}
+          onClick={allAnnullamento}
           style={{
             flex: 1,
             padding: '8px 10px',
             borderRadius: '8px',
-            border: `1px solid ${currentTheme.border}`,
-            background: currentTheme.backgroundSecondary,
+            border: `1px solid ${temaCorrente.border}`,
+            background: temaCorrente.backgroundSecondary,
             cursor: 'pointer',
             fontSize: '12px',
             fontWeight: 600,
@@ -343,7 +428,7 @@ const EditForm = ({ voto, currentTheme, onCancel, onSave }) => {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '4px',
-            color: currentTheme.textSecondary
+            color: temaCorrente.textSecondary
           }}
         >
           <X size={14} /> Annulla
@@ -355,7 +440,7 @@ const EditForm = ({ voto, currentTheme, onCancel, onSave }) => {
             padding: '8px 10px',
             borderRadius: '8px',
             border: 'none',
-            background: currentTheme.primary,
+            background: temaCorrente.primary,
             cursor: 'pointer',
             fontSize: '12px',
             fontWeight: 700,
@@ -373,8 +458,11 @@ const EditForm = ({ voto, currentTheme, onCancel, onSave }) => {
   );
 };
 
-const buttonIconStyle = (bg) => ({
-  background: bg,
+/**
+ * Stile comune per i pulsanti icona.
+ */
+const stilePulsanteIcona = (sfondo) => ({
+  background: sfondo,
   border: 'none',
   borderRadius: '6px',
   padding: '4px',
@@ -384,4 +472,4 @@ const buttonIconStyle = (bg) => ({
   justifyContent: 'center'
 });
 
-export default VotiList;
+export default ListaVoti;

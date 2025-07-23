@@ -1,3 +1,15 @@
+/**
+ * COMPONENTE DASHBOARD STUDENTE
+ * 
+ * Gestisco il routing tra la dashboard generale e
+ * la vista dettagliata di una materia specifica.
+ * 
+ * Carico i dati appropriati dal backend in base
+ * alla vista selezionata e li passo ai componenti figli.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import { useApp } from '../../context/AppContext';
 import { useState, useEffect } from 'react';
 
@@ -5,105 +17,165 @@ import LoadingSpinner from '../../components/ui/registro/Spinner_Registro';
 import DashboardGenerale from './DashboardGenerale';
 import MateriaView from './MateriaView';
 
-const StudenteDashboard = ({ materiaSelezionata }) => {
-  const { currentTheme, user } = useApp();
-  const [votiGenerali, setVotiGenerali] = useState([]);
-  const [votiMateria, setVotiMateria] = useState([]);
-  const [mediePerMateria, setMediePerMateria] = useState([]);
-  const [mediaGenerale, setMediaGenerale] = useState(null);
-  const [distribuzioneVoti, setDistribuzioneVoti] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+/**
+ * Dashboard principale dello studente.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {string} props.materiaSelezionata - Materia attualmente selezionata
+ */
+const DashboardStudente = ({ materiaSelezionata }) => {
+  // ===========================
+  // HOOKS E STATO
+  // ===========================
+  
+  const { temaCorrente, utente } = useApp();
+  
+  // Stati per dashboard generale
+  const [votiGenerali, impostaVotiGenerali] = useState([]);
+  const [mediePerMateria, impostaMediePerMateria] = useState([]);
+  const [mediaGenerale, impostaMediaGenerale] = useState(null);
+  const [distribuzioneVoti, impostaDistribuzioneVoti] = useState([]);
+  
+  // Stati per vista materia
+  const [votiMateria, impostaVotiMateria] = useState([]);
+  
+  // Stati caricamento ed errori
+  const [caricamento, impostaCaricamento] = useState(true);
+  const [errore, impostaErrore] = useState(null);
 
+  // ===========================
+  // GESTIONE CARICAMENTO DATI
+  // ===========================
+  
+  /**
+   * Quando cambia la materia selezionata,
+   * carico i dati appropriati.
+   */
   useEffect(() => {
     if (materiaSelezionata) {
-      loadVotiMateria();
+      caricaVotiMateria();
     } else {
-      loadDashboardGenerale();
+      caricaDashboardGenerale();
     }
   }, [materiaSelezionata]);
 
-  const loadDashboardGenerale = async () => {
-    setLoading(true);
-    setError(null);
+  /**
+   * Carico tutti i dati per la dashboard generale.
+   * Uso Promise.all per parallelizzare le richieste.
+   */
+  const caricaDashboardGenerale = async () => {
+    impostaCaricamento(true);
+    impostaErrore(null);
     
     try {
       const headers = {
-        Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+        Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`
       };
 
-      const [votiRes, medieRes, distribuzioneRes, mediaGenRes] = await Promise.all([
+      // Richieste parallele per tutti i dati necessari
+      const [
+        rispostaVoti, 
+        rispostaMedie, 
+        rispostaDistribuzione, 
+        rispostaMediaGen
+      ] = await Promise.all([
         fetch('http://localhost:3000/api/registro/studente/voti', { headers }),
         fetch('http://localhost:3000/api/registro/studente/media-per-materia', { headers }),
         fetch('http://localhost:3000/api/registro/studente/distribuzione-voti', { headers }),
         fetch('http://localhost:3000/api/registro/studente/media-generale', { headers })
       ]);
 
-      if (!votiRes.ok || !medieRes.ok || !distribuzioneRes.ok || !mediaGenRes.ok) {
+      // Verifico che tutte le risposte siano ok
+      if (!rispostaVoti.ok || !rispostaMedie.ok || 
+          !rispostaDistribuzione.ok || !rispostaMediaGen.ok) {
         throw new Error('Errore nel caricamento dei dati');
       }
 
-      const [votiData, medieData, distribuzioneData, mediaData] = await Promise.all([
-        votiRes.json(),
-        medieRes.json(),
-        distribuzioneRes.json(),
-        mediaGenRes.json()
+      // Parsing dei dati
+      const [
+        datiVoti, 
+        datiMedie, 
+        datiDistribuzione, 
+        datiMedia
+      ] = await Promise.all([
+        rispostaVoti.json(),
+        rispostaMedie.json(),
+        rispostaDistribuzione.json(),
+        rispostaMediaGen.json()
       ]);
 
-      setVotiGenerali(votiData.voti);
-      setMediePerMateria(medieData.medie);
-      setDistribuzioneVoti(distribuzioneData.distribuzione);
-      setMediaGenerale(mediaData.media);
+      // Aggiorno gli stati
+      impostaVotiGenerali(datiVoti.voti);
+      impostaMediePerMateria(datiMedie.medie);
+      impostaDistribuzioneVoti(datiDistribuzione.distribuzione);
+      impostaMediaGenerale(datiMedia.media);
     } catch (error) {
       console.error('Errore caricamento dashboard:', error);
-      setError(error.message);
+      impostaErrore(error.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
-  const loadVotiMateria = async () => {
-    setLoading(true);
-    setError(null);
+  /**
+   * Carico i voti di una materia specifica.
+   */
+  const caricaVotiMateria = async () => {
+    impostaCaricamento(true);
+    impostaErrore(null);
     
     try {
-      const response = await fetch(
+      const risposta = await fetch(
         `http://localhost:3000/api/registro/studente/voti-materia/${materiaSelezionata}`,
         {
           headers: {
-            Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+            Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`
           }
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!risposta.ok) {
+        throw new Error(`HTTP error! status: ${risposta.status}`);
       }
 
-      const data = await response.json();
-      setVotiMateria(data.voti);
+      const dati = await risposta.json();
+      impostaVotiMateria(dati.voti);
     } catch (error) {
       console.error('Errore caricamento voti materia:', error);
-      setError(error.message);
+      impostaErrore(error.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
-  if (loading) {
+  // ===========================
+  // RENDERING
+  // ===========================
+  
+  // Mostro spinner durante il caricamento
+  if (caricamento) {
     return <LoadingSpinner />;
   }
 
+  // Se è selezionata una materia, mostro la vista dettagliata
   if (materiaSelezionata) {
-    return <MateriaView materia={materiaSelezionata} voti={votiMateria} />;
+    return (
+      <MateriaView 
+        materia={materiaSelezionata} 
+        voti={votiMateria} 
+      />
+    );
   }
 
-  return <DashboardGenerale 
-    voti={votiGenerali}
-    mediePerMateria={mediePerMateria}
-    mediaGenerale={mediaGenerale}
-    distribuzioneVoti={distribuzioneVoti}
-  />;
+  // Altrimenti mostro la dashboard generale
+  return (
+    <DashboardGenerale 
+      voti={votiGenerali}
+      mediePerMateria={mediePerMateria}
+      mediaGenerale={mediaGenerale}
+      distribuzioneVoti={distribuzioneVoti}
+    />
+  );
 };
 
-export default StudenteDashboard;
+export default DashboardStudente;

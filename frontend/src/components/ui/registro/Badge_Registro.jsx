@@ -1,37 +1,80 @@
+/**
+ * COMPONENTE BADGE
+ * 
+ * Creo un badge (etichetta) per evidenziare informazioni importanti
+ * nel registro. Supporta diverse varianti di colore, dimensioni e icone.
+ * 
+ * Utile per mostrare stati, categorie o informazioni sintetiche
+ * in modo visivamente distintivo.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import { useApp } from '../../../context/AppContext';
 
-const Badge = ({ children, variant = "primary", size = "md", icon: Icon }) => {
-  const { currentTheme } = useApp();
+/**
+ * Badge per il registro elettronico.
+ * 
+ * @param {Object} props - Proprietà del componente
+ * @param {React.ReactNode} props.children - Contenuto del badge
+ * @param {string} props.variant - Variante colore: 'primary' | 'success' | 'danger' | 'warning'
+ * @param {string} props.size - Dimensione: 'sm' | 'md' | 'lg'
+ * @param {React.ComponentType} props.icon - Icona opzionale
+ */
+const Badge = ({ 
+  children, 
+  variant: variante = "primary", 
+  size: dimensione = "md", 
+  icon: Icona 
+}) => {
+  // Recupero il tema corrente dal context
+  const { temaCorrente } = useApp();
   
-  const variants = {
+  // ===========================
+  // CONFIGURAZIONE VARIANTI
+  // ===========================
+  
+  /**
+   * Ogni variante ha colori di sfondo e testo specifici
+   * che si adattano al tema corrente.
+   */
+  const varianti = {
     primary: {
-      background: currentTheme.primaryLight,
-      color: currentTheme.primary
+      background: temaCorrente.primaryLight,
+      color: temaCorrente.primary
     },
     success: {
-      background: currentTheme.successLight,
-      color: currentTheme.success
+      background: temaCorrente.successLight,
+      color: temaCorrente.success
     },
     danger: {
-      background: currentTheme.dangerLight,
-      color: currentTheme.danger
+      background: temaCorrente.dangerLight,
+      color: temaCorrente.danger
     },
     warning: {
-      background: currentTheme.warningLight,
-      color: currentTheme.warning
+      background: temaCorrente.warningLight,
+      color: temaCorrente.warning
     }
   };
 
-  const sizes = {
+  // ===========================
+  // CONFIGURAZIONE DIMENSIONI
+  // ===========================
+  
+  const dimensioni = {
     sm: { padding: '4px 8px', fontSize: '12px' },
     md: { padding: '6px 12px', fontSize: '14px' },
     lg: { padding: '8px 16px', fontSize: '16px' }
   };
 
-  const badgeStyle = {
-    ...variants[variant],
-    ...sizes[size],
-    borderRadius: '999px',
+  // ===========================
+  // STILE BADGE
+  // ===========================
+  
+  const stileBadge = {
+    ...varianti[variante],
+    ...dimensioni[dimensione],
+    borderRadius: '999px', // Bordi completamente arrotondati
     fontWeight: '600',
     display: 'inline-flex',
     alignItems: 'center',
@@ -39,8 +82,10 @@ const Badge = ({ children, variant = "primary", size = "md", icon: Icon }) => {
   };
 
   return (
-    <span style={badgeStyle}>
-      {Icon && <Icon size={14} />}
+    <span style={stileBadge}>
+      {/* Icona se presente */}
+      {Icona && <Icona size={14} />}
+      {/* Contenuto del badge */}
       {children}
     </span>
   );

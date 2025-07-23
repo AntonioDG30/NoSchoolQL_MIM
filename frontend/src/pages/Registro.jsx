@@ -1,3 +1,17 @@
+/**
+ * COMPONENTE REGISTRO ELETTRONICO
+ * 
+ * Questa è l'applicazione principale del registro elettronico.
+ * Gestisco due modalità:
+ * - DOCENTE: visualizzazione classi, gestione voti studenti
+ * - STUDENTE: visualizzazione propri voti e statistiche
+ * 
+ * L'app carica automaticamente i dati appropriati in base al
+ * tipo di utente e gestisce la navigazione tra le diverse viste.
+ * 
+ * @author Antonio Di Giorgio
+ */
+
 import React, { useState, useEffect, createContext, useContext, useCallback, useMemo } from 'react';
 import { Bar, Line, Doughnut } from 'react-chartjs-2';
 import {
@@ -47,6 +61,7 @@ import {
   Zap
 } from 'lucide-react';
 
+// Registro i componenti Chart.js
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -60,9 +75,12 @@ ChartJS.register(
   Filler
 );
 
+// Import temi e stili
 import themes from '../theme/themes';
 import '../theme/globalStyles';
 import { AppProvider, useApp } from '../context/AppContext';
+
+// Import componenti UI
 import Button from '../components/ui/registro/Button_Registro';
 import Card from '../components/ui/registro/Card_Registro';
 import Input from '../components/ui/registro/Input_Registro';
@@ -71,185 +89,261 @@ import Badge from '../components/ui/registro/Badge_Registro';
 import Alert from '../components/ui/registro/Alert_Registro';
 import Modal from '../components/ui/registro/Modal_Registro';
 import LoadingSpinner from '../components/ui/registro/Spinner_Registro';
+
+// Import componenti layout
 import Content from '../layout/Content';
 import Header from '../layout/Header';
 import Layout from '../layout/Layout';
 import Main from '../layout/Main';
 import Sidebar from '../layout/Sidebar';
+
+// Import viste docente
 import DocenteDashboard from '../views/docente/DocenteDashboard';
 import DocenteSidebar from '../views/docente/DocenteSidebar';
 import StudentCard from '../views/docente/StudentCard';
 import VotiList from '../views/docente/VotiList';
 import VotoForm from '../views/docente/VotoForm';
+
+// Import viste studente
 import DashboardGenerale from '../views/studente/DashboardGenerale';
 import MateriaView from '../views/studente/MateriaView';
 import StudenteDashboard from '../views/studente/StudenteDashboard';
 import StudenteSidebar from '../views/studente/StudenteSidebar';
 import StudentVotoCard from '../views/studente/StudentVotoCard';
 
-const RegistroApp = () => {
+/**
+ * Componente principale del registro.
+ * Gestisce routing, caricamento dati e stato globale.
+ */
+const AppRegistro = () => {
+  // ===========================
+  // RECUPERO STATO GLOBALE
+  // ===========================
+  
   const {
-    user, 
-    setUser,
-    currentView, 
-    setCurrentView,
-    currentTheme, 
-    theme,
-    toggleTheme,
-    sidebarOpen,
-    setSidebarOpen,
-    loading,
-    error,
-    setError,
-    setLoading
+    utente,
+    impostaUtente,
+    vistaCorrente,
+    impostaVistaCorrente,
+    temaCorrente,
+    chiaveTema: tema,           
+    alternaTema,
+    sidebarAperta,
+    impostaSidebarAperta,
+    caricamento,
+    errore,
+    impostaErrore,
+    impostaCaricamento
   } = useApp();
   
-  const [classeSelezionata, setClasseSelezionata] = useState(null);
-  const [materiaSelezionata, setMateriaSelezionata] = useState(null);
-  const [classiDocente, setClassiDocente] = useState([]);
-  const [materieDocente, setMaterieDocente] = useState([]);
-  const [studentiClasse, setStudentiClasse] = useState([]);
-  const [materieStudente, setMaterieStudente] = useState([]);
+  // ===========================
+  // STATO LOCALE
+  // ===========================
+  
+  // Stati per docente
+  const [classeSelezionata, impostaClasseSelezionata] = useState(null);
+  const [materiaSelezionata, impostaMateriaSelezionata] = useState(null);
+  const [classiDocente, impostaClassiDocente] = useState([]);
+  const [materieDocente, impostaMaterieDocente] = useState([]);
+  const [studentiClasse, impostaStudentiClasse] = useState([]);
+  
+  // Stati per studente
+  const [materieStudente, impostaMaterieStudente] = useState([]);
 
+  // ===========================
+  // INIZIALIZZAZIONE
+  // ===========================
+  
+  /**
+   * All'avvio, verifico se ci sono credenziali salvate
+   * in localStorage e le ripristino.
+   */
   useEffect(() => {
     const tipo = localStorage.getItem('tipo');
     const id = localStorage.getItem('id');
 
     if (tipo && id) {
-      setUser({ tipo, id });
-      setCurrentView('dashboard');
+      impostaUtente({ tipo, id });
+      impostaVistaCorrente('dashboard');
     }
   }, []);
 
+  /**
+   * Quando l'utente è autenticato e siamo nella dashboard,
+   * carico i dati appropriati in base al tipo di utente.
+   */
   useEffect(() => {
-    if (user && currentView === 'dashboard') {
-      if (user.tipo === 'docente') {
-        loadDocenteData();
+    if (utente && vistaCorrente === 'dashboard') {
+      if (utente.tipo === 'docente') {
+        caricaDatiDocente();
       } else {
-        loadStudenteData();
+        caricaDatiStudente();
       }
     }
-  }, [user, currentView]);
+  }, [utente, vistaCorrente]);
 
+  /**
+   * Quando un docente seleziona una classe,
+   * carico la lista degli studenti di quella classe.
+   */
   useEffect(() => {
-    if (classeSelezionata && user?.tipo === 'docente') {
-      loadStudentiClasse();
+    if (classeSelezionata && utente?.tipo === 'docente') {
+      caricaStudentiClasse();
     }
   }, [classeSelezionata]);
 
-  const loadDocenteData = async () => {
-    setLoading(true);
-    setError(null);
+  // ===========================
+  // CARICAMENTO DATI DOCENTE
+  // ===========================
+  
+  /**
+   * Carico classi e materie del docente.
+   * Uso Promise.all per parallelizzare le richieste.
+   */
+  const caricaDatiDocente = async () => {
+    impostaCaricamento(true);
+    impostaErrore(null);
     
     try {
       const headers = {
-        Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+        Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`
       };
 
-      const [classiRes, materieRes] = await Promise.all([
+      const [rispostaClassi, rispostaMaterie] = await Promise.all([
         fetch('http://localhost:3000/api/registro/docente/classi', { headers }),
         fetch('http://localhost:3000/api/registro/docente/materie', { headers })
       ]);
 
-      if (!classiRes.ok || !materieRes.ok) {
+      if (!rispostaClassi.ok || !rispostaMaterie.ok) {
         throw new Error('Errore nel caricamento dei dati docente');
       }
 
-      const [classiData, materieData] = await Promise.all([
-        classiRes.json(),
-        materieRes.json()
+      const [datiClassi, datiMaterie] = await Promise.all([
+        rispostaClassi.json(),
+        rispostaMaterie.json()
       ]);
       
-      const classiUniche = [...new Set(classiData.classi.map(c => c.nome_classe))];
-      setClassiDocente(classiUniche);
-      setMaterieDocente(materieData.materie);
+      // Estraggo classi uniche
+      const classiUniche = [...new Set(datiClassi.classi.map(c => c.nome_classe))];
+      impostaClassiDocente(classiUniche);
+      impostaMaterieDocente(datiMaterie.materie);
     } catch (error) {
       console.error('Errore caricamento dati docente:', error);
-      setError(error.message);
+      impostaErrore(error.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
-  const loadStudenteData = async () => {
-    setLoading(true);
-    setError(null);
+  // ===========================
+  // CARICAMENTO DATI STUDENTE
+  // ===========================
+  
+  /**
+   * Carico i voti dello studente e estraggo
+   * le materie uniche per la navigazione.
+   */
+  const caricaDatiStudente = async () => {
+    impostaCaricamento(true);
+    impostaErrore(null);
     
     try {
-      const response = await fetch('http://localhost:3000/api/registro/studente/voti', {
+      const risposta = await fetch('http://localhost:3000/api/registro/studente/voti', {
         headers: {
-          Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+          Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`
         }
       });
 
-      if (!response.ok) {
+      if (!risposta.ok) {
         throw new Error('Errore nel caricamento dei dati studente');
       }
 
-      const votiData = await response.json();
-      const materieUniche = [...new Set(votiData.voti.map(v => v.materia))];
-      setMaterieStudente(materieUniche);
+      const datiVoti = await risposta.json();
+      
+      // Estraggo materie uniche dai voti
+      const materieUniche = [...new Set(datiVoti.voti.map(v => v.materia))];
+      impostaMaterieStudente(materieUniche);
     } catch (error) {
       console.error('Errore caricamento dati studente:', error);
-      setError(error.message);
+      impostaErrore(error.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
-  const loadStudentiClasse = async () => {
-    setLoading(true);
-    setError(null);
+  // ===========================
+  // CARICAMENTO STUDENTI CLASSE
+  // ===========================
+  
+  /**
+   * Carico gli studenti della classe selezionata
+   * dal docente per visualizzare i loro voti.
+   */
+  const caricaStudentiClasse = async () => {
+    impostaCaricamento(true);
+    impostaErrore(null);
     
     try {
-      const response = await fetch('http://localhost:3000/api/registro/docente/classi', {
+      const risposta = await fetch('http://localhost:3000/api/registro/docente/classi', {
         headers: {
-          Authorization: `${user.tipo.toUpperCase()}:${user.id}`
+          Authorization: `${utente.tipo.toUpperCase()}:${utente.id}`
         }
       });
 
-      if (!response.ok) {
+      if (!risposta.ok) {
         throw new Error('Errore nel caricamento degli studenti');
       }
 
-      const data = await response.json();
-      const studentiFiltered = data.classi.filter(c => c.nome_classe === classeSelezionata);
-      setStudentiClasse(studentiFiltered);
+      const dati = await risposta.json();
+      
+      // Filtro solo gli studenti della classe selezionata
+      const studentiFiltrati = dati.classi.filter(c => c.nome_classe === classeSelezionata);
+      impostaStudentiClasse(studentiFiltrati);
     } catch (error) {
       console.error('Errore caricamento studenti classe:', error);
-      setError(error.message);
+      impostaErrore(error.message);
     } finally {
-      setLoading(false);
+      impostaCaricamento(false);
     }
   };
 
-  if (!user) {
+  // Se non c'è utente autenticato, mostro lo spinner
+  if (!utente) {
     return <LoadingSpinner />;
   }
 
   return (
     <Layout>
+      {/* ===========================
+          SIDEBAR
+          =========================== */}
+      
       <Sidebar>
-        {user.tipo === 'docente' ? (
+        {utente.tipo === 'docente' ? (
           <DocenteSidebar
             classi={classiDocente}
             classeSelezionata={classeSelezionata}
-            onSelectClasse={setClasseSelezionata}
+            onSelectClasse={impostaClasseSelezionata}
           />
         ) : (
           <StudenteSidebar
             materie={materieStudente}
             materiaSelezionata={materiaSelezionata}
-            onSelectMateria={setMateriaSelezionata}
+            onSelectMateria={impostaMateriaSelezionata}
           />
         )}
       </Sidebar>
 
+      {/* ===========================
+          CONTENUTO PRINCIPALE
+          =========================== */}
+      
       <Main>
         <Header>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {/* Toggle sidebar */}
             <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
+              onClick={() => impostaSidebarAperta(!sidebarAperta)}
               style={{
                 background: 'none',
                 border: 'none',
@@ -260,34 +354,36 @@ const RegistroApp = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 transition: 'background 0.2s ease',
-                color: currentTheme.text
+                color: temaCorrente.text
               }}
-              onMouseEnter={e => e.currentTarget.style.background = currentTheme.backgroundSecondary}
+              onMouseEnter={e => e.currentTarget.style.background = temaCorrente.backgroundSecondary}
               onMouseLeave={e => e.currentTarget.style.background = 'none'}
               className="hide-tablet"
             >
               <ChevronRight 
                 size={24} 
                 style={{
-                  transform: sidebarOpen ? 'rotate(180deg)' : 'rotate(0)',
+                  transform: sidebarAperta ? 'rotate(180deg)' : 'rotate(0)',
                   transition: 'transform 0.3s ease'
                 }}
               />
             </button>
             
+            {/* Titolo area */}
             <div>
               <h2 style={{ fontSize: '20px', fontWeight: '600' }}>
-                {user.tipo === 'docente' ? 'Area Docente' : 'Area Studente'}
+                {utente.tipo === 'docente' ? 'Area Docente' : 'Area Studente'}
               </h2>
             </div>
           </div>
 
+          {/* Toggle tema */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <button
-              onClick={toggleTheme}
+              onClick={alternaTema}
               style={{
-                background: currentTheme.backgroundSecondary,
-                border: `1px solid ${currentTheme.border}`,
+                background: temaCorrente.backgroundSecondary,
+                border: `1px solid ${temaCorrente.border}`,
                 borderRadius: '12px',
                 padding: '10px',
                 cursor: 'pointer',
@@ -299,16 +395,22 @@ const RegistroApp = () => {
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
               onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
-              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+              {tema === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
           </div>
         </Header>
 
+        {/* ===========================
+            CONTENUTO DASHBOARD
+            =========================== */}
+        
         <Content>
-          {loading && <LoadingSpinner />}
-          {error && <Alert type="error" onClose={() => setError(null)}>{error}</Alert>}
+          {/* Stati globali */}
+          {caricamento && <LoadingSpinner />}
+          {errore && <Alert type="error" onClose={() => impostaErrore(null)}>{errore}</Alert>}
           
-          {user.tipo === 'docente' ? (
+          {/* Dashboard appropriata per tipo utente */}
+          {utente.tipo === 'docente' ? (
             <DocenteDashboard
               classeSelezionata={classeSelezionata}
               studentiClasse={studentiClasse}
@@ -325,10 +427,14 @@ const RegistroApp = () => {
   );
 };
 
+/**
+ * Componente principale con Provider.
+ * Wrappa l'app con AppProvider per fornire il context.
+ */
 export default function App() {
   return (
     <AppProvider>
-      <RegistroApp />
+      <AppRegistro />
     </AppProvider>
   );
 }
