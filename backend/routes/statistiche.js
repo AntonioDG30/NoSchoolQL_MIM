@@ -19,6 +19,7 @@ const express = require('express');
 const router = express.Router();
 const ControllerStatistiche = require('../controllers/statistiche.controller');
 
+
 // ===========================
 // STATISTICHE GENERALI
 // ===========================
@@ -148,6 +149,10 @@ router.get('/trend/temporale', ControllerStatistiche.analizzaTrendTemporale);
  * Trova classi che si discostano significativamente dalla media.
  */
 router.get('/analisi/outlier', ControllerStatistiche.identificaClassiOutlier);
+
+
+router.get('/top-studenti', ControllerStatistiche.getTopStudenti);
+
 
 // ===========================
 // EXPORT DEL ROUTER

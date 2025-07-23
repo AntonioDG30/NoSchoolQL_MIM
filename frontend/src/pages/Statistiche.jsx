@@ -91,6 +91,7 @@ import LoadingBar from '../components/ui/statistiche/LoadingBar_Statistiche';
 import Button from '../components/ui/statistiche/Button_Statistiche';
 import FilterPanel from '../components/ui/statistiche/FilterPanel_Statistiche';
 
+
 /**
  * Componente interno con la logica delle statistiche.
  * Separato per poter utilizzare gli hooks del context.
@@ -104,6 +105,11 @@ function ContenutoStatistiche() {
   
   // Stato per tutti i dati delle statistiche
   const [dati, impostaDati] = useState({});
+
+  // stato per il top studenti
+  const [topStudenti, setTopStudenti] = useState([]);
+  const [topLoading, setTopLoading] = useState(true);
+  const [topError, setTopError] = useState(null);
   
   // Stati di caricamento e filtri
   const [caricamento, impostaCaricamento] = useState(true);
@@ -209,6 +215,23 @@ function ContenutoStatistiche() {
     
     caricaTuttiIDati();
   }, [filtri]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/statistiche/top-studenti')
+      .then(res => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        return res.json();
+      })
+      .then(json => {
+        setTopStudenti(json);
+        setTopLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setTopError('Impossibile caricare il Top 5');
+        setTopLoading(false);
+      });
+  }, []);
 
   // ===========================
   // GESTIONE FILTRI
@@ -490,6 +513,240 @@ function ContenutoStatistiche() {
           {datiStatistiche.map((stat, indice) => (
             <StatsCard key={stat.title} {...stat} delay={indice} />
           ))}
+        </div>
+
+        {/* ===========================
+            STATISTICHE DETTAGLIATE
+            =========================== */}
+        
+        <div style={{ marginBottom: '48px' }}>
+          <h2 style={{ 
+            fontSize: '24px', 
+            fontWeight: 'bold', 
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
+            <PieChart size={28} style={{ color: tema.primary }} />
+            Statistiche Dettagliate
+          </h2>
+
+          <div style={stileGriglia}>
+            {/* Distribuzione Studenti per Cittadinanza */}
+            <Accordion
+              title="Distribuzione Studenti"
+              icon={Globe}
+              expanded={pannelliEspansi.cittadinanza}
+              onToggle={() => alternaPannello('cittadinanza')}
+              delay={0}
+            >
+              <div style={{ height: '300px' }}>
+                {dati.cittadinanza ? (
+                  <Doughnut
+                    data={{
+                      labels: ['Italiani', 'Non Italiani'],
+                      datasets: [{
+                        data: [dati.cittadinanza.italiani, dati.cittadinanza.stranieri],
+                        backgroundColor: [tema.info, tema.warning],
+                        borderColor: [tema.infoHover, tema.warningHover],
+                        borderWidth: 2,
+                        hoverOffset: 4
+                      }]
+                    }}
+                    options={{
+                      ...opzioniGrafici,
+                      plugins: {
+                        ...opzioniGrafici.plugins,
+                        legend: {
+                          ...opzioniGrafici.plugins.legend,
+                          position: 'bottom'
+                        }
+                      }
+                    }}
+                  />
+                ) : (
+                  <Skeleton width="100%" height="100%" />
+                )}
+              </div>
+            </Accordion>
+
+            {/* Numero Voti per Materia */}
+            <Accordion
+              title="Numero Voti per Materia"
+              icon={BarChart3}
+              expanded={pannelliEspansi.numeroVotiMateria}
+              onToggle={() => alternaPannello('numeroVotiMateria')}
+              delay={1}
+            >
+              <div style={{ height: '300px' }}>
+                {dati.numeroVotiMateria ? (
+                  <Bar
+                    data={{
+                      labels: dati.numeroVotiMateria.map(item => item.materia),
+                      datasets: [{
+                        label: 'Numero voti',
+                        data: dati.numeroVotiMateria.map(item => item.numero_voti),
+                        backgroundColor: tema.success,
+                        borderColor: tema.successHover,
+                        borderWidth: 2,
+                        borderRadius: 8
+                      }]
+                    }}
+                    options={opzioniGrafici}
+                  />
+                ) : (
+                  <Skeleton width="100%" height="100%" />
+                )}
+              </div>
+            </Accordion>
+
+            {/* Media Voti per Materia */}
+            <Accordion
+              title="Media Voti per Materia"
+              icon={TrendingUp}
+              expanded={pannelliEspansi.mediaVotiMateria}
+              onToggle={() => alternaPannello('mediaVotiMateria')}
+              delay={2}
+            >
+              <div style={{ height: '300px' }}>
+                {dati.mediaVotiMateria ? (
+                  <Bar
+                    data={{
+                      labels: dati.mediaVotiMateria.map(item => item.materia),
+                      datasets: [{
+                        label: 'Media',
+                        data: dati.mediaVotiMateria.map(item => parseFloat(item.media.toFixed(2))),
+                        backgroundColor: tema.primary,
+                        borderColor: tema.primaryHover,
+                        borderWidth: 2,
+                        borderRadius: 8
+                      }]
+                    }}
+                    options={{
+                      ...opzioniGrafici,
+                      scales: {
+                        ...opzioniGrafici.scales,
+                        y: {
+                          ...opzioniGrafici.scales.y,
+                          beginAtZero: true,
+                          max: 10
+                        }
+                      }
+                    }}
+                  />
+                ) : (
+                  <Skeleton width="100%" height="100%" />
+                )}
+              </div>
+            </Accordion>
+
+            {/* Classi per Anno di Corso */}
+            <Accordion
+              title="Classi per Anno di Corso"
+              icon={School}
+              expanded={pannelliEspansi.classiPerAnno}
+              onToggle={() => alternaPannello('classiPerAnno')}
+              delay={3}
+            >
+              <div style={{ height: '300px' }}>
+                {dati.classiPerAnno ? (
+                  <Line
+                    data={{
+                      labels: dati.classiPerAnno.map(item => `${item.annocorso}° Anno`),
+                      datasets: [{
+                        label: 'Numero classi',
+                        data: dati.classiPerAnno.map(item => item.numero_classi),
+                        borderColor: tema.secondary,
+                        backgroundColor: `${tema.secondary}20`,
+                        borderWidth: 3,
+                        pointBackgroundColor: tema.secondary,
+                        pointBorderColor: tema.cardBackground,
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        tension: 0.4,
+                        fill: true
+                      }]
+                    }}
+                    options={opzioniGrafici}
+                  />
+                ) : (
+                  <Skeleton width="100%" height="100%" />
+                )}
+              </div>
+            </Accordion>
+
+            {/* Studenti per Anno di Corso */}
+            <Accordion
+              title="Studenti per Anno di Corso"
+              icon={Users}
+              expanded={pannelliEspansi.studentiPerAnno}
+              onToggle={() => alternaPannello('studentiPerAnno')}
+              delay={4}
+            >
+              <div style={{ height: '300px' }}>
+                {dati.studentiPerAnno ? (
+                  <Bar
+                    data={{
+                      labels: dati.studentiPerAnno.map(item => `${item.annocorso}° Anno`),
+                      datasets: [{
+                        label: 'Numero studenti',
+                        data: dati.studentiPerAnno.map(item => item.numero_studenti),
+                        backgroundColor: tema.warning,
+                        borderColor: tema.warningHover,
+                        borderWidth: 2,
+                        borderRadius: 8
+                      }]
+                    }}
+                    options={opzioniGrafici}
+                  />
+                ) : (
+                  <Skeleton width="100%" height="100%" />
+                )}
+              </div>
+            </Accordion>
+
+            {/* Distribuzione dei Voti */}
+            <Accordion
+              title="Distribuzione dei Voti"
+              icon={Award}
+              expanded={pannelliEspansi.distribuzioneVoti}
+              onToggle={() => alternaPannello('distribuzioneVoti')}
+              delay={5}
+            >
+              <div style={{ height: '300px' }}>
+                {dati.distribuzioneVoti ? (
+                  <Bar
+                    data={{
+                      labels: dati.distribuzioneVoti.map(item => `Voto ${item.voto}`),
+                      datasets: [{
+                        label: 'Frequenza',
+                        data: dati.distribuzioneVoti.map(item => item.count),
+                        backgroundColor: dati.distribuzioneVoti.map(item => {
+                          const voto = item.voto;
+                          if (voto >= 8) return tema.success;
+                          if (voto >= 6) return tema.info;
+                          return tema.danger;
+                        }),
+                        borderColor: dati.distribuzioneVoti.map(item => {
+                          const voto = item.voto;
+                          if (voto >= 8) return tema.successHover;
+                          if (voto >= 6) return tema.infoHover;
+                          return tema.dangerHover;
+                        }),
+                        borderWidth: 2,
+                        borderRadius: 8
+                      }]
+                    }}
+                    options={opzioniGrafici}
+                  />
+                ) : (
+                  <Skeleton width="100%" height="100%" />
+                )}
+              </div>
+            </Accordion>
+          </div>
         </div>
 
         {/* ===========================
@@ -875,240 +1132,6 @@ function ContenutoStatistiche() {
         </div>
 
         {/* ===========================
-            STATISTICHE DETTAGLIATE
-            =========================== */}
-        
-        <div style={{ marginBottom: '48px' }}>
-          <h2 style={{ 
-            fontSize: '24px', 
-            fontWeight: 'bold', 
-            marginBottom: '24px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px'
-          }}>
-            <PieChart size={28} style={{ color: tema.primary }} />
-            Statistiche Dettagliate
-          </h2>
-
-          <div style={stileGriglia}>
-            {/* Distribuzione Studenti per Cittadinanza */}
-            <Accordion
-              title="Distribuzione Studenti"
-              icon={Globe}
-              expanded={pannelliEspansi.cittadinanza}
-              onToggle={() => alternaPannello('cittadinanza')}
-              delay={0}
-            >
-              <div style={{ height: '300px' }}>
-                {dati.cittadinanza ? (
-                  <Doughnut
-                    data={{
-                      labels: ['Italiani', 'Non Italiani'],
-                      datasets: [{
-                        data: [dati.cittadinanza.italiani, dati.cittadinanza.stranieri],
-                        backgroundColor: [tema.info, tema.warning],
-                        borderColor: [tema.infoHover, tema.warningHover],
-                        borderWidth: 2,
-                        hoverOffset: 4
-                      }]
-                    }}
-                    options={{
-                      ...opzioniGrafici,
-                      plugins: {
-                        ...opzioniGrafici.plugins,
-                        legend: {
-                          ...opzioniGrafici.plugins.legend,
-                          position: 'bottom'
-                        }
-                      }
-                    }}
-                  />
-                ) : (
-                  <Skeleton width="100%" height="100%" />
-                )}
-              </div>
-            </Accordion>
-
-            {/* Numero Voti per Materia */}
-            <Accordion
-              title="Numero Voti per Materia"
-              icon={BarChart3}
-              expanded={pannelliEspansi.numeroVotiMateria}
-              onToggle={() => alternaPannello('numeroVotiMateria')}
-              delay={1}
-            >
-              <div style={{ height: '300px' }}>
-                {dati.numeroVotiMateria ? (
-                  <Bar
-                    data={{
-                      labels: dati.numeroVotiMateria.map(item => item.materia),
-                      datasets: [{
-                        label: 'Numero voti',
-                        data: dati.numeroVotiMateria.map(item => item.numero_voti),
-                        backgroundColor: tema.success,
-                        borderColor: tema.successHover,
-                        borderWidth: 2,
-                        borderRadius: 8
-                      }]
-                    }}
-                    options={opzioniGrafici}
-                  />
-                ) : (
-                  <Skeleton width="100%" height="100%" />
-                )}
-              </div>
-            </Accordion>
-
-            {/* Media Voti per Materia */}
-            <Accordion
-              title="Media Voti per Materia"
-              icon={TrendingUp}
-              expanded={pannelliEspansi.mediaVotiMateria}
-              onToggle={() => alternaPannello('mediaVotiMateria')}
-              delay={2}
-            >
-              <div style={{ height: '300px' }}>
-                {dati.mediaVotiMateria ? (
-                  <Bar
-                    data={{
-                      labels: dati.mediaVotiMateria.map(item => item.materia),
-                      datasets: [{
-                        label: 'Media',
-                        data: dati.mediaVotiMateria.map(item => parseFloat(item.media.toFixed(2))),
-                        backgroundColor: tema.primary,
-                        borderColor: tema.primaryHover,
-                        borderWidth: 2,
-                        borderRadius: 8
-                      }]
-                    }}
-                    options={{
-                      ...opzioniGrafici,
-                      scales: {
-                        ...opzioniGrafici.scales,
-                        y: {
-                          ...opzioniGrafici.scales.y,
-                          beginAtZero: true,
-                          max: 10
-                        }
-                      }
-                    }}
-                  />
-                ) : (
-                  <Skeleton width="100%" height="100%" />
-                )}
-              </div>
-            </Accordion>
-
-            {/* Classi per Anno di Corso */}
-            <Accordion
-              title="Classi per Anno di Corso"
-              icon={School}
-              expanded={pannelliEspansi.classiPerAnno}
-              onToggle={() => alternaPannello('classiPerAnno')}
-              delay={3}
-            >
-              <div style={{ height: '300px' }}>
-                {dati.classiPerAnno ? (
-                  <Line
-                    data={{
-                      labels: dati.classiPerAnno.map(item => `${item.annocorso}° Anno`),
-                      datasets: [{
-                        label: 'Numero classi',
-                        data: dati.classiPerAnno.map(item => item.numero_classi),
-                        borderColor: tema.secondary,
-                        backgroundColor: `${tema.secondary}20`,
-                        borderWidth: 3,
-                        pointBackgroundColor: tema.secondary,
-                        pointBorderColor: tema.cardBackground,
-                        pointBorderWidth: 2,
-                        pointRadius: 6,
-                        pointHoverRadius: 8,
-                        tension: 0.4,
-                        fill: true
-                      }]
-                    }}
-                    options={opzioniGrafici}
-                  />
-                ) : (
-                  <Skeleton width="100%" height="100%" />
-                )}
-              </div>
-            </Accordion>
-
-            {/* Studenti per Anno di Corso */}
-            <Accordion
-              title="Studenti per Anno di Corso"
-              icon={Users}
-              expanded={pannelliEspansi.studentiPerAnno}
-              onToggle={() => alternaPannello('studentiPerAnno')}
-              delay={4}
-            >
-              <div style={{ height: '300px' }}>
-                {dati.studentiPerAnno ? (
-                  <Bar
-                    data={{
-                      labels: dati.studentiPerAnno.map(item => `${item.annocorso}° Anno`),
-                      datasets: [{
-                        label: 'Numero studenti',
-                        data: dati.studentiPerAnno.map(item => item.numero_studenti),
-                        backgroundColor: tema.warning,
-                        borderColor: tema.warningHover,
-                        borderWidth: 2,
-                        borderRadius: 8
-                      }]
-                    }}
-                    options={opzioniGrafici}
-                  />
-                ) : (
-                  <Skeleton width="100%" height="100%" />
-                )}
-              </div>
-            </Accordion>
-
-            {/* Distribuzione dei Voti */}
-            <Accordion
-              title="Distribuzione dei Voti"
-              icon={Award}
-              expanded={pannelliEspansi.distribuzioneVoti}
-              onToggle={() => alternaPannello('distribuzioneVoti')}
-              delay={5}
-            >
-              <div style={{ height: '300px' }}>
-                {dati.distribuzioneVoti ? (
-                  <Bar
-                    data={{
-                      labels: dati.distribuzioneVoti.map(item => `Voto ${item.voto}`),
-                      datasets: [{
-                        label: 'Frequenza',
-                        data: dati.distribuzioneVoti.map(item => item.count),
-                        backgroundColor: dati.distribuzioneVoti.map(item => {
-                          const voto = item.voto;
-                          if (voto >= 8) return tema.success;
-                          if (voto >= 6) return tema.info;
-                          return tema.danger;
-                        }),
-                        borderColor: dati.distribuzioneVoti.map(item => {
-                          const voto = item.voto;
-                          if (voto >= 8) return tema.successHover;
-                          if (voto >= 6) return tema.infoHover;
-                          return tema.dangerHover;
-                        }),
-                        borderWidth: 2,
-                        borderRadius: 8
-                      }]
-                    }}
-                    options={opzioniGrafici}
-                  />
-                ) : (
-                  <Skeleton width="100%" height="100%" />
-                )}
-              </div>
-            </Accordion>
-          </div>
-        </div>
-
-        {/* ===========================
             RIEPILOGO PERFORMANCE
             =========================== */}
         
@@ -1201,20 +1224,34 @@ function ContenutoStatistiche() {
               )}
             </Card>
 
-            {/* Card Top Materie */}
+            {/* Card Top Studenti */}
             <Card hoverable>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: '600' }}>Top Materie per Media</h3>
+              {/* Header con titolo e icona */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '16px'
+                }}
+              >
+                <h3 style={{ fontSize: '18px', fontWeight: 600 }}>
+                  Top 5 Studenti
+                </h3>
                 <TrendingUp size={24} style={{ color: tema.success }} />
               </div>
-              
-              {dati.mediaVotiMateria && (
+
+              {/* Stati di loading / errore */}
+              {topLoading && <p>Caricamento…</p>}
+              {topError && <p className="text-red-500">{topError}</p>}
+
+              {/* Lista vera e propria */}
+              {!topLoading && !topError && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {dati.mediaVotiMateria
-                    .sort((a, b) => b.media - a.media)
-                    .slice(0, 5)
-                    .map((item, indice) => (
-                      <div key={item.materia} style={{
+                  {topStudenti.map((s, idx) => (
+                    <div
+                      key={s.id_studente}
+                      style={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: '12px',
@@ -1222,34 +1259,51 @@ function ContenutoStatistiche() {
                         backgroundColor: tema.backgroundTertiary,
                         borderRadius: '8px',
                         transition: 'all 0.2s ease'
-                      }}>
-                        <div style={{
+                      }}
+                    >
+                      {/* Badge di posizione */}
+                      <div
+                        style={{
                           width: '32px',
                           height: '32px',
                           borderRadius: '50%',
-                          backgroundColor: indice === 0 ? tema.warning : tema.primary,
+                          backgroundColor:
+                            idx === 0 ? tema.warning : tema.primary,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           color: 'white',
                           fontWeight: 'bold',
                           fontSize: '14px'
-                        }}>
-                          {indice + 1}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <p style={{ fontWeight: '500' }}>{item.materia}</p>
-                        </div>
-                        <div style={{ textAlign: 'right' }}>
-                          <p style={{ fontWeight: 'bold', color: ottieniColoreVoto(item.media, tema) }}>
-                            {item.media.toFixed(2)}
-                          </p>
-                        </div>
+                        }}
+                      >
+                        {idx + 1}
                       </div>
-                    ))}
+
+                      {/* Nome studente */}
+                      <div style={{ flex: 1 }}>
+                        <p style={{ fontWeight: 500 }}>
+                          {s.nome} {s.cognome}
+                        </p>
+                      </div>
+
+                      {/* Media */}
+                      <div style={{ textAlign: 'right' }}>
+                        <p
+                          style={{
+                            fontWeight: 'bold',
+                            color: tema.success
+                          }}
+                        >
+                          {s.media.toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </Card>
+            
 
             {/* Card Filtri Attivi */}
             <Card hoverable>

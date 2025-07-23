@@ -1192,6 +1192,60 @@ async function identificaClassiOutlier(req, res) {
   }
 }
 
+async function getTopStudenti(req, res) {
+  try {
+    const { collezioneVoti, collezioneStudenti } = ottieniCollezioni();
+
+    const pipeline = [
+      // 1) colleghiamo i voti ai documenti studente
+      {
+        $lookup: {
+          from: 'studenti',
+          localField: 'id_studente',       // campo in voti
+          foreignField: 'id_studente',     // campo in studenti
+          as: 'studente'
+        }
+      },
+      { $unwind: '$studente' },
+
+      // 2) raggruppiamo per studente e calcoliamo la media
+      {
+        $group: {
+          _id: '$studente.id_studente',
+          nome:  { $first: '$studente.nome'  },
+          cognome: { $first: '$studente.cognome' },
+          media: { $avg: '$voto' }
+        }
+      },
+
+      // 3) ordiniamo per media decrescente
+      { $sort: { media: -1 } },
+
+      // 4) limitiamo ai primi 5
+      { $limit: 5 },
+
+      // 5) proiettiamo solo i campi che ci servono
+      {
+        $project: {
+          _id: 0,
+          id_studente: '$_id',
+          nome: 1,
+          cognome: 1,
+          media: { $round: ['$media', 2] }
+        }
+      }
+    ];
+
+    const top5 = await collezioneVoti.aggregate(pipeline).toArray();
+    res.json(top5);
+
+  } catch (err) {
+    console.error('Errore in getTopStudenti:', err);
+    res.status(500).json({ error: 'Errore interno del server' });
+  }
+}
+
+
 // ===========================
 // EXPORT DEL MODULO
 // ===========================
@@ -1209,5 +1263,6 @@ module.exports = {
   confrontaPerIndirizzo,
   ottieniOpzioniFiltri,
   analizzaTrendTemporale,
-  identificaClassiOutlier
+  identificaClassiOutlier,
+  getTopStudenti
 };
