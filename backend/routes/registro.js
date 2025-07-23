@@ -3,7 +3,6 @@ const router = express.Router();
 const RegistroController = require('../controllers/RegistroController');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// ==== STUDENTE ====
 
 router.get('/studente/info', authMiddleware, RegistroController.getInfoStudente);
 router.get('/studente/voti', authMiddleware, RegistroController.getVotiStudente);
@@ -12,9 +11,6 @@ router.get('/studente/distribuzione-voti', authMiddleware, RegistroController.ge
 router.get('/studente/voti-filtrati', authMiddleware, RegistroController.getVotiStudenteFiltratiPerData);
 router.get('/studente/voti-materia/:materia', authMiddleware, RegistroController.getVotiStudentePerMateria);
 router.get('/studente/media-generale', authMiddleware, RegistroController.getMediaGeneraleStudente);
-
-// ==== DOCENTE ====
-
 router.get('/docente/info', authMiddleware, RegistroController.getInfoDocente);
 router.get('/docente/classi', authMiddleware, RegistroController.getClassiDocente);
 router.get('/docente/materie', authMiddleware, RegistroController.getMaterieDocente);
@@ -23,7 +19,6 @@ router.get('/docente/studente/:id_studente/media', authMiddleware, RegistroContr
 router.get('/docente/studente/:id_studente/voti', authMiddleware, RegistroController.getVotiStudentePerDocente);
 router.get('/docente/studente/:id_studente/voti-filtro', authMiddleware, RegistroController.getVotiStudentePerDocenteConFiltro);
 router.get('/docente/classe/:id_classe/materia/:materia/media', authMiddleware, RegistroController.getMediaClassePerMateria);
-
 router.post('/docente/voto', authMiddleware, RegistroController.inserisciVoto);
 router.put('/docente/voto', authMiddleware, RegistroController.modificaVoto);
 router.delete('/docente/voto', authMiddleware, RegistroController.eliminaVoto);

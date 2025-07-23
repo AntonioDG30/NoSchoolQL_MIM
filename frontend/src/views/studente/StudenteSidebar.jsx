@@ -45,7 +45,6 @@ const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
     fetchStudente();
   }, [user, setLoading, setError]);
 
-  // --- ORDINAMENTO MATERIE (alfabetico case-insensitive) ---
   const materieOrdinate = useMemo(() => {
     if (!Array.isArray(materie)) return [];
     return [...materie].sort((a, b) => {
@@ -53,7 +52,6 @@ const StudenteSidebar = ({ materie, materiaSelezionata, onSelectMateria }) => {
       const sb = (b || '').toString().toLocaleLowerCase('it-IT');
       if (sa < sb) return -1;
       if (sa > sb) return 1;
-      // Se uguali (case-insensitive), mantieni un ordinamento deterministico confrontando originale
       return (a || '').localeCompare(b || ''); 
     });
   }, [materie]);

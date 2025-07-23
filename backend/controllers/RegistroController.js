@@ -336,7 +336,7 @@ module.exports = {
 
       const start = new Date(startDate);
       const end = new Date(endDate);
-      end.setHours(23, 59, 59, 999); // inclusione del giorno finale
+      end.setHours(23, 59, 59, 999); 
 
       const voti = await votiCollection.find({
         id_studente,
@@ -357,7 +357,7 @@ module.exports = {
   async getMediaClassePerMateria(req, res) {
     const userId = req.userId;
     const userType = req.userType;
-    const { id_classe, materia } = req.params; // <-- correzione qui
+    const { id_classe, materia } = req.params; 
 
     if (userType !== 'docente') return res.status(403).json({ message: 'Accesso negato' });
 
@@ -476,7 +476,7 @@ module.exports = {
   async getVotiStudentePerMateria(req, res) {
     const userId = req.userId;
     const userType = req.userType;
-    const { materia } = req.params; // 👈 CORRETTO QUI
+    const { materia } = req.params; 
 
     if (userType !== 'studente') return res.status(403).json({ message: 'Accesso negato' });
 

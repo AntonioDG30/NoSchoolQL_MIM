@@ -35,7 +35,6 @@ import StatCard from '../components/ui/home/StatCard_Home';
 import Card from '../components/ui/home/Card_Home';
 import Button from '../components/ui/home/Button_Home';
 
-// ==================== MAIN COMPONENT ====================
 function HomeContent() {
   const [theme, toggleTheme, isDark] = useTheme();
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -102,13 +101,11 @@ function HomeContent() {
     <div style={containerStyle}>
       <ParticleBackground />
       
-      {/* Hero Section */}
       <div style={{
         background: theme.gradientHero,
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Animated background shapes */}
         <div style={{
           position: 'absolute',
           top: '-100px',
@@ -133,7 +130,6 @@ function HomeContent() {
           animation: 'float 15s ease-in-out infinite reverse'
         }} />
 
-        {/* Header */}
         <header style={{
           padding: '24px 48px',
           display: 'flex',
@@ -167,7 +163,6 @@ function HomeContent() {
           </div>
         </header>
 
-        {/* Hero Content */}
         <div style={{
           padding: '80px 48px 120px',
           textAlign: 'center',
@@ -212,7 +207,6 @@ function HomeContent() {
             </p>
           </div>
 
-          {/* Quick Stats */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -235,7 +229,6 @@ function HomeContent() {
         </div>
       </div>
 
-      {/* Features Section */}
       <div style={{
         padding: '80px 48px',
         maxWidth: '1200px',
@@ -281,7 +274,6 @@ function HomeContent() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer style={{
         padding: '40px 48px',
         backgroundColor: theme.backgroundSecondary,

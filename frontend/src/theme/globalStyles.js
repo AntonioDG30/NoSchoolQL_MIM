@@ -14,7 +14,6 @@ const globalStyles = `
     overflow-x: hidden;
   }
 
-  /* === Animations === */
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -89,7 +88,6 @@ const globalStyles = `
     }
   }
 
-  /* === Animation Utility Classes === */
   .animate-fade-in {
     animation: fadeIn 0.6s ease-out;
   }
@@ -149,7 +147,6 @@ const globalStyles = `
     transform-origin: top;
   }
 
-  /* === Skeleton Loading === */
   .skeleton {
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
     background-size: 1000px 100%;
@@ -162,7 +159,6 @@ const globalStyles = `
     animation: shimmer 2s infinite;
   }
 
-  /* === Hover Effects === */
   .hover-lift {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -171,14 +167,12 @@ const globalStyles = `
     transform: translateY(-6px);
   }
 
-  /* === Glass Effect === */
   .glass {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     background: rgba(255, 255, 255, 0.1);
   }
 
-  /* === Gradient Text === */
   .gradient-text {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
@@ -186,7 +180,6 @@ const globalStyles = `
     background-clip: text;
   }
 
-  /* === Focus Outline Reset === */
   input:focus,
   select:focus,
   textarea:focus,
@@ -194,7 +187,6 @@ const globalStyles = `
     outline: none;
   }
 
-  /* === Responsive Utilities === */
   @media (max-width: 768px) {
     .hide-mobile {
       display: none !important;
@@ -215,7 +207,6 @@ const globalStyles = `
     }
   }
 
-  /* === Scrollbar Styling === */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -235,7 +226,6 @@ const globalStyles = `
   }
 `;
 
-// Inject global styles once
 if (typeof document !== 'undefined' && !document.getElementById('global-styles')) {
   const styleSheet = document.createElement('style');
   styleSheet.id = 'global-styles';

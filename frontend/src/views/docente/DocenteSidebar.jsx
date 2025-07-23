@@ -44,15 +44,14 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
     fetchDocente();
   }, [user, setLoading, setError]);
 
-  // --- ORDINAMENTO CLASSI ---
   const classiOrdinate = useMemo(() => {
     if (!Array.isArray(classi)) return [];
 
     const parseClasse = (c) => {
       if (typeof c !== 'string') return { anno: Number.MAX_SAFE_INTEGER, lettera: 'Z', raw: c };
-      const match = c.match(/^(\d+)\s*([A-Za-z])/); // es: "1A", "2 B"
+      const match = c.match(/^(\d+)\s*([A-Za-z])/); 
       if (!match) {
-        return { anno: Number.MAX_SAFE_INTEGER, lettera: 'Z', raw: c }; // va in fondo
+        return { anno: Number.MAX_SAFE_INTEGER, lettera: 'Z', raw: c }; 
       }
       return {
         anno: parseInt(match[1], 10),
@@ -68,7 +67,6 @@ const DocenteSidebar = ({ classi, classeSelezionata, onSelectClasse }) => {
       if (ca.anno !== cb.anno) return ca.anno - cb.anno;
       if (ca.lettera < cb.lettera) return -1;
       if (ca.lettera > cb.lettera) return 1;
-      // Se completamente uguali, mantiene ordine stabile (JS sort non garantisce, ma differenza 0 va bene)
       return 0;
     });
   }, [classi]);

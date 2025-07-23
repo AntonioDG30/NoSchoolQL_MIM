@@ -68,7 +68,6 @@ import LoadingBar from '../components/ui/statistiche/LoadingBar_Statistiche';
 import Button from '../components/ui/statistiche/Button_Statistiche';
 import FilterPanel from '../components/ui/statistiche/FilterPanel_Statistiche';
 
-// ==================== MAIN COMPONENT ====================
 function StatisticheContent() {
   const [theme, toggleTheme, isDark] = useTheme();
   const [dati, setDati] = useState({});
@@ -91,7 +90,6 @@ function StatisticheContent() {
 
   const baseUrl = "http://localhost:3000/api/statistiche";
 
-  // Costruisci query string dai filtri
   const buildQueryString = (filters) => {
     const params = new URLSearchParams();
     Object.entries(filters).forEach(([key, value]) => {
@@ -117,7 +115,6 @@ function StatisticheContent() {
     setExpandedPanels(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Ricarica i dati quando cambiano i filtri
   useEffect(() => {
     const loadAllData = async () => {
       setLoading(true);
@@ -141,7 +138,6 @@ function StatisticheContent() {
     loadAllData();
   }, [filters]);
 
-  // Handler per i filtri
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters);
   };
@@ -150,9 +146,7 @@ function StatisticheContent() {
     setFilters({});
   };
 
-  // Esporta dati in CSV
   const exportToCSV = () => {
-    // Implementazione base per export CSV
     const csvData = [];
     csvData.push(['Statistiche Generali']);
     csvData.push(['Tipo', 'Valore']);
@@ -171,7 +165,6 @@ function StatisticheContent() {
     a.click();
   };
 
-  // Chart options
   const chartOptions = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
@@ -283,7 +276,6 @@ function StatisticheContent() {
   return (
     <div style={containerStyle}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        {/* Header */}
         <div style={headerStyle} className="animate-fadeIn glass">
           <div style={{ 
             display: 'flex', 
@@ -354,17 +346,14 @@ function StatisticheContent() {
           </div>
         </div>
 
-        {/* Filter Panel */}
         <FilterPanel 
           filters={filters}
           onFiltersChange={handleFiltersChange}
           onReset={handleResetFilters}
         />
 
-        {/* Loading */}
         {loading && <LoadingBar />}
 
-        {/* Stats Cards */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -376,7 +365,6 @@ function StatisticheContent() {
           ))}
         </div>
 
-        {/* Geographic Comparisons Section */}
         <div style={{ marginBottom: '48px' }}>
           <h2 style={{ 
             fontSize: '24px', 
@@ -391,7 +379,6 @@ function StatisticheContent() {
           </h2>
 
           <div style={gridStyle}>
-            {/* Confronto per Area Geografica */}
             <Accordion
               title="Performance per Area Geografica"
               icon={Globe}
@@ -486,7 +473,6 @@ function StatisticheContent() {
               )}
             </Accordion>
 
-            {/* Confronto per Regione */}
             <Accordion
               title="Performance per Regione"
               icon={Flag}
@@ -530,7 +516,6 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
-            {/* Confronto per Indirizzo */}
             <Accordion
               title="Performance per Indirizzo di Studio"
               icon={School}
@@ -541,7 +526,6 @@ function StatisticheContent() {
               <div style={{ height: '600px', marginLeft: '-20px', marginRight: '-20px' }}>
                 {dati.confrontoIndirizzi ? (
                   (() => {
-                    // Prendi i primi 10 per media
                     const top10 = [...dati.confrontoIndirizzi]
                       .sort((a, b) => parseFloat(b.media_voti) - parseFloat(a.media_voti))
                       .slice(0, 10);
@@ -561,7 +545,7 @@ function StatisticheContent() {
                         }}
                         options={{
                           ...chartOptions,
-                          indexAxis: 'y',       // orizzontale
+                          indexAxis: 'y',       
                           scales: {
                             ...chartOptions.scales,
                             x: {
@@ -583,7 +567,6 @@ function StatisticheContent() {
           </div>
         </div>
 
-        {/* Temporal and Outlier Analysis */}
         <div style={{ marginBottom: '48px' }}>
           <h2 style={{ 
             fontSize: '24px', 
@@ -598,7 +581,6 @@ function StatisticheContent() {
           </h2>
 
           <div style={gridStyle}>
-            {/* Trend Temporale */}
             <Accordion
               title="Andamento Temporale (Quadrimestri)"
               icon={Calendar}
@@ -683,7 +665,6 @@ function StatisticheContent() {
               )}
             </Accordion>
 
-            {/* Classi Outlier */}
             <Accordion
               title="Classi con Performance Anomale"
               icon={AlertTriangle}
@@ -760,7 +741,6 @@ function StatisticheContent() {
           </div>
         </div>
 
-        {/* Original Charts Section */}
         <div style={{ marginBottom: '48px' }}>
           <h2 style={{ 
             fontSize: '24px', 
@@ -775,7 +755,6 @@ function StatisticheContent() {
           </h2>
 
           <div style={gridStyle}>
-            {/* Distribuzione Cittadinanza */}
             <Accordion
               title="Distribuzione Studenti"
               icon={Globe}
@@ -813,7 +792,6 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
-            {/* Numero Voti per Materia */}
             <Accordion
               title="Numero Voti per Materia"
               icon={BarChart3}
@@ -843,7 +821,6 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
-            {/* Media Voti per Materia */}
             <Accordion
               title="Media Voti per Materia"
               icon={TrendingUp}
@@ -883,7 +860,6 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
-            {/* Classi per Anno */}
             <Accordion
               title="Classi per Anno di Corso"
               icon={School}
@@ -919,7 +895,6 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
-            {/* Studenti per Anno */}
             <Accordion
               title="Studenti per Anno di Corso"
               icon={Users}
@@ -949,7 +924,6 @@ function StatisticheContent() {
               </div>
             </Accordion>
 
-            {/* Distribuzione Voti */}
             <Accordion
               title="Distribuzione dei Voti"
               icon={Award}
@@ -991,7 +965,6 @@ function StatisticheContent() {
           </div>
         </div>
 
-        {/* Advanced Analytics Section */}
         <div style={{ marginTop: '48px' }}>
           <h2 style={{ 
             fontSize: '24px', 
@@ -1010,7 +983,6 @@ function StatisticheContent() {
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             gap: '24px'
           }}>
-            {/* Performance Indicator */}
             <Card hoverable>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: '600' }}>Performance Generale</h3>
@@ -1079,7 +1051,6 @@ function StatisticheContent() {
               )}
             </Card>
 
-            {/* Top Materie */}
             <Card hoverable>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: '600' }}>Top Materie per Media</h3>
@@ -1129,7 +1100,6 @@ function StatisticheContent() {
               )}
             </Card>
 
-            {/* Filtri Attivi Summary */}
             <Card hoverable>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: '600' }}>Filtri Attivi</h3>
@@ -1168,14 +1138,12 @@ function StatisticheContent() {
   );
 }
 
-// Helper function
 function getVotoColor(voto, theme) {
   if (voto >= 8) return theme.success;
   if (voto >= 6) return theme.info;
   return theme.danger;
 }
 
-// ==================== EXPORT ====================
 export default function Statistiche() {
   return (
     <AppProvider>

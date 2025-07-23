@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import Registro from './pages/Registro';
 import Login from './pages/Login';
 import Statistiche from './pages/Statistiche';
-import ProtectedRoute from './components/routing/ProtectedRoute'; // importa qui
+import ProtectedRoute from './components/routing/ProtectedRoute'; 
 
 function App() {
   return (

@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
 import pandas as pd
 import os
 
-# -----------------------------
-# CONFIGURAZIONE
-# -----------------------------
+
 ModalitaRidotta = True
 NUM_SCUOLE = 200
 
@@ -16,9 +13,7 @@ PATH_STU_CITTAD = os.path.join(BASE_DIR, '../file/dataset_originali/Stu_Cittad.c
 PATH_STU_INDIRIZZO = os.path.join(BASE_DIR, '../file/dataset_originali/Stu_Indirizzo.csv')
 PATH_STU_CORSO_CLASSE = os.path.join(BASE_DIR, '../file/dataset_originali/Stu_Corso_Classe_Genere.csv')
 
-# -----------------------------
-# UTILITY
-# -----------------------------
+
 def normalize_string(x):
     return str(x).strip().upper()
 
@@ -46,18 +41,13 @@ def sort_dataframe(df):
     valid_cols = [col for col in sort_cols if col in df.columns]
     return df.sort_values(by=valid_cols)
 
-# -----------------------------
-# 0. SCUOLE SECONDARIE DI II GRADO
-# -----------------------------
+
 df_ordini = pd.read_csv(PATH_STU_CORSO_CLASSE, dtype=str)
 df_ordini = clean_string_columns(df_ordini)
 df_ordini = snake_case_columns(df_ordini)
 
 scuole_secondarie = set(df_ordini[df_ordini['ordinescuola'] == 'SCUOLA SECONDARIA II GRADO']['codicescuola'])
 
-# -----------------------------
-# 1. ANAGRAFICA SCUOLE
-# -----------------------------
 drop_cols_anag = [
     'ANNOSCOLASTICO', 'CAPSCUOLA', 'INDIRIZZOSCUOLA',
     'INDICAZIONESEDEDIRETTIVO', 'INDICAZIONESEDEOMNICOMPRENSIVO',
@@ -78,9 +68,7 @@ anag = snake_case_columns(anag)
 anag = anag[anag['codicescuola'].isin(scuole_secondarie)]
 report_stats("Anagrafica Scuole", original_len, anag)
 
-# -----------------------------
-# 2. CITTADINANZA STUDENTI
-# -----------------------------
+
 drop_cols_cittad = ['ANNOSCOLASTICO', 'ORDINESCUOLA']
 stu_cittad = pd.read_csv(PATH_STU_CITTAD, dtype=str)
 original_len = len(stu_cittad)
@@ -96,9 +84,7 @@ stu_cittad = snake_case_columns(stu_cittad)
 stu_cittad = stu_cittad[stu_cittad['codicescuola'].isin(scuole_secondarie)]
 report_stats("Studenti Cittadinanza", original_len, stu_cittad)
 
-# -----------------------------
-# 3. STUDENTI PER INDIRIZZO
-# -----------------------------
+
 drop_cols_ind = ['ANNOSCOLASTICO', 'ORDINESCUOLA']
 stu_ind = pd.read_csv(PATH_STU_INDIRIZZO, dtype=str)
 original_len = len(stu_ind)
@@ -114,9 +100,7 @@ stu_ind.drop_duplicates(inplace=True)
 stu_ind = stu_ind[stu_ind['codicescuola'].isin(scuole_secondarie)]
 report_stats("Studenti per Indirizzo", original_len, stu_ind)
 
-# -----------------------------
-# 4. RIDUZIONE CAMPIONE (OPZIONALE)
-# -----------------------------
+
 if ModalitaRidotta:
     meta_scuole = pd.merge(anag, stu_ind[['codicescuola', 'tipopercorso']], on='codicescuola', how='inner')
     meta_scuole = meta_scuole.drop_duplicates(subset=['codicescuola', 'tipopercorso'])
@@ -144,9 +128,7 @@ if ModalitaRidotta:
 
     print(f"\n✅ Campione finale: {len(anag)} scuole (ridotto a {NUM_SCUOLE})")
 
-# -----------------------------
-# 5. ORDINAMENTO E SALVATAGGIO
-# -----------------------------
+
 anag = sort_dataframe(anag)
 stu_cittad = sort_dataframe(stu_cittad)
 stu_ind = sort_dataframe(stu_ind)
@@ -160,9 +142,6 @@ stu_ind.to_csv(os.path.join(out_dir, 'stu_indirizzi_pulito.csv'), index=False)
 
 print("\n✅ File ordinati e salvati nella cartella 'dataset_puliti'.")
 
-# -----------------------------
-# 6. VERIFICA
-# -----------------------------
 codici = set(anag['codicescuola'])
 assert set(stu_cittad['codicescuola']).issubset(codici), "⚠️ stu_cittad contiene codici non coerenti"
 assert set(stu_ind['codicescuola']).issubset(codici), "⚠️ stu_ind contiene codici non coerenti"

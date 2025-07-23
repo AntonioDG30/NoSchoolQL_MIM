@@ -5,22 +5,11 @@ import Alert from '../../components/ui/registro/Alert_Registro';
 
 import { Edit2, Trash2, X, Check } from 'lucide-react';
 
-/**
- * Componente: VotiList
- * Descrizione: mostra i voti raggruppati per materia con possibilità di modifica inline
- *              (voto + tipologia) ed eliminazione. La tipologia può essere: SCRITTO / ORALE / PRATICO.
- *
- * Props:
- *  - voti: Array<{ id_voto:number|string; voto:number; materia:string; data:string|Date; tipologia?:string; }>
- *  - onUpdate: function da chiamare dopo modifica/eliminazione per ricaricare i dati
- */
 const VotiList = ({ voti, onUpdate }) => {
   const { currentTheme, user, setLoading, setError } = useApp();
   const [editingVotoId, setEditingVotoId] = useState(null);
 
-  /*********************************
-   * Helpers
-   *********************************/
+
   const getVotoColor = (v) => {
     if (v >= 8) return currentTheme.success;
     if (v >= 6) return currentTheme.primary;
@@ -60,15 +49,12 @@ const VotiList = ({ voti, onUpdate }) => {
     }
   };
 
-  /*********************************
-   * Azioni API
-   *********************************/
+
   const handleEditSave = async (votoOriginale, formValues) => {
     const nuovoVoto = Number(formValues.voto);
     const nuovaTipologia = formValues.tipologia;
 
     if (Number.isNaN(nuovoVoto) || nuovoVoto < 1 || nuovoVoto > 10) {
-      // Potresti aggiungere un toast/alert
       return;
     }
     
@@ -132,9 +118,7 @@ const VotiList = ({ voti, onUpdate }) => {
     }
   };
 
-  /*********************************
-   * Raggruppamento
-   *********************************/
+
   const votiOrdinati = [...voti].sort((a, b) => new Date(b.data) - new Date(a.data));
 
   const votiPerMateria = votiOrdinati.reduce((acc, voto) => {
@@ -144,9 +128,7 @@ const VotiList = ({ voti, onUpdate }) => {
   }, {});
 
 
-  /*********************************
-   * Render principali
-   *********************************/
+
   if (!voti || voti.length === 0) {
     return (
       <Alert type="info">Nessun voto presente per questo studente</Alert>
@@ -288,9 +270,6 @@ const VotiList = ({ voti, onUpdate }) => {
   );
 };
 
-/*********************************
- * Sub-component: EditForm
- *********************************/
 const EditForm = ({ voto, currentTheme, onCancel, onSave }) => {
   const [valore, setValore] = useState(voto.voto);
   const [tipologia, setTipologia] = useState(voto.tipologia?.toUpperCase() || 'SCRITTO');
@@ -394,9 +373,6 @@ const EditForm = ({ voto, currentTheme, onCancel, onSave }) => {
   );
 };
 
-/*********************************
- * Stili riutilizzabili
- *********************************/
 const buttonIconStyle = (bg) => ({
   background: bg,
   border: 'none',

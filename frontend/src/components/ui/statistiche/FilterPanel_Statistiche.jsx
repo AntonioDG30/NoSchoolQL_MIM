@@ -31,7 +31,6 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
   });
   const [loading, setLoading] = useState(true);
 
-  // Carica opzioni filtri dal backend
   useEffect(() => {
     const fetchFilterOptions = async () => {
       try {
@@ -57,7 +56,6 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
       newFilters[key] = value;
     }
 
-    // Reset filtri dipendenti
     if (key === 'areageografica') {
       delete newFilters.regione;
       delete newFilters.provincia;
@@ -156,7 +154,6 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
           gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
           gap: '24px'
         }}>
-          {/* Filtri Geografici */}
           <div style={sectionStyle}>
             <h4 style={{ 
               fontSize: '16px', 
@@ -242,7 +239,6 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
             </div>
           </div>
 
-          {/* Filtri Scolastici */}
           <div style={sectionStyle}>
             <h4 style={{ 
               fontSize: '16px', 
@@ -311,7 +307,6 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
             </div>
           </div>
 
-          {/* Filtri Demografici */}
           <div style={sectionStyle}>
             <h4 style={{ 
               fontSize: '16px', 
@@ -364,7 +359,6 @@ const FilterPanel = ({ filters, onFiltersChange, onReset }) => {
         </div>
       )}
 
-      {/* Filtri attivi */}
       {activeFiltersCount > 0 && isExpanded && (
         <div style={{
           marginTop: '24px',

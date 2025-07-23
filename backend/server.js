@@ -8,16 +8,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Route placeholder
 app.get('/', (req, res) => {
   res.send('🎓 NoSchoolQL API attiva.');
 });
 
-// Importa e monta i router (verranno creati nei prossimi step)
 const statisticheRoutes = require('./routes/statistiche');
 const registroRoutes = require('./routes/registro');
 const homeRoutes = require('./routes/home'); 
@@ -27,7 +24,6 @@ app.use('/api/statistiche', statisticheRoutes);
 app.use('/api/registro', registroRoutes);
 app.use('/api/home', homeRoutes); 
 
-// Avvio del server
 connectToDatabase().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Server avviato su http://localhost:${PORT}`);

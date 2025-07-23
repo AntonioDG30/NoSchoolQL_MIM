@@ -23,37 +23,30 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
   const { currentTheme, user, setLoading, setError } = useApp();
   const [bulkTime, setBulkTime] = useState(0);
 
-  // stati filtri
   const [materiaSelezionata, setMateriaSelezionata] = useState('');
   const [filtri, setFiltri] = useState({ inizio: '', fine: '' });
   const [studentiFiltrati, setStudentiFiltrati] = useState([]);
   const [alertVisibile, setAlertVisibile] = useState(false);
 
-  // espansioni studenti
   const [expandedStudents, setExpandedStudents] = useState([]);
   const toggleStudentExpansion = id =>
     setExpandedStudents(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     );
 
-  // Reset filtri quando cambia la classe
   useEffect(() => {
     if (classeSelezionata) {
-      // Reset tutti gli stati relativi ai filtri
       setStudentiFiltrati([]);
       setMateriaSelezionata('');
       setFiltri({ inizio: '', fine: '' });
       setAlertVisibile(false);
       setExpandedStudents([]);
-      // Reset anche il bulkTime per forzare refresh delle card
       setBulkTime(0);
     }
   }, [classeSelezionata]);
 
-  // stato bulk
   const [bulkOpen, setBulkOpen] = useState(false);
 
-  // applica filtri data e materia
   const applicaFiltri = async () => {
     if (!filtri.inizio || !filtri.fine) return;
     
@@ -105,7 +98,6 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
     setAlertVisibile(false);
   };
 
-  // lista da mostrare
   const listaDaMostrare = studentiFiltrati.length > 0 ? studentiFiltrati : studentiClasse;
 
   const listaOrdinata = [...listaDaMostrare].sort((a, b) =>
@@ -131,7 +123,6 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
 
   return (
     <div className="animate-fade-in">
-      {/* Header con Bulk button */}
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h1 style={{ fontSize: '32px', fontWeight: '700', margin: 0 }}>Classe {classeSelezionata}</h1>
@@ -146,7 +137,6 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
         </Button>
       </div>
 
-      {/* Bulk Form */}
       {bulkOpen && (
         <VotoClasseForm
           classeId={classeSelezionata}
@@ -161,7 +151,6 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
         />
       )}
 
-      {/* Filtri Section */}
       <Card style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div style={{ flex: 1, minWidth: '200px' }}>
@@ -183,14 +172,12 @@ const DocenteDashboard = ({ classeSelezionata, studentiClasse, materie }) => {
         </div>
       </Card>
 
-      {/* Alert Nessun voto */}
       {alertVisibile && (
         <Alert type="error" onClose={() => setAlertVisibile(false)}>
           Nessun voto trovato per i filtri selezionati.
         </Alert>
       )}
 
-      {/* Lista student cards */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {listaOrdinata.map(item => (
           <StudentCard

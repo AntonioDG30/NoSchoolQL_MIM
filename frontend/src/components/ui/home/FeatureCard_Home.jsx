@@ -23,7 +23,6 @@ const FeatureCard = ({ icon: Icon, title, description, link, linkText, color, de
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Decorative background elements */}
       <div style={{
         position: 'absolute',
         top: '-50px',
@@ -48,7 +47,6 @@ const FeatureCard = ({ icon: Icon, title, description, link, linkText, color, de
         filter: 'blur(30px)'
       }} />
 
-      {/* Content */}
       <div style={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div style={{
           display: 'flex',

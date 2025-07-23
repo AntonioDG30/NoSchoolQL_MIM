@@ -4,17 +4,14 @@ import themes from '../theme/themes';
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  // Global app state
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentView, setCurrentView] = useState('login');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // Theme state
   const [isDark, setIsDark] = useState(false);
 
-  // Initialize from system preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     setIsDark(mediaQuery.matches);
@@ -31,7 +28,6 @@ const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider value={{
-      // User/auth state
       user,
       setUser,
       loading,
@@ -39,13 +35,11 @@ const AppProvider = ({ children }) => {
       error,
       setError,
 
-      // Navigation/view
       currentView,
       setCurrentView,
       sidebarOpen,
       setSidebarOpen,
 
-      // Theme
       isDark,
       themeKey,
       currentTheme,
@@ -64,11 +58,6 @@ const useApp = () => {
   return context;
 };
 
-/**
- * Hook per tema, compatibile con destrutturazione array:
- * const [theme, toggleTheme, isDark] = useTheme();
- * opzionalmente: const [theme, toggleTheme, isDark, themeKey] = useTheme();
- */
 const useTheme = () => {
   const { currentTheme, isDark, toggleTheme, themeKey } = useApp();
   return [currentTheme, toggleTheme, isDark, themeKey];

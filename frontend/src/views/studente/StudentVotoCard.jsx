@@ -3,7 +3,6 @@ import { useApp } from '../../context/AppContext';
 const StudentVotoCard = ({ 
   voto, 
   detailed = false,
-  // opzionale: se MateriaView passa un renderer personalizzato
   renderTipologia 
 }) => {
   const { currentTheme } = useApp();
@@ -15,7 +14,7 @@ const StudentVotoCard = ({
   };
 
   const normalizeTipologia = (t) => (t || '').toUpperCase();
-  const tipologia = normalizeTipologia(voto.tipologia || voto.tipo); // supporta entrambi
+  const tipologia = normalizeTipologia(voto.tipologia || voto.tipo); 
 
   const getTipologiaBadgeStyle = (t) => {
     const base = {

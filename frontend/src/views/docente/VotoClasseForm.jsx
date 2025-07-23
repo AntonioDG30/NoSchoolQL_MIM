@@ -19,7 +19,6 @@ export default function VotoClasseForm({ classeId, studenti, materie, onClose, o
   );
   const [error, setError] = useState(null);
 
-  // crea un array ordinato per cognome
   const studentiOrdinati = useMemo(() => {
     return [...studenti].sort((a, b) =>
       a.cognome.localeCompare(b.cognome)
@@ -83,7 +82,6 @@ export default function VotoClasseForm({ classeId, studenti, materie, onClose, o
   return (
     <Card style={{ margin: '0 0 24px', background: currentTheme.backgroundTertiary }}>
       <form onSubmit={handleSubmit}>
-        {/* Header filtri */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr',
@@ -125,7 +123,6 @@ export default function VotoClasseForm({ classeId, studenti, materie, onClose, o
           </p>
         )}
 
-        {/* Elenco studenti ordinato */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
@@ -176,7 +173,6 @@ export default function VotoClasseForm({ classeId, studenti, materie, onClose, o
           })}
         </div>
 
-        {/* Pulsanti */}
         <div style={{
           display: 'flex',
           justifyContent: 'flex-end',

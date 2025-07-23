@@ -26,7 +26,6 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
   const [loading, setLocalLoading] = useState(false);
   const [showVotoForm, setShowVotoForm] = useState(false);
 
-  // ricarica voti ad apertura o dopo bulk/in caso di override
   useEffect(() => {
     if (!isExpanded) return;
     if (Array.isArray(votiOverride) && votiOverride !== null) {
@@ -36,7 +35,6 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
     }
   }, [isExpanded, votiOverride, bulkTime]);
 
-  // ricalcola media se cambia la lista voti
   useEffect(() => {
     if (media !== null) calcolaMedia();
   }, [voti]);
@@ -145,7 +143,6 @@ const StudentCard = ({ studente, isExpanded, onToggle, materie, votiOverride, bu
     doc.save(`Report_${studente.id_studente}.pdf`);
   };
 
-  // stili e render...
   const headerStyle = {
     display: 'flex',
     alignItems: 'center',

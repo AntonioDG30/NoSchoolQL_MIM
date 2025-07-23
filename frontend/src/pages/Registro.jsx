@@ -229,7 +229,6 @@ const RegistroApp = () => {
 
   return (
     <Layout>
-      {/* Sidebar */}
       <Sidebar>
         {user.tipo === 'docente' ? (
           <DocenteSidebar
@@ -246,7 +245,6 @@ const RegistroApp = () => {
         )}
       </Sidebar>
 
-      {/* Main Content */}
       <Main>
         <Header>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -327,7 +325,6 @@ const RegistroApp = () => {
   );
 };
 
-// ==================== EXPORT ====================
 export default function App() {
   return (
     <AppProvider>

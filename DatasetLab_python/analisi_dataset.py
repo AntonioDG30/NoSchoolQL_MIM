@@ -1,18 +1,13 @@
-# -*- coding: utf-8 -*-
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
 
-# -----------------------------
-# CONFIGURAZIONE PERCORSI
-# -----------------------------
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(BASE_DIR, '../file/dataset_puliti')
 SIMULATED_DIR = os.path.join(BASE_DIR, '../file/dataset_definitivi')
 
-# -----------------------------
-# CARICAMENTO DATASET
-# -----------------------------
+
 df_ind = pd.read_csv(os.path.join(INPUT_DIR, 'stu_indirizzi_pulito.csv'))
 df_citt = pd.read_csv(os.path.join(INPUT_DIR, 'stu_cittadinanza_pulito.csv'))
 df_anag = pd.read_csv(os.path.join(INPUT_DIR, 'anagrafica_scuole_pulita.csv'))
@@ -23,17 +18,13 @@ df_docenti = pd.read_csv(os.path.join(SIMULATED_DIR, 'docenti.csv'))
 df_voti = pd.read_csv(os.path.join(SIMULATED_DIR, 'voti.csv'))
 df_assegnazioni = pd.read_csv(os.path.join(SIMULATED_DIR, 'assegnazioni_docenti.csv'))
 
-# -----------------------------
-# FUNZIONI DI SUPPORTO
-# -----------------------------
+
 def percentuale_diff(sim, ori):
     if ori == 0:
         return 0
     return round((sim - ori) / ori * 100, 2)
 
-# -----------------------------
-# ANALISI MASCHI/FEMMINE
-# -----------------------------
+
 print("\n📊 ANALISI MASCHI/FEMMINE PER INDIRIZZO E ANNO:")
 dati_genere = []
 
@@ -71,7 +62,6 @@ for _, row in df_ind.iterrows():
         'Femmine Simulati': sim_f
     })
 
-# GRAFICO MASCHI/FEMMINE
 df_genere = pd.DataFrame(dati_genere)
 df_genere[['Maschi Originali', 'Maschi Simulati']].sum().plot(kind='bar', title="Totale Maschi - Originali vs Simulati")
 plt.ylabel("Numero Studenti")
@@ -83,9 +73,7 @@ plt.ylabel("Numero Studenti")
 plt.tight_layout()
 plt.show()
 
-# -----------------------------
-# ANALISI CITTADINANZA
-# -----------------------------
+
 print("\n📊 ANALISI CITTADINANZA PER SCUOLA E ANNO:")
 dati_citt = []
 
@@ -120,7 +108,6 @@ for _, row in df_citt.iterrows():
         'NON_ITA Simulati': sim_nonita
     })
 
-# GRAFICO CITTADINANZA
 df_cittadinanza = pd.DataFrame(dati_citt)
 df_cittadinanza[['ITA Originali', 'ITA Simulati']].sum().plot(kind='bar', title="Totale Italiani - Originali vs Simulati")
 plt.ylabel("Numero Studenti")
@@ -132,9 +119,6 @@ plt.ylabel("Numero Studenti")
 plt.tight_layout()
 plt.show()
 
-# -----------------------------
-# STATISTICHE FINALI
-# -----------------------------
 print("\n📌 STATISTICHE GENERALI SUL DATASET SIMULATO:")
 print(f"🏫 Numero scuole simulate: {df_classi['codicescuola'].nunique()}")
 print(f"🏷️ Numero classi: {len(df_classi)}")

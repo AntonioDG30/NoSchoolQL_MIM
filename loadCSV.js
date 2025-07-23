@@ -16,8 +16,8 @@ const COLLECTIONS = {
   voti: 'voti.csv'
 };
 
-const BATCH_SIZE = 5000;        // regola in base a performance
-const LOG_EVERY = 100000;       // progress logging
+const BATCH_SIZE = 5000;        
+const LOG_EVERY = 100000;       
 const PARSE_DATE_FIELDS = { voti: ['data'] };
 const NUMERIC_FIELDS = {
   classi: ['annocorso','num_studenti','num_maschi','num_femmine','num_italiani','num_stranieri'],
@@ -25,11 +25,9 @@ const NUMERIC_FIELDS = {
 };
 
 function convertRow(row, collName) {
-  // numerici
   (NUMERIC_FIELDS[collName] || []).forEach(f => {
     if (row[f] !== undefined && row[f] !== '') row[f] = Number(row[f]);
   });
-  // date
   (PARSE_DATE_FIELDS[collName] || []).forEach(f => {
     if (row[f]) row[f] = new Date(row[f]);
   });
@@ -98,7 +96,6 @@ async function importCollection(client, collName, fileName) {
 async function creaIndici(client) {
   const db = client.db(DB_NAME);
 
-  // crea indici dopo
   await db.collection('anagrafica').createIndex({ codicescuola: 1 });
 
   await db.collection('studenti').createIndex({ id_studente: 1 }, { unique: true });
@@ -137,10 +134,8 @@ async function main() {
     await client.connect();
     console.log('🔌 Connesso a MongoDB.');
 
-    // Ordine: carica prima tabelle piccole, poi grandi
     for (const [coll, file] of Object.entries(COLLECTIONS)) {
       await importCollection(client, coll, file);
-      // opzionale: forza GC Node (non sempre necessario)
       global.gc && global.gc();
     }
 

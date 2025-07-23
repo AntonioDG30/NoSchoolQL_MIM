@@ -15,7 +15,6 @@ import StudentVotoCard from './StudentVotoCard';
 const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzioneVoti }) => {
   const { currentTheme } = useApp();
 
-  // Helpers tipologia
   const normalizeTipologia = (t) => (t || '').toUpperCase();
 
   const getTipologiaBadgeStyle = (tipologia) => {
@@ -40,7 +39,6 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
     }
   };
 
-  // Stats cards data
   const stats = [
     {
       title: 'Media Generale',
@@ -74,7 +72,6 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
     }
   ];
 
-  // Chart options condivise
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -145,9 +142,7 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
       borderRadius: 4
     }]
   };
-  // (doughnutData definito se in futuro aggiungi il grafico a ciambella)
 
-  // Medie ordinate
   const medieOrdinate = [...mediePerMateria]
     .map(m => ({ ...m, mediaNum: parseFloat(m.media) }))
     .sort((a, b) => b.mediaNum - a.mediaNum);
@@ -204,7 +199,6 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
 
   return (
     <div className="animate-fade-in">
-      {/* Header */}
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '8px' }}>
           Dashboard Studente
@@ -214,7 +208,6 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
         </p>
       </div>
 
-      {/* Stats */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
@@ -248,7 +241,6 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
         ))}
       </div>
 
-      {/* Charts */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
@@ -274,7 +266,6 @@ const DashboardGenerale = ({ voti, mediePerMateria, mediaGenerale, distribuzione
         </Card>
       </div>
 
-      {/* Medie + Ultimi Voti */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
