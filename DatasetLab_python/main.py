@@ -11,8 +11,8 @@ La pipeline è composta da 4 fasi principali:
 3. Generazione dei dati simulati
 4. Analisi del dataset prodotto
 
-Autore: [Il tuo nome]
-Data: [Data di creazione]
+Autore: Antonio Di Giorgio
+Data: Giugno 2025
 ================================================================================
 """
 

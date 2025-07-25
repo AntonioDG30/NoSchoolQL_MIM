@@ -15,8 +15,8 @@ Obiettivi principali:
 Queste statistiche verranno utilizzate dal modulo di generazione per creare
 distribuzioni realistiche di studenti nelle classi simulate.
 
-Autore: [Il tuo nome]
-Data: [Data di creazione]
+Autore: Antonio Di Giorgio
+Data: Giugno 2025
 ================================================================================
 """
 

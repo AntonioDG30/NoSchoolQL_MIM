@@ -14,8 +14,8 @@ Obiettivi principali:
 Questo modulo è essenziale per validare che la simulazione abbia prodotto
 dati realistici e coerenti con le statistiche MIUR originali.
 
-Autore: [Il tuo nome]
-Data: [Data di creazione]
+Autore: Antonio Di Giorgio
+Data: Giugno 2025
 ================================================================================
 """
 
@@ -297,17 +297,4 @@ Il dataset finale può essere utilizzato per:
 - Formazione e dimostrazione di software gestionali
 
 Tutti i dati sono completamente anonimi e rispettano la privacy.
-"""
-
-# ============================================================================
-# ANALISI AGGIUNTIVE (OPZIONALI)
-# ============================================================================
-"""
-Qui si potrebbero aggiungere ulteriori analisi, come:
-- Distribuzione dei voti per materia
-- Carico medio dei docenti
-- Distribuzione ESCS per area geografica
-- Analisi delle correlazioni tra fattori socio-demografici e voti
-
-Queste analisi sono lasciate come esercizio per estensioni future.
 """

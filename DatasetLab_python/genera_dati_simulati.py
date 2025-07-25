@@ -17,8 +17,8 @@ La simulazione integra fattori realistici come:
 - Difficoltà diverse delle materie
 - Variabilità tra classi e docenti
 
-Autore: [Il tuo nome]
-Data: [Data di creazione]
+Autore: Antonio Di Giorgio
+Data: Giugno 2025
 ================================================================================
 """
 
