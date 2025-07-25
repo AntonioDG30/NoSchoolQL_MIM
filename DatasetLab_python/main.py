@@ -81,7 +81,7 @@ def esegui_script(nome_script, descrizione):
 # Definisco l'ordine preciso delle fasi e i loro script corrispondenti
 # L'ordine è importante: ogni fase dipende dai risultati della precedente
 fasi = [
-    ('pulizia_mir.py', 'Pulizia dei file MIUR'),
+    ('pulizia_mim.py', 'Pulizia dei file MIUR'),
     ('calcolo_statistiche.py', 'Generazione statistiche per simulazione'),
     ('genera_dati_simulati.py', 'Generazione dei dati simulati'),
     ('analisi_dataset.py', 'Analisi del dataset simulato')
