@@ -1,1 +1,1 @@
-# NoSchoolQL_MIR
+# NoSchoolQL_MIM

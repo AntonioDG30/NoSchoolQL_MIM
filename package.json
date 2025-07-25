@@ -1,5 +1,5 @@
 {
-  "name": "noschoolql_mir",
+  "name": "noschoolql_mim",
   "version": "1.0.0",
   "description": "",
   "main": "importaCSVinMongo.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AntonioDG30/NoSchoolQL_MIR.git"
+    "url": "git+https://github.com/AntonioDG30/NoSchoolQL_MIM.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AntonioDG30/NoSchoolQL_MIR/issues"
+    "url": "https://github.com/AntonioDG30/NoSchoolQL_MIM/issues"
   },
-  "homepage": "https://github.com/AntonioDG30/NoSchoolQL_MIR#readme",
+  "homepage": "https://github.com/AntonioDG30/NoSchoolQL_MIM#readme",
   "dependencies": {
     "csv-parser": "^3.2.0",
     "mongodb": "^6.17.0"
