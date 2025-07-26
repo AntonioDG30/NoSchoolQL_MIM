@@ -385,7 +385,8 @@ async function ottieniInfoStudente(req, res) {
     res.json({
       nome: studente.nome,
       cognome: studente.cognome,
-      classe: classe?.nome_classe || 'N/D'
+      classe: classe?.nome_classe || 'N/D',
+      indirizzo: classe?.indirizzo || 'N/D',
     });
     
   } catch (errore) {

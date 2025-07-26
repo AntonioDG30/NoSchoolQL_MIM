@@ -155,7 +155,7 @@ const SidebarStudente = ({
             {studente?.nome} {studente?.cognome}
           </h3>
           <Badge variant="primary" size="sm" icon={School}>
-            Classe {studente?.classe}
+            Classe {studente?.classe}, {studente?.indirizzo}
           </Badge>
         </div>
       </div>
