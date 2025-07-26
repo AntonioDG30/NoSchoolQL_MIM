@@ -11,7 +11,7 @@
 
 const express = require('express');
 const router = express.Router();
-const ControllerRegistro = require('../controllers/RegistroController');
+const ControllerRegistro = require('../controllers/registro.controller');
 const middlewareAutenticazione = require('../middleware/authMiddleware');
 
 // ===========================

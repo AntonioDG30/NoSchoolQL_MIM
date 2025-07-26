@@ -741,6 +741,7 @@ async function calcolaDistribuzioneVoti(req, res) {
 
 /**
  * Confronto le performance tra le diverse aree geografiche italiane.
+ * ORA APPLICA I FILTRI TEMPORALI E DEMOGRAFICI
  * 
  * @async
  * @param {Object} req - Oggetto richiesta Express
@@ -750,41 +751,44 @@ async function confrontaPerAreaGeografica(req, res) {
   try {
     const { collezioneVoti, collezioneStudenti, collezioneClassi, collezioneAnagrafica } = ottieniCollezioni();
     
-    // Definisco le aree geografiche italiane
+    // NUOVO: Recupero i filtri temporali e demografici
+    const { filtri, filtriTemporali } = costruisciFiltriComuni(req.query);
+    
     const areeGeografiche = ['NORD EST', 'NORD OVEST', 'CENTRO', 'SUD', 'ISOLE'];
     const risultati = [];
 
-    // ===========================
-    // ANALISI PER AREA
-    // ===========================
-    
-    /**
-     * Per ogni area geografica calcolo:
-     * - Media dei voti
-     * - Numero totale di voti
-     * - Numero di studenti
-     * - Numero di scuole
-     */
     for (const area of areeGeografiche) {
       // Recupero le scuole dell'area
       const scuole = await collezioneAnagrafica.find({ areageografica: area }).toArray();
       const codiciScuola = scuole.map(s => s.codicescuola);
 
-      // Recupero le classi delle scuole dell'area
-      const classi = await collezioneClassi.find({ 
-        codicescuola: { $in: codiciScuola } 
-      }).toArray();
+      // Applico filtri aggiuntivi alle classi
+      const filtriClassi = { codicescuola: { $in: codiciScuola } };
+      if (filtri.indirizzo_norm) filtriClassi.indirizzo_norm = filtri.indirizzo_norm;
+      if (filtri.annocorso) filtriClassi.annocorso = filtri.annocorso;
+
+      const classi = await collezioneClassi.find(filtriClassi).toArray();
       const idClassi = classi.map(c => c.id_classe);
 
-      // Recupero gli studenti delle classi
-      const studenti = await collezioneStudenti.find({ 
-        id_classe: { $in: idClassi } 
-      }).toArray();
+      // Applico filtri demografici agli studenti
+      const filtriStudenti = { id_classe: { $in: idClassi } };
+      if (req.query.sesso) filtriStudenti.sesso = req.query.sesso;
+      if (req.query.cittadinanza) {
+        if (req.query.cittadinanza === 'italiana') {
+          filtriStudenti.cittadinanza = 'ITA';
+        } else if (req.query.cittadinanza === 'straniera') {
+          filtriStudenti.cittadinanza = { $ne: 'ITA' };
+        }
+      }
+
+      const studenti = await collezioneStudenti.find(filtriStudenti).toArray();
       const idStudenti = studenti.map(s => s.id_studente);
 
-      // Calcolo la media dei voti per l'area
+      // Applico filtri temporali ai voti
+      const filtriVoti = { id_studente: { $in: idStudenti }, ...filtriTemporali };
+
       const risultatoMedia = await collezioneVoti.aggregate([
-        { $match: { id_studente: { $in: idStudenti } } },
+        { $match: filtriVoti },
         { $group: { _id: null, media: { $avg: "$voto" }, count: { $sum: 1 } } }
       ]).toArray();
 
@@ -805,12 +809,14 @@ async function confrontaPerAreaGeografica(req, res) {
   }
 }
 
+
 // ===========================
 // ENDPOINT CONFRONTO REGIONI
 // ===========================
 
 /**
  * Confronto le performance tra le diverse regioni italiane.
+ * ORA APPLICA I FILTRI TEMPORALI E DEMOGRAFICI
  * 
  * @async
  * @param {Object} req - Oggetto richiesta Express
@@ -820,31 +826,43 @@ async function confrontaPerRegione(req, res) {
   try {
     const { collezioneVoti, collezioneStudenti, collezioneClassi, collezioneAnagrafica } = ottieniCollezioni();
     
-    // Recupero tutte le regioni distinte
+    // NUOVO: Recupero i filtri
+    const { filtri, filtriTemporali } = costruisciFiltriComuni(req.query);
+    
     const regioni = await collezioneAnagrafica.distinct('regione');
     const risultati = [];
 
-    // ===========================
-    // ANALISI PER REGIONE
-    // ===========================
-    
     for (const regione of regioni) {
-      // Processo simile al confronto per area, ma per regione
       const scuole = await collezioneAnagrafica.find({ regione }).toArray();
       const codiciScuola = scuole.map(s => s.codicescuola);
 
-      const classi = await collezioneClassi.find({ 
-        codicescuola: { $in: codiciScuola } 
-      }).toArray();
+      // Applico filtri alle classi
+      const filtriClassi = { codicescuola: { $in: codiciScuola } };
+      if (filtri.indirizzo_norm) filtriClassi.indirizzo_norm = filtri.indirizzo_norm;
+      if (filtri.annocorso) filtriClassi.annocorso = filtri.annocorso;
+
+      const classi = await collezioneClassi.find(filtriClassi).toArray();
       const idClassi = classi.map(c => c.id_classe);
 
-      const studenti = await collezioneStudenti.find({ 
-        id_classe: { $in: idClassi } 
-      }).toArray();
+      // Applico filtri demografici
+      const filtriStudenti = { id_classe: { $in: idClassi } };
+      if (req.query.sesso) filtriStudenti.sesso = req.query.sesso;
+      if (req.query.cittadinanza) {
+        if (req.query.cittadinanza === 'italiana') {
+          filtriStudenti.cittadinanza = 'ITA';
+        } else if (req.query.cittadinanza === 'straniera') {
+          filtriStudenti.cittadinanza = { $ne: 'ITA' };
+        }
+      }
+
+      const studenti = await collezioneStudenti.find(filtriStudenti).toArray();
       const idStudenti = studenti.map(s => s.id_studente);
 
+      // Applico filtri temporali
+      const filtriVoti = { id_studente: { $in: idStudenti }, ...filtriTemporali };
+
       const risultatoMedia = await collezioneVoti.aggregate([
-        { $match: { id_studente: { $in: idStudenti } } },
+        { $match: filtriVoti },
         { $group: { _id: null, media: { $avg: "$voto" }, count: { $sum: 1 } } }
       ]).toArray();
 
@@ -857,9 +875,7 @@ async function confrontaPerRegione(req, res) {
       });
     }
 
-    // Ordino i risultati per media voti decrescente
     risultati.sort((a, b) => parseFloat(b.media_voti) - parseFloat(a.media_voti));
-
     res.json(risultati);
     
   } catch (errore) {
@@ -874,6 +890,7 @@ async function confrontaPerRegione(req, res) {
 
 /**
  * Confronto le performance tra i diversi indirizzi di studio.
+ * ORA APPLICA TUTTI I FILTRI
  * 
  * @async
  * @param {Object} req - Oggetto richiesta Express
@@ -881,33 +898,63 @@ async function confrontaPerRegione(req, res) {
  */
 async function confrontaPerIndirizzo(req, res) {
   try {
-    const { collezioneVoti, collezioneStudenti, collezioneClassi } = ottieniCollezioni();
+    const { collezioneVoti, collezioneStudenti, collezioneClassi, collezioneAnagrafica } = ottieniCollezioni();
     
-    // Recupero tutti gli indirizzi distinti
-    const indirizzi = await collezioneClassi.distinct('indirizzo_norm');
+    // NUOVO: Recupero i filtri
+    const { filtri, filtriTemporali } = costruisciFiltriComuni(req.query);
+    
+    // Prima applico eventuali filtri geografici per determinare le scuole
+    let codiciScuolaFiltrati = null;
+    if (filtri['anagrafica.areageografica'] || filtri['anagrafica.regione'] || 
+        filtri['anagrafica.provincia'] || filtri['anagrafica.descrizionecomune']) {
+      
+      const filtriAnagrafica = {};
+      if (filtri['anagrafica.areageografica']) filtriAnagrafica.areageografica = filtri['anagrafica.areageografica'];
+      if (filtri['anagrafica.regione']) filtriAnagrafica.regione = filtri['anagrafica.regione'];
+      if (filtri['anagrafica.provincia']) filtriAnagrafica.provincia = filtri['anagrafica.provincia'];
+      if (filtri['anagrafica.descrizionecomune']) filtriAnagrafica.descrizionecomune = filtri['anagrafica.descrizionecomune'];
+      
+      const scuole = await collezioneAnagrafica.find(filtriAnagrafica).toArray();
+      codiciScuolaFiltrati = scuole.map(s => s.codicescuola);
+    }
+    
+    // Recupero gli indirizzi distinti considerando i filtri
+    const filtriClassiBase = {};
+    if (codiciScuolaFiltrati) filtriClassiBase.codicescuola = { $in: codiciScuolaFiltrati };
+    if (filtri.codicescuola) filtriClassiBase.codicescuola = filtri.codicescuola;
+    
+    const indirizzi = await collezioneClassi.distinct('indirizzo_norm', filtriClassiBase);
     const risultati = [];
 
-    // ===========================
-    // ANALISI PER INDIRIZZO
-    // ===========================
-    
     for (const indirizzo of indirizzi) {
-      const classi = await collezioneClassi.find({ 
-        indirizzo_norm: indirizzo 
-      }).toArray();
+      const filtriClassi = { ...filtriClassiBase, indirizzo_norm: indirizzo };
+      if (filtri.annocorso) filtriClassi.annocorso = filtri.annocorso;
+
+      const classi = await collezioneClassi.find(filtriClassi).toArray();
       const idClassi = classi.map(c => c.id_classe);
 
-      const studenti = await collezioneStudenti.find({ 
-        id_classe: { $in: idClassi } 
-      }).toArray();
+      // Applico filtri demografici
+      const filtriStudenti = { id_classe: { $in: idClassi } };
+      if (req.query.sesso) filtriStudenti.sesso = req.query.sesso;
+      if (req.query.cittadinanza) {
+        if (req.query.cittadinanza === 'italiana') {
+          filtriStudenti.cittadinanza = 'ITA';
+        } else if (req.query.cittadinanza === 'straniera') {
+          filtriStudenti.cittadinanza = { $ne: 'ITA' };
+        }
+      }
+
+      const studenti = await collezioneStudenti.find(filtriStudenti).toArray();
       const idStudenti = studenti.map(s => s.id_studente);
 
+      // Applico filtri temporali
+      const filtriVoti = { id_studente: { $in: idStudenti }, ...filtriTemporali };
+
       const risultatoMedia = await collezioneVoti.aggregate([
-        { $match: { id_studente: { $in: idStudenti } } },
+        { $match: filtriVoti },
         { $group: { _id: null, media: { $avg: "$voto" }, count: { $sum: 1 } } }
       ]).toArray();
 
-      // Calcolo il totale degli studenti sommando num_studenti dalle classi
       const totaleStudenti = classi.reduce((sum, c) => sum + (c.num_studenti || 0), 0);
 
       risultati.push({
@@ -919,9 +966,7 @@ async function confrontaPerIndirizzo(req, res) {
       });
     }
 
-    // Ordino i risultati per media voti decrescente
     risultati.sort((a, b) => parseFloat(b.media_voti) - parseFloat(a.media_voti));
-
     res.json(risultati);
     
   } catch (errore) {
@@ -1106,8 +1151,7 @@ async function analizzaTrendTemporale(req, res) {
 
 /**
  * Identifico le classi con performance anomale (outlier).
- * Una classe è considerata outlier se la sua media si discosta
- * significativamente (> 1.5 punti) dalla media generale.
+ * ORA APPLICA I FILTRI
  * 
  * @async
  * @param {Object} req - Oggetto richiesta Express
@@ -1115,55 +1159,92 @@ async function analizzaTrendTemporale(req, res) {
  */
 async function identificaClassiOutlier(req, res) {
   try {
-    const { collezioneVoti, collezioneStudenti, collezioneClassi } = ottieniCollezioni();
+    const { collezioneVoti, collezioneStudenti, collezioneClassi, collezioneAnagrafica } = ottieniCollezioni();
     
-    // ===========================
-    // CALCOLO MEDIA GENERALE
-    // ===========================
+    // NUOVO: Recupero i filtri
+    const { filtri, filtriTemporali } = costruisciFiltriComuni(req.query);
     
-    // Calcolo prima la media generale di tutti i voti
+    // Applico filtri geografici se presenti
+    let codiciScuola = null;
+    if (filtri['anagrafica.areageografica'] || filtri['anagrafica.regione'] || 
+        filtri['anagrafica.provincia'] || filtri['anagrafica.descrizionecomune']) {
+      
+      const filtriAnagrafica = {};
+      if (filtri['anagrafica.areageografica']) filtriAnagrafica.areageografica = filtri['anagrafica.areageografica'];
+      if (filtri['anagrafica.regione']) filtriAnagrafica.regione = filtri['anagrafica.regione'];
+      if (filtri['anagrafica.provincia']) filtriAnagrafica.provincia = filtri['anagrafica.provincia'];
+      if (filtri['anagrafica.descrizionecomune']) filtriAnagrafica.descrizionecomune = filtri['anagrafica.descrizionecomune'];
+      
+      const scuole = await collezioneAnagrafica.find(filtriAnagrafica).toArray();
+      codiciScuola = scuole.map(s => s.codicescuola);
+    }
+    
+    // Calcolo la media generale considerando i filtri
+    const filtriClassi = {};
+    if (codiciScuola) filtriClassi.codicescuola = { $in: codiciScuola };
+    if (filtri.codicescuola) filtriClassi.codicescuola = filtri.codicescuola;
+    if (filtri.indirizzo_norm) filtriClassi.indirizzo_norm = filtri.indirizzo_norm;
+    if (filtri.annocorso) filtriClassi.annocorso = filtri.annocorso;
+
+    const classi = await collezioneClassi.find(filtriClassi).toArray();
+    const idClassi = classi.map(c => c.id_classe);
+
+    // Applico filtri demografici per la media generale
+    const filtriStudentiGenerali = { id_classe: { $in: idClassi } };
+    if (req.query.sesso) filtriStudentiGenerali.sesso = req.query.sesso;
+    if (req.query.cittadinanza) {
+      if (req.query.cittadinanza === 'italiana') {
+        filtriStudentiGenerali.cittadinanza = 'ITA';
+      } else if (req.query.cittadinanza === 'straniera') {
+        filtriStudentiGenerali.cittadinanza = { $ne: 'ITA' };
+      }
+    }
+
+    const studentiGenerali = await collezioneStudenti.find(filtriStudentiGenerali).toArray();
+    const idStudentiGenerali = studentiGenerali.map(s => s.id_studente);
+
+    // Calcolo media generale con filtri
+    const filtriVotiGenerali = { id_studente: { $in: idStudentiGenerali }, ...filtriTemporali };
     const mediaGenerale = await collezioneVoti.aggregate([
+      { $match: filtriVotiGenerali },
       { $group: { _id: null, media: { $avg: "$voto" } } }
     ]).toArray();
     
     const mediaGen = mediaGenerale[0]?.media || 6;
     
-    // ===========================
-    // ANALISI CLASSI
-    // ===========================
-    
-    // Recupero tutte le classi
-    const classi = await collezioneClassi.find({}).toArray();
+    // Analisi classi
     const risultati = [];
 
-    // Per ogni classe calcolo la media e verifico se è un outlier
     for (const classe of classi) {
-      // Recupero gli studenti della classe
-      const studenti = await collezioneStudenti.find({ 
-        id_classe: classe.id_classe 
-      }).toArray();
+      // Applico filtri demografici agli studenti della classe
+      const filtriStudenti = { 
+        id_classe: classe.id_classe,
+        ...(req.query.sesso && { sesso: req.query.sesso })
+      };
+      
+      if (req.query.cittadinanza) {
+        if (req.query.cittadinanza === 'italiana') {
+          filtriStudenti.cittadinanza = 'ITA';
+        } else if (req.query.cittadinanza === 'straniera') {
+          filtriStudenti.cittadinanza = { $ne: 'ITA' };
+        }
+      }
+
+      const studenti = await collezioneStudenti.find(filtriStudenti).toArray();
       const idStudenti = studenti.map(s => s.id_studente);
 
-      // Se non ci sono studenti, passo alla classe successiva
       if (idStudenti.length === 0) continue;
 
-      // Calcolo la media dei voti della classe
+      // Calcolo media classe con filtri temporali
+      const filtriVotiClasse = { id_studente: { $in: idStudenti }, ...filtriTemporali };
       const mediaClasse = await collezioneVoti.aggregate([
-        { $match: { id_studente: { $in: idStudenti } } },
+        { $match: filtriVotiClasse },
         { $group: { _id: null, media: { $avg: "$voto" }, count: { $sum: 1 } } }
       ]).toArray();
 
       const media = mediaClasse[0]?.media || 0;
       const scostamento = media - mediaGen;
 
-      // ===========================
-      // IDENTIFICAZIONE OUTLIER
-      // ===========================
-      
-      /**
-       * Considero una classe outlier se lo scostamento dalla media
-       * generale è superiore a 1.5 punti (in positivo o negativo)
-       */
       if (Math.abs(scostamento) > 1.5) {
         risultati.push({
           classe: classe.nome_classe,
@@ -1172,13 +1253,12 @@ async function identificaClassiOutlier(req, res) {
           media_generale: mediaGen.toFixed(2),
           scostamento: scostamento.toFixed(2),
           tipo: scostamento > 0 ? 'sopra_media' : 'sotto_media',
-          numero_studenti: classe.num_studenti,
+          numero_studenti: studenti.length,
           numero_voti: mediaClasse[0]?.count || 0
         });
       }
     }
 
-    // Ordino i risultati per scostamento assoluto decrescente
     risultati.sort((a, b) => Math.abs(b.scostamento) - Math.abs(a.scostamento));
 
     res.json({
@@ -1192,39 +1272,99 @@ async function identificaClassiOutlier(req, res) {
   }
 }
 
+// ===========================
+// ENDPOINT TOP STUDENTI (MODIFICATO)
+// ===========================
+
+/**
+ * Recupero i top 5 studenti per media voti.
+ * ORA APPLICA I FILTRI
+ * 
+ * @async
+ * @param {Object} req - Oggetto richiesta Express
+ * @param {Object} res - Oggetto risposta Express
+ */
 async function getTopStudenti(req, res) {
   try {
-    const { collezioneVoti, collezioneStudenti } = ottieniCollezioni();
+    const { collezioneVoti, collezioneStudenti, collezioneClassi, collezioneAnagrafica } = ottieniCollezioni();
+    
+    // NUOVO: Recupero i filtri
+    const { filtri, filtriTemporali } = costruisciFiltriComuni(req.query);
+    
+    // Costruisco la pipeline di aggregazione
+    const pipeline = [];
+    
+    // Applico filtri temporali se presenti
+    if (Object.keys(filtriTemporali).length > 0) {
+      pipeline.push({ $match: filtriTemporali });
+    }
+    
+    // Se ci sono altri filtri, devo prima determinare quali studenti includere
+    if (Object.keys(filtri).length > 0 || req.query.sesso || req.query.cittadinanza) {
+      // Applico filtri geografici
+      let codiciScuola = null;
+      if (filtri['anagrafica.areageografica'] || filtri['anagrafica.regione'] || 
+          filtri['anagrafica.provincia'] || filtri['anagrafica.descrizionecomune']) {
+        
+        const filtriAnagrafica = {};
+        if (filtri['anagrafica.areageografica']) filtriAnagrafica.areageografica = filtri['anagrafica.areageografica'];
+        if (filtri['anagrafica.regione']) filtriAnagrafica.regione = filtri['anagrafica.regione'];
+        if (filtri['anagrafica.provincia']) filtriAnagrafica.provincia = filtri['anagrafica.provincia'];
+        if (filtri['anagrafica.descrizionecomune']) filtriAnagrafica.descrizionecomune = filtri['anagrafica.descrizionecomune'];
+        
+        const scuole = await collezioneAnagrafica.find(filtriAnagrafica).toArray();
+        codiciScuola = scuole.map(s => s.codicescuola);
+      }
+      
+      // Filtro le classi
+      const filtriClassi = {};
+      if (codiciScuola) filtriClassi.codicescuola = { $in: codiciScuola };
+      if (filtri.codicescuola) filtriClassi.codicescuola = filtri.codicescuola;
+      if (filtri.indirizzo_norm) filtriClassi.indirizzo_norm = filtri.indirizzo_norm;
+      if (filtri.annocorso) filtriClassi.annocorso = filtri.annocorso;
 
-    const pipeline = [
-      // 1) colleghiamo i voti ai documenti studente
+      const classi = await collezioneClassi.find(filtriClassi).toArray();
+      const idClassi = classi.map(c => c.id_classe);
+
+      // Applico filtri demografici
+      const filtriStudenti = { id_classe: { $in: idClassi } };
+      if (req.query.sesso) filtriStudenti.sesso = req.query.sesso;
+      if (req.query.cittadinanza) {
+        if (req.query.cittadinanza === 'italiana') {
+          filtriStudenti.cittadinanza = 'ITA';
+        } else if (req.query.cittadinanza === 'straniera') {
+          filtriStudenti.cittadinanza = { $ne: 'ITA' };
+        }
+      }
+
+      const studenti = await collezioneStudenti.find(filtriStudenti).toArray();
+      const idStudenti = studenti.map(s => s.id_studente);
+
+      // Aggiungo il filtro per gli studenti alla pipeline
+      pipeline.push({ $match: { id_studente: { $in: idStudenti } } });
+    }
+    
+    // Aggiungo il resto della pipeline
+    pipeline.push(
       {
         $lookup: {
           from: 'studenti',
-          localField: 'id_studente',       // campo in voti
-          foreignField: 'id_studente',     // campo in studenti
+          localField: 'id_studente',
+          foreignField: 'id_studente',
           as: 'studente'
         }
       },
       { $unwind: '$studente' },
-
-      // 2) raggruppiamo per studente e calcoliamo la media
       {
         $group: {
           _id: '$studente.id_studente',
-          nome:  { $first: '$studente.nome'  },
+          nome: { $first: '$studente.nome' },
           cognome: { $first: '$studente.cognome' },
           media: { $avg: '$voto' }
         }
       },
-
-      // 3) ordiniamo per media decrescente
       { $sort: { media: -1 } },
-
-      // 4) limitiamo ai primi 5
       { $limit: 5 },
-
-      // 5) proiettiamo solo i campi che ci servono
       {
         $project: {
           _id: 0,
@@ -1234,7 +1374,7 @@ async function getTopStudenti(req, res) {
           media: { $round: ['$media', 2] }
         }
       }
-    ];
+    );
 
     const top5 = await collezioneVoti.aggregate(pipeline).toArray();
     res.json(top5);

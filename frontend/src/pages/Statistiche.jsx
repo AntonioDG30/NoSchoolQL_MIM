@@ -217,7 +217,10 @@ function ContenutoStatistiche() {
   }, [filtri]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/statistiche/top-studenti')
+    // Costruisco la query string dai filtri
+    const queryString = costruisciQueryString(filtri);
+    
+    fetch(`http://localhost:3000/api/statistiche/top-studenti${queryString}`)
       .then(res => {
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
         return res.json();
@@ -231,7 +234,7 @@ function ContenutoStatistiche() {
         setTopError('Impossibile caricare il Top 5');
         setTopLoading(false);
       });
-  }, []);
+  }, [filtri]);
 
   // ===========================
   // GESTIONE FILTRI
