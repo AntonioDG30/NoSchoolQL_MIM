@@ -91,7 +91,8 @@ async function calcolaStatisticheGenerali(req, res) {
       collezioneDocenti,
       collezioneClassi,
       collezioneVoti,
-      collezioneAnagrafica
+      collezioneAnagrafica,
+      collezioneAssegnazioni
     } = ottieniCollezioni();
 
     // Costruisco i filtri basati sui parametri della richiesta
@@ -103,10 +104,6 @@ async function calcolaStatisticheGenerali(req, res) {
     
     let codiciScuola = null;
     
-    /**
-     * Se sono presenti filtri geografici, devo prima recuperare
-     * i codici delle scuole che corrispondono ai criteri geografici
-     */
     if (filtri['anagrafica.areageografica'] || filtri['anagrafica.regione'] || 
         filtri['anagrafica.provincia'] || filtri['anagrafica.descrizionecomune']) {
       
@@ -160,8 +157,28 @@ async function calcolaStatisticheGenerali(req, res) {
     // Conto il numero totale di studenti filtrati
     const totaleStudenti = await collezioneStudenti.countDocuments(filtriStudenti);
     
-    // Conto il numero totale di docenti (non filtrato)
-    const totaleDocenti = await collezioneDocenti.countDocuments();
+    // ===========================
+    // CONTO I DOCENTI FILTRATI
+    // ===========================
+    
+    let totaleDocenti = 0;
+    
+    // Se ci sono filtri attivi, conto solo i docenti delle classi filtrate
+    if (idClassi.length > 0 && (Object.keys(filtri).length > 0 || req.query.sesso || req.query.cittadinanza)) {
+      // Trovo i docenti assegnati alle classi filtrate
+      const assegnazioni = await collezioneAssegnazioni.find({
+        id_classe: { $in: idClassi }
+      }).toArray();
+      
+      // Estraggo gli id_docente unici
+      const idDocentiUnici = [...new Set(assegnazioni.map(a => a.id_docente))];
+      
+      // Conto i docenti unici
+      totaleDocenti = idDocentiUnici.length;
+    } else {
+      // Se non ci sono filtri, conto tutti i docenti
+      totaleDocenti = await collezioneDocenti.countDocuments();
+    }
     
     // Il numero di classi è già calcolato
     const totaleClassi = classi.length;
